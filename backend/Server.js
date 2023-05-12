@@ -295,6 +295,28 @@ app.post('/searchbyname', (req, res) =>{
     }) 
   
   })
+  app.get('/getnamebyorderid', (req,res)=>
+  {
+      //  const query1={
+      //      'SELECT DISTINCT name
+      //      FROM users
+      //      INNER JOIN order ON users.id = order.customerid
+      //      WHERE customer.id = 1 '
+      //  }
+      const queryjoindata=
+        `SELECT * FROM users JOIN orders ON users.uid =orders.customerid`
+        
+
+      client.query(queryjoindata).then((data) => {
+        console.log("done query")
+        const secondquey=`SELECT * FROM products JOIN orders ON products.uid = orders.productid`
+        client.query(secondquey).then((data) => {
+          console.log("done huuay")
+          res.send('haaya')
+
+      })
+  })
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
