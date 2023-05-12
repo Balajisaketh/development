@@ -144,10 +144,11 @@ app.post('/addproduct', (req,res) => {
     let category=req.body.category
     let quantity = req.body.quantity
     let uid=uuid();          
+    let description=req.body.description
     const insertquery= {
-      text: `INSERT INTO products (uid, productname,price,category,quantity) 
-                        VALUES($1, $2, $3,$4,$5) RETURNING *`,
-      values : [uid,productname,price,category,quantity]
+      text: `INSERT INTO products (uid, productname,price,category,quantity,description) 
+                        VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
+      values : [uid,productname,price,category,quantity,description]
     }
     client.query(insertquery).then((data)=>{ 
       console.log({status:true, message:" data inserted successfully"})
