@@ -203,13 +203,16 @@ app.post('/deleteusers', (req,res)=>{
  })           
 app.post('/addorders', (req, res) => {
   let orderid=uuid()
-  let item=req.body.item
+  
   let orderamount=req.body.orderamount
+  let quantity=req.body.quantity
   let orderstatus=req.body.orderstatus
+  let productid=req.body.productid
+  let customerid=req.body.customerid
   const insertquery= {
-    text: `INSERT INTO orders (orderid,item,orderamount,orderstatus) 
-                      VALUES($1, $2, $3,$4) RETURNING *`,
-    values : [orderid,item,orderamount,orderstatus]
+    text: `INSERT INTO orders (orderid,orderamount,orderstatus,productid,customerid,quantity)  
+                      VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
+    values : [orderid,orderamount,orderstatus,productid,customerid,quantity]
   }
       client.query(insertquery).then((data)=>{ 
       console.log({status:true, message:" data inserted successfully"})
@@ -304,16 +307,14 @@ app.post('/searchbyname', (req, res) =>{
       //      WHERE customer.id = 1 '
       //  }
       const queryjoindata=
-        `SELECT * FROM users JOIN orders ON users.uid =orders.customerid`
-        
-
+        `SELECT * FROM users JOIN orders ON  =orders.customerid`
       client.query(queryjoindata).then((data) => {
         console.log("done query")
         const secondquey=`SELECT * FROM products JOIN orders ON products.uid = orders.productid`
         client.query(secondquey).then((data) => {
           console.log("done huuay")
           res.send('haaya')
-
+         
       })
   })
 });
