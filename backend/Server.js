@@ -75,7 +75,7 @@ app.post('/register',(req,res)=>{
 
                 
             if (data.rows.length>0) {     
-              res.send("email already exists")
+              res.json("email already exists")
               
             } 
              else{
@@ -87,7 +87,7 @@ app.post('/register',(req,res)=>{
           
               client.query(queryData).then(()=>{ 
               console.log(res.data,'uo  mq ');
-             res.json({success:true});
+             res.json("success");
          
 
         
@@ -117,16 +117,13 @@ client.query(querydataa).then((data)=>
      const salt = data.rows[0].salt;
      console.log(salt,"i m salt")
      console.log(passworddata,"password")
-
      const verfypwd=md5(password+salt);
      console.log(verfypwd,"i m verfypwd");
      if(verfypwd==passworddata)
      {
       const tokenData = {email:data.email,password:data.password};
       const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })
-
-
-      res.send({ token: token, status: "success", message: "login successful"})
+      res.json({ token: token, status: "success", message: "login successful"})
       console.log({ token: token, status: "success", message: "login successful" })
     } else {
       res.send({ status: "Incorrect", message: "failed" })
@@ -162,12 +159,15 @@ app.post('/addproduct', (req,res) => {
 })
 
 app.get('/getproducts',(req,res) => {
-    client.query('SELECT * FROM products ORDER BY uid ASC', (error, res) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).json(results.rows)
-    })
+    const getqury=`SELECT * FROM products`
+      
+  client.query(getqury).then((data) => {
+    console.log(data,"i m done")
+    res.json(data)
+
+  } ).catch((err) => {
+    console.error(err,"i m error")
+  });
   
 })
 app.post('/getbycategory', (req, res) =>{
