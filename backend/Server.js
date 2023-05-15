@@ -60,6 +60,7 @@ const secretkey = "hello";
 app.post('/register',(req,res)=>{
 
   let data= req.body;
+  console.log(data,"i m database");
      const uid=uuid();
  const username=data.username;
     const email=data.email; 
@@ -85,15 +86,17 @@ app.post('/register',(req,res)=>{
               values: [uid,username,email,password,salt],
               }
           
-              client.query(queryData).then(()=>{ 
-              console.log(res.data,'uo  mq ');
-             res.json("success");
+              client.query(queryData).then((newdata)=>{ 
+              console.log(newdata,'li mq ');
+              res.json({status: "success", message: "inset successful"})
          
 
         
-                }).catch(err=>{
+                }).catch((err)=>{
                   console.log(err,'uo mq ');
-                })
+                }).catch((err)=>{
+                  console.log(err,'in outline')
+                });
           }
     })
   })    
