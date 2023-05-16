@@ -115,6 +115,7 @@ client.query(querydataa).then((data)=>
      const email = data.rows[0].email;
      const passworddata = data.rows[0].password;
      const salt = data.rows[0].salt;
+     const uiddata = data.rows[0].uid;
      console.log(salt,"i m salt")
      console.log(passworddata,"password")
      const verfypwd=md5(password+salt);
@@ -123,7 +124,7 @@ client.query(querydataa).then((data)=>
      {
       const tokenData = {email:data.email,password:data.password};
       const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })
-      res.json({ token: token, status: "success", message: "login successful"})
+      res.json({ uid:uiddata,token: token, status: "success", message: "login successful"})
       console.log({ token: token, status: "success", message: "login successful" })
     } else {
       res.send({ status: "Incorrect", message: "failed" })

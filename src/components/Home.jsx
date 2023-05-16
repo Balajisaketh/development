@@ -37,6 +37,7 @@ function Home() {
   }
   const handleRegister=(e)=>
   {
+    e.preventDefault()
     console.log("i m db",email,passw);
      const body={
       "email": email,
@@ -130,12 +131,7 @@ function Home() {
                 Login
               </button>
             </div>
-          </form>
-<p className='mt-2'>Or continue With</p>
-       <div className='w-50 rounded-md bg-blue-900 flex flex-col p-2 mt-3'>
-       
-        <p className='text-white text-center mx-auto'>Google</p>
-       </div>
+ </form>
         </div>
       </div>
     </>
