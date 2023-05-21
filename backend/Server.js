@@ -276,8 +276,13 @@ app.post('/transactions',(req,res) => {
   });
  
   });
-app.get('/getusers', (req, res) => {
-  client.query('select * FROM users LIMIT 10 OFFSET 10').then((users) => {
+app.post('/getusers', (req, res) => {
+  let query = 'select * FROM users limit 10';
+  const offset = req.body.offset
+  if(offset){
+    query = 'select * FROM users limit 10 offset ' + offset;
+  }
+  client.query(query).then((users) => {
     res.send(users.rows);
   }).catch((err) => {
     console.error(err,"in the getusers");
@@ -286,7 +291,7 @@ app.get('/getusers', (req, res) => {
 app.post('/searchbyname', (req, res) =>{
   const name =req.body.username;
   console.log(name,"i am a user");
-  const querydata = `SELECT * FROM users u WHERE u.username LIKE '%${name}%'`
+  const querydata = `SELECT * FROM users u WHERE UPPER(u.username) LIKE UPPER('%${name}%')`
     console.log(querydata,'hureey')
     client.query(querydata).then((data)=>{ 
      
