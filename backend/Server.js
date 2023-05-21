@@ -172,7 +172,7 @@ app.get('/getproducts',(req,res) => {
   
 })
 app.post('/getbycategory', (req, res) =>{
-const category =req.body.category.toString()
+ const category =req.body.category.toString()
 let querydata=`SELECT * FROM products WHERE category='${category}'`
   console.log(querydata,'hureey')
   client.query(querydata).then((data)=>{ 
@@ -201,7 +201,7 @@ app.post('/deleteusers', (req,res)=>{
         res.send({status: false,message:"failed"}) 
         }) 
                 
- })           
+})           
 app.post('/addorders', (req, res) => {
   let orderid=uuid()
   
@@ -277,29 +277,30 @@ app.post('/transactions',(req,res) => {
  
   });
 app.get('/getusers', (req, res) => {
-  client.query('select * FROM users').then((users) => {
+  client.query('select * FROM users LIMIT 10 OFFSET 10').then((users) => {
     res.send(users.rows);
   }).catch((err) => {
     console.error(err,"in the getusers");
   });
 })
 app.post('/searchbyname', (req, res) =>{
-  const name =req.body.username.toString()
+  const name =req.body.username;
   console.log(name,"i am a user");
-  let querydata=`SELECT * FROM users WHERE username='${name}'`
+  const querydata = `SELECT * FROM users u WHERE u.username LIKE '%${name}%'`
     console.log(querydata,'hureey')
     client.query(querydata).then((data)=>{ 
-      console.log(data,"i m data")
-      res.send(data.rows)
-    }).catch((error) =>{ 
-      console.log(error,"i am error")
+     
+       console.log(data.rows,"i m data")
+       res.send(data.rows);
+       
+    })
+  .catch((error) =>{
+      console.log(error,"i am error here")
       // console.log({status: false,message:error.message})
-      res.send('failed') 
+      res.send('failed here') 
+    });
   
-    }) 
-  
-  })
-
+  });
 app.get('/cusorders/:id',((req,res) => {
   const qry=`SELECT * From orders O ,products p WHERE o.productid=p.uid and customerid='${req.params.id}'`
   client.query(qry).then((data)=>{
