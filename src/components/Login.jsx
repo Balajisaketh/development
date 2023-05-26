@@ -1,13 +1,13 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
-import {faGoogleLogo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { FcGoogle } from 'react-icons/fa';
-function Home() {
+import {RxAvatar} from 'react-icons/rx';
+
+function Login() {
   const[email,setEmail]=useState(""); 
 	const[passw,setPassw]=useState("");
-  const[regdata,setregdata]=useState()
+
   const handlelogin=(e)=>
   {
     e.preventDefault()
@@ -35,23 +35,7 @@ function Home() {
           console.log(error,"i m error: ")
        })
   }
-  const handleRegister=(e)=>
-  {
-    console.log("i m db",email,passw);
-     const body={
-      "email": email,
-      "password": passw
-     }
-       axios.post("http://localhost:3001/register",body).then((response)=>
-       {
-            console.log(response,"success");
-            
-            
-       }).catch ((error)=>
-       {
-          console.log(error,"i m error: ")
-       })      
-  }
+  
     return (
     
     <>
@@ -71,12 +55,12 @@ function Home() {
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+            Login  to your account
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" method="POST"  encType="multipart/form-data">
             <div>
             <label htmlFor="email" className="block text-sm  text-left font-medium leading-6 text-gray-900">
                 Email address
@@ -115,14 +99,10 @@ function Home() {
                onChange={(e)=>setPassw(e.target.value)} />
               </div>
             </div>
+            
 
             <div className='flex space-x-10'>
-              <button
-                type="submit"
-                className="flex w-40 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-             onClick={(e)=>handleRegister(e)} >
-                Regsiter
-              </button>
+             
               <button
                 type="submit"
                 className="flex w-40 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -131,19 +111,11 @@ function Home() {
               </button>
             </div>
           </form>
-<p className='mt-2'>Or continue With</p>
-       <div className='w-50 rounded-md bg-blue-900 flex flex-col p-2 mt-3'>
-       
-        <p className='text-white text-center mx-auto'>Google</p>
-       </div>
+
         </div>
       </div>
     </>
   )
 }
 
-   
-
-  
-
-export default Home
+export default Login

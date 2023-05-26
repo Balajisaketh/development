@@ -2,14 +2,33 @@ const express = require('express')
 const app = express()
 const port = 3001
 const cors = require('cors')
+
 app.use(cors())
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use("/",express.static("uploads"))
 const md5=require('md5')
 const uuid = require('uuid').v4;
 app.use(express.json())
 const jwt = require('jsonwebtoken');
 const {Client}=require("pg")
-const { query } = require('express')
-app.use(express.static('public'))
+const path=require('path');
+// const {upload} =require('.././backend/Multer');
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: function (req,res,cb){
+        cb(null, path.join(__dirname, 'uploads'));
+    },
+    filename: function (req,file,cb) {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const filename = file.originalname.split(".")[0];
+        cb(null,filename + "-" + uniqueSuffix + ".png");
+    },
+});
+
+const upload = multer({storage: storage});
 const client = new Client({
   user: 'postgres',
   host: 'localhost',
@@ -57,13 +76,23 @@ const secretkey = "hello";
 
 //   }
 // }) 
-app.post('/register',(req,res)=>{
-
-  let data= req.body;
+app.post('/register',upload.single('avatar'),(req,res,next)=>{
+  
+  const file = req.file
+  if (!file) {
+    const error = new Error('Please upload a file')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+    console.log(file,"here")
+    const data=req.body;
   console.log(data,"i m database");
      const uid=uuid();
  const username=data.username;
     const email=data.email; 
+    console.log(username,email,"w e are here");
+   const avatar=path.join(req.file.path);
+
     const salt =  (Math.random() + 1).toString(36).substring(7);
     const password =md5(data.password+salt)
    
@@ -81,9 +110,9 @@ app.post('/register',(req,res)=>{
             } 
              else{
               const queryData = {
-                text: `INSERT INTO users (uid,username,email,password,salt)
-                              VALUES($1,$2,$3,$4,$5) RETURNING *`,
-              values: [uid,username,email,password,salt],
+                text: `INSERT INTO users (uid,username,email,password,salt,avatar)
+                              VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
+              values: [uid,username,email,password,salt,avatar],
               }
           
               client.query(queryData).then((newdata)=>{ 
@@ -110,10 +139,9 @@ app.post("/login",(req,res) => {
    WHERE email =$1`,
     values : [email] 
   }
-     
-
 client.query(querydataa).then((data)=>
 {
+    
     console.log(data.rows[0],"i m here");
      const email = data.rows[0].email;
      const passworddata = data.rows[0].password;
@@ -126,7 +154,8 @@ client.query(querydataa).then((data)=>
      {
       const tokenData = {email:data.email,password:data.password};
       const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })
-      res.json({ token: token, status: "success", message: "login successful"})
+    
+      res.send(data.rows[0]);
       console.log({ token: token, status: "success", message: "login successful" })
     } else {
       res.send({ status: "Incorrect", message: "failed" })
