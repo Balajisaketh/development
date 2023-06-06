@@ -91,8 +91,7 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
  const username=data.username;
     const email=data.email; 
     console.log(username,email,"w e are here");
-   const avatar=path.join(req.file.path);
-
+   const avatar=path.join(file.path);
     const salt =  (Math.random() + 1).toString(36).substring(7);
     const password =md5(data.password+salt)
    
@@ -109,6 +108,7 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
               
             } 
              else{
+              console.log("entered here")
               const queryData = {
                 text: `INSERT INTO users (uid,username,email,password,salt,avatar)
                               VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
@@ -117,7 +117,15 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
           
               client.query(queryData).then((newdata)=>{ 
               console.log(newdata,'li mq ');
-              res.json({status: "success", message: "inset successful"})
+              const sendres={
+                fieldname:file.fieldname,
+                filename:file.filename,
+                path:file.path,
+                status:"success",
+
+              }
+              res.json(sendres)
+
          
 
         
@@ -133,7 +141,7 @@ app.post("/login",(req,res) => {
 
   const email =req.body.email;
   const password = req.body.password;
-  
+  console.log(email,password,"in bakcend");
   const querydataa= {
     text:  `SELECT * FROM users	 
    WHERE email =$1`,
@@ -142,8 +150,8 @@ app.post("/login",(req,res) => {
 client.query(querydataa).then((data)=>
 {
     
-    console.log(data.rows[0],"i m here");
-     const email = data.rows[0].email;
+    console.log(data,"i m here");
+     const email= data.rows[0].email;
      const passworddata = data.rows[0].password;
      const salt = data.rows[0].salt;
      console.log(salt,"i m salt")
@@ -153,10 +161,8 @@ client.query(querydataa).then((data)=>
      if(verfypwd==passworddata)
      {
       const tokenData = {email:data.email,password:data.password};
-      const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })
-    
-      res.send(data.rows[0]);
-      console.log({ token: token, status: "success", message: "login successful" })
+      const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })    
+      res.send({ token: token, status: "success", message: "login successful" })
     } else {
       res.send({ status: "Incorrect", message: "failed" })
       console.log({ status: "Incorrect", message: "failed" })

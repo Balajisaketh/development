@@ -1,53 +1,90 @@
-import axios from 'axios';
 import React from 'react'
+import axios from 'axios';
+import { Alert } from 'flowbite-react';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {RxAvatar} from 'react-icons/rx';
-
+import { useDispatch } from 'react-redux';
+import { loginreducer } from './redux/Counterslice';
+import { useNavigate } from "react-router-dom";
 function Login() {
-  const[email,setEmail]=useState(""); 
+    const[email,setEmail]=useState(""); 
 	const[passw,setPassw]=useState("");
-
-  const handlelogin=(e)=>
-  {
-    e.preventDefault()
-    console.log("hi")
-    
-    console.log("i m db",email,passw);
-     const body={
-      "email": email,
-      "password": passw
-     }
-       axios.post("http://localhost:3001/login",body).then((response)=>
-       {
-        console.log(response,"i am response");
-           if(response.status='success')
-           {
-
-             console.log(response.data.token,"success");
-             localStorage.setItem("token",response.data.token);
-           }
-           else{
-                 console.log("error ")
-           }
-       }).catch ((error)=>
-       {
-          console.log(error,"i m error: ")
-       })
-  }
+  const [status,setStatus]=useState("");
+const dispatch=useDispatch();
+const history=useNavigate();
+const[res,setres]=useState();
+const handlelogin=(e)=>
+{
+  e.preventDefault()
+  console.log("hi")
   
+  console.log("i m db",email,passw);
+  if(email.length==0)
+  {
+    setStatus("notentered");
+  }
+  else if(passw.length==0)
+  {
+    setStatus("notentered");
+  }
+  else
+  {
+   const body={
+    "email": email,
+    "password": passw
+   }
+     axios.post("http://localhost:3001/login",body).then((response)=>
+     {
+      console.log(response,"i am response");
+         if(response.status='success')
+         {
+            setres(response.data)
+            setStatus(response.status)
+           console.log(response.data.token,"success");
+         
+           localStorage.setItem("token",response.data.token);
+           dispatch(loginreducer(response.data))
+           console.log(response,"dispatched");
+           history("/layout");
+         }
+         else{
+               console.log("error ")
+               
+         }
+     }).catch ((error)=>
+     {
+        console.log(error,"i m error: ")
+     })
+}
+}
     return (
     
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
+    
+      
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        {
+          status =="notentered" ?
+           <>
+           <div className='bg-red-400 w-[30vw] mx-auto p-3 rounded-md '>
+           <Alert color="info">
+  <span>
+    <p>
+      <span className="font-medium text-center">
+        Enter your details      
+      </span>
+
+    </p>
+  </span>
+</Alert>
+</div>
+           </>:
+           <>
+  
+           </>
+         
+        }
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
@@ -116,6 +153,8 @@ function Login() {
       </div>
     </>
   )
-}
 
+
+    
+}
 export default Login

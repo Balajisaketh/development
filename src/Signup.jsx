@@ -6,39 +6,16 @@ import {faGoogleLogo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FcGoogle } from 'react-icons/fa';
 import {RxAvatar} from 'react-icons/rx';
-
+import { useDispatch } from 'react-redux';
+import { registerreducer } from './redux/RegSlice';
 function Signup() {
   const[email,setEmail]=useState(""); 
 	const[passw,setPassw]=useState("");
   const[avatar,setAvatar]=useState(null);
   const[regdata,setregdata]=useState()
-  const handlelogin=(e)=>
-  {
-    e.preventDefault()
-    console.log("hi")
-    
-    console.log("i m db",email,passw);
-     const body={
-      "email": email,
-      "password": passw
-     }
-       axios.post("http://localhost:3001/login",body).then((response)=>
-       {
-        console.log(response,"i am response");
-           if(response.status='success')
-           {
-
-             console.log(response.data.token,"success");
-             localStorage.setItem("token",response.data.token);
-           }
-           else{
-                 console.log("error ")
-           }
-       }).catch ((error)=>
-       {
-          console.log(error,"i m error: ")
-       })
-  }
+  const[check,setcheck]=useState("empty");
+  const dispatch = useDispatch()
+  
   const fileinput=(e)=>
   {
     const filedata = e.target.files[0];
@@ -49,6 +26,10 @@ function Signup() {
   const handleRegister=(e)=>
   {
     e.preventDefault();
+    if(email.length==0 || passw.length==0)
+    {
+      setcheck("notfound");
+    }
     console.log("i m db",email,passw);
     console.log("i m avatar",avatar);
     const formData = new FormData();
@@ -64,11 +45,13 @@ formData.append("avatar", avatar);
        
       formData,config).then((response)=>
        {
+        setcheck("success")
             console.log(response.data,"success");
-            
+            dispatch(registerreducer(response.data))
             
        }).catch ((error)=>
        {
+        setcheck("error")
           console.log(error,"i m error: ")
        })      
   }
@@ -84,6 +67,20 @@ formData.append("avatar", avatar);
         ```
       */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        {
+             check =="error" ?
+             <>
+             <div className='bg-red-400 mx-auto w-[40vw] p-3 text-white rounded-lg'>
+             <p>Please enter all the missing fields or check your credentials</p>
+             </div>
+             </>:
+             check == "success" ?
+             <>
+             <div className='bg-green-800 mx-auto w-[40vw] p-3 text-white rounded-lg'>
+             <p>Registration successs</p>
+             </div>
+             </>:<></>
+        }
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
