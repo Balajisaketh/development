@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React from 'react'
 import { Outlet, Link } from "react-router-dom";
+import {storage} from './firebaseauth'
+import { ref, uploadBytes } from "firebase/storage";
+import {v4} from 'uuid'
 import { useState } from 'react';
 import {faGoogleLogo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,6 +24,8 @@ function Signup() {
     const filedata = e.target.files[0];
     console.log(filedata,"i m data");
     setAvatar(filedata);
+    
+
   }
 
   const handleRegister=(e)=>
@@ -32,6 +37,14 @@ function Signup() {
     }
     console.log("i m db",email,passw);
     console.log("i m avatar",avatar);
+    const imgref=ref(storage,`profileimages/${avatar+v4()}`)
+    uploadBytes(imgref,avatar).then(()=>
+    {
+      alert("Uploaded ime success");
+    }).catch((error)=>
+    {
+        console.log(error,"i m error");
+    })
     const formData = new FormData();
 formData.append("email", email);
 formData.append("password", passw);
