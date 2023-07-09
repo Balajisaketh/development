@@ -173,19 +173,23 @@ client.query(querydataa).then((data)=>
 })
 })
 app.post('/addproduct', (req,res) => {
-  console.log("Add Product",req.body)
-    let productname=req.body.productname
-    let price= req.body.price
-    let category=req.body.category
-    let quantity = req.body.quantity
+  
+    const productname=req.body.productname
+    const price= req.body.price
+    const category=req.body.category
+    const quantity = req.body.quantity
+    const imgpath=req.body.imgpath
     let uid=uuid();          
     let description=req.body.description
+    const cloudFrontUrl = 'https://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
+    console.log(cloudFrontUrl,"i m url")
     const insertquery= {
-      text: `INSERT INTO products (uid, productname,price,category,quantity,description) 
-                        VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
-      values : [uid,productname,price,category,quantity,description]
+      text: `INSERT INTO products (uid, productname,price,category,quantity,description,imagepath) 
+                        VALUES($1, $2, $3,$4,$5,$6,$7) RETURNING *`,
+      values : [uid,productname,price,category,quantity,description,cloudFrontUrl]
     }
     client.query(insertquery).then((data)=>{ 
+      
       console.log({status:true, message:" data inserted successfully"})
       res.send("done inserted successfull")
     }).catch((error) =>{ 
@@ -356,6 +360,7 @@ app.post('/searchbyname', (req, res) =>{
       })
   })
 });
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
