@@ -16,7 +16,7 @@ function Mdata() {
   return (
     <div>
         {
-            data.map((val,index)=>
+            data?.map((val,index)=>
             (
                 <img src={val?.imagepath} className='w-screen h-full'/>
             ))
