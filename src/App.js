@@ -5,6 +5,7 @@ import Login from './Login'
 import Signup from './Signup';
 import Layout from './Layout';
 import Mdata from './Mdata';
+import Purifiers from './components/Purify';
 function App() {
   return (
     <div className="App">
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<Login />} /> 
           <Route path="/layout" element={<Layout />} /> 
           <Route path='/data' element={<Mdata />}/>
+          <Route path='/filters' element={<Purifiers/>}/>
           
       </Routes>
     </BrowserRouter>

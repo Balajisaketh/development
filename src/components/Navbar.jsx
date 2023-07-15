@@ -1,32 +1,181 @@
+
+
 import React, { useState } from 'react'
-import {BsCart,BsSearch} from "react-icons/bs";
-import { useSelector, useDispatch } from 'react-redux'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+  import { faCoffee,faCircleArrowRight, faShoppingCart, faUserCircle, faArrowDown, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch } from 'react-redux'
+import { ToggleSwitch } from 'flowbite-react'
+import { useNavigate } from 'react-router-dom'
+import { filterreducer } from '../redux/Alldata'
+import axios from 'axios'
 function Navbar() {
-const[open,setopen]=useState(false)
-const logindata=useSelector((state)=>state.loginreducer.logindata)
-  console.log(logindata,"i am logindata from reducer");
-  const regdata=useSelector((state)=>state.regreducer.regdata)
-  console.log(regdata,"i am regdata from reducer");
-  const imagedata=regdata.path
-  console.log(imagedata,"i am imagedata from")
+const router=useNavigate()
+  const [prod,setprod]= useState(false)
+
+  const [areasWeServe,setAreasWeServe]=useState(false)
+
+  const [data,setData]= useState(false)
+  const [data1,setData1]= useState(false)
+const dispatch=useDispatch()
+ 
+  const ToggleSwitch=()=>{
+    setData(!data)
+  }
+
+  const ToggleSwitch1=()=>{
+    setData1(!data1)
+  }
+   const getfilteredprods=(dataval,routedata)=>{
+    console.log(dataval,routedata,"i m data route")
+    const body={
+
+         category:dataval
+    }
+       axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
+        if(res.data.length>0){
+          res.data.map((val,index)=>{
+            console.log(val,"i m valken");
+            const objdata={
+              category:val.category,
+              description:val.description,
+              imgpath:val.imgpath,
+              price:val.price,
+              uid:val.uid,
+            productname:val.productname
+            }
+            dispatch(filterreducer(objdata))
+          })
+        
+          router("/"+routedata)
+        }
+        else{
+          alert("no products found matching your search")
+          console.log(res.rows,"i am  error")
+        }
+       
+       }).catch((error)=>{
+           console.log(error,"i m catching error" ) 
+       })
+   }
+
   return (
-    <div className='grid grid-cols-12 gap-3 py-2 bg-black'> 
-      <div className='grid grid-flow-col col-span-4 bg-black py-4 my-auto'>
-    <a className='text-white'>Home</a>
-    <a className='text-white'>Products</a>
-    <a className='text-white'>Contact us</a>
-      </div> 
-      <div className='col-span-5  my-auto'> 
-        <input type='search' placeholder="search products" className='w-full p-2 rounded-lg text-left text-xl'/>
-      </div>
-      <div className='col-span-3 space-x-2 my-auto'>
-        <BsCart color='white' className='align-middle' size={"40px"}/>
-        <div className='rounded h-30 bg-red-900'>
-           <img src={imagedata} className='h-auto'/>
-        </div>
-     </div> 
-     </div>
+<div className='grid grid-cols-12 grid-flow-col space-x-2 shadow-xl py-10 relative'>
+<div className='col-span-2 font-bold text-cyan-500 text-2xl'>
+
+            <p className='mx-2'>Sri Vashista</p>      
+             </div>  
+<div className='col-span-6 grid grid-flow-col'>
+<div className='col-span-3 column relative'>
+<div className='flex space-x-6 justify-center'>
+<p className='text-xl py-1'>Products</p>
+<FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch()} size='xl' className='py-2'/>
+</div>
+{
+  
+  data ?(
+   <>
+   <div className=' z-40 shadow-xl grid grid-cols-2  h-auto absolute right-2 top-10 mt-2 bg-white'>
+     
+     <ul className='justify-start column'>
+      <li className='text-left m-3'>
+
+<a href="#" className="block mx-1  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("waterfilter","filters")}>Water purifiers</a>
+
+</li>
+
+<li className='text-left m-3'>
+
+<a href="#" className="block mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/stoves")}>Stoves</a>
+
+</li>
+<li className='text-left m-3'>
+
+<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/chimneys")}>Chimneys</a>
+
+</li>
+<li className='text-left m-3'>
+
+<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/frontliquid")}>Front Load liquids</a>
+
+</li>
+<li className='text-left m-3'>
+
+<a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/topliquid")}>Top Load liquids</a>
+
+</li>
+<li className='text-left m-3'>
+
+<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/washingmachinepowders")}>Washing machine powders</a>
+
+</li>
+</ul>
+   </div>
+   </>
+
+  ):(
+<>
+</>
   )
+} 
+</div>
+<div className='col-span-3 column relative'>
+<div className='flex space-x-6 justify-center'>
+<p className='text-xl py-1'>Services</p>
+<FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch1()} size='xl' className='py-2'/>
+</div>
+{
+  
+  data1 ?(
+   <>
+   <div className=' z-40 shadow-xl grid grid-cols-2  w-auto h-auto absolute right-2 top-10 mt-2 bg-white'>
+     
+     <ul className='justify-start column'>
+      <li className='text-left m-3'>
+
+<a href="#" className="block  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500 ">Washing Machine Servicing</a>
+
+</li>
+
+<li className='text-left m-3'>
+
+<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500">Water Filter Servicing</a>
+
+
+</li>
+<li className='text-left m-3'>
+
+<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500">Mineral Water plant</a>
+
+</li>
+</ul>
+   </div>
+   </>
+
+  ):(
+<>
+</>
+  )
+} 
+</div>
+</div>
+<div className='col-span-4 grid grid-flow-col'>
+<h1 className='m-auto text-lg'>Your orders</h1>
+<FontAwesomeIcon icon={faShoppingCart} size='xl' className='my-auto'/>
+<FontAwesomeIcon icon={faUserCircle} size='xl' className='my-auto'/>
+</div>
+{
+  console.log(data,'i m data')
 }
 
+</div>
+  )
+
+}
+
+
+
+
 export default Navbar
+
