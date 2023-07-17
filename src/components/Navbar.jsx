@@ -40,7 +40,7 @@ const dispatch=useDispatch()
             const objdata={
               category:val.category,
               description:val.description,
-              imgpath:val.imgpath,
+              imgpath:val.imagepath,
               price:val.price,
               uid:val.uid,
             productname:val.productname

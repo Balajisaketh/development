@@ -5,7 +5,7 @@ import Login from './Login'
 import Signup from './Signup';
 import Layout from './Layout';
 import Mdata from './Mdata';
-import Purifiers from './components/Purify';
+import Purifiers from './Purify';
 function App() {
   return (
     <div className="App">
