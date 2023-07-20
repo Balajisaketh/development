@@ -29,35 +29,7 @@ const dispatch=useDispatch()
   }
    const getfilteredprods=(dataval,routedata)=>{
     console.log(dataval,routedata,"i m data route")
-    const body={
-
-         category:dataval
-    }
-       axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
-        if(res.data.length>0){
-          res.data.map((val,index)=>{
-            console.log(val,"i m valken");
-            const objdata={
-              category:val.category,
-              description:val.description,
-              imgpath:val.imagepath,
-              price:val.price,
-              uid:val.uid,
-            productname:val.productname
-            }
-            dispatch(filterreducer(objdata))
-          })
-        
-          router("/"+routedata)
-        }
-        else{
-          alert("no products found matching your search")
-          console.log(res.rows,"i am  error")
-        }
-       
-       }).catch((error)=>{
-           console.log(error,"i m catching error" ) 
-       })
+    
    }
 
   return (

@@ -3,6 +3,7 @@
 
   const initialState = {
     filterdata:[]
+    
   }
 
   const ProductSlice = createSlice({

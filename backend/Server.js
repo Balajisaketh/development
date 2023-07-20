@@ -215,9 +215,9 @@ app.get('/getproducts',(req,res) => {
 app.post('/getbycategory', (req, res) =>{
 const category =req.body.category.toString()
 let querydata=`SELECT * FROM products WHERE category='${category}'`
-  console.log(querydata,'hureey')
+  
   client.query(querydata).then((data)=>{ 
-    console.log(data,"i m data")
+    console.log(data.rows,"i m done")
     res.send(data.rows)
   }).catch((error) =>{ 
     console.log(error,"i am error")

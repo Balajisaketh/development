@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import counterReducer from '../redux/Counterslice'
 import  registerreducer from './RegSlice';
 import Productdata  from './Alldata';
+import  cartReducer from './CartSlice'
 import { createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import {
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   loginreducer:counterReducer,
   regreducer:registerreducer,
   prods:Productdata,
+  cart: cartReducer,
 
   });
   const persistConfig = {
