@@ -6,6 +6,7 @@ import Signup from './Signup';
 import Layout from './Layout';
 import Mdata from './Mdata';
 import Purifiers from './Purify';
+import Cartdata from './Cartdata';
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,7 @@ function App() {
           <Route path="/layout" element={<Layout />} /> 
           <Route path='/data' element={<Mdata />}/>
           <Route path='/filters' element={<Purifiers/>}/>
+          <Route path='/cart' element={<Cartdata/>}/>
           
       </Routes>
     </BrowserRouter>

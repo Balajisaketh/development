@@ -42,6 +42,7 @@ useEffect(()=>{
                   if(filnl.length>res.data.length  || count==0){
                      setrendata("changed")
                      setvalue(res.data);
+                     
                 }
                 else{
                     setrendata("yes")
@@ -62,6 +63,7 @@ useEffect(()=>{
         }
 },[]);
 console.log(count,"i m here")
+console.log(stval,"i m here data ")
 if(windowSize.width<=425)
 {
     return (
@@ -82,9 +84,9 @@ else{
          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
     {
         stval?.map((val,index)=>{
-            console.log(val,'i m value');
+            console.log(val?.uid,'i m value');
             return (
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description}/>
+                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
             )
         })
     }

@@ -29,7 +29,7 @@ const dispatch=useDispatch()
   }
    const getfilteredprods=(dataval,routedata)=>{
     console.log(dataval,routedata,"i m data route")
-    
+    router('/'+routedata)
    }
 
   return (
@@ -134,7 +134,7 @@ const dispatch=useDispatch()
 </div>
 <div className='col-span-4 grid grid-flow-col'>
 <h1 className='m-auto text-lg'>Your orders</h1>
-<FontAwesomeIcon icon={faShoppingCart} size='xl' className='my-auto'/>
+<FontAwesomeIcon icon={faShoppingCart} size='xl' className='my-auto' onClick={()=>router("/cart")}/>
 <FontAwesomeIcon icon={faUserCircle} size='xl' className='my-auto'/>
 </div>
 {
