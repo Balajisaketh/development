@@ -2,14 +2,33 @@ const express = require('express')
 const app = express()
 const port = 3001
 const cors = require('cors')
+
 app.use(cors())
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use("/",express.static("uploads"))
 const md5=require('md5')
 const uuid = require('uuid').v4;
 app.use(express.json())
 const jwt = require('jsonwebtoken');
 const {Client}=require("pg")
-const { query } = require('express')
-app.use(express.static('public'))
+const path=require('path');
+// const {upload} =require('.././backend/Multer');
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: function (req,res,cb){
+        cb(null, path.join(__dirname, 'uploads'));
+    },
+    filename: function (req,file,cb) {
+        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+        const filename = file.originalname.split(".")[0];
+        cb(null,filename + "-" + uniqueSuffix + ".png");
+    },
+});
+
+const upload = multer({storage: storage});
 const client = new Client({
   user: 'postgres',
   host: 'localhost',
@@ -57,12 +76,22 @@ const secretkey = "hello";
 
 //   }
 // }) 
-app.post('/register',(req,res)=>{
-
-  let data= req.body;
+app.post('/register',upload.single('avatar'),(req,res,next)=>{
+  
+  const file = req.file
+  if (!file) {
+    const error = new Error('Please upload a file')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+    console.log(file,"here")
+    const data=req.body;
+  console.log(data,"i m database");
      const uid=uuid();
  const username=data.username;
     const email=data.email; 
+    console.log(username,email,"w e are here");
+   const avatar=path.join(file.path);
     const salt =  (Math.random() + 1).toString(36).substring(7);
     const password =md5(data.password+salt)
    
@@ -79,21 +108,32 @@ app.post('/register',(req,res)=>{
               
             } 
              else{
+              console.log("entered here")
               const queryData = {
-                text: `INSERT INTO users (uid,username,email,password,salt)
-                              VALUES($1,$2,$3,$4,$5) RETURNING *`,
-              values: [uid,username,email,password,salt],
+                text: `INSERT INTO users (uid,username,email,password,salt,avatar)
+                              VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
+              values: [uid,username,email,password,salt,avatar],
               }
           
-              client.query(queryData).then(()=>{ 
-              console.log(res.data,'uo  mq ');
-             res.json("success");
+              client.query(queryData).then((newdata)=>{ 
+              console.log(newdata,'li mq ');
+              const sendres={
+                fieldname:file.fieldname,
+                filename:file.filename,
+                path:file.path,
+                status:"success",
+
+              }
+              res.json(sendres)
+
          
 
         
-                }).catch(err=>{
+                }).catch((err)=>{
                   console.log(err,'uo mq ');
-                })
+                }).catch((err)=>{
+                  console.log(err,'in outline')
+                });
           }
     })
   })    
@@ -101,18 +141,17 @@ app.post("/login",(req,res) => {
 
   const email =req.body.email;
   const password = req.body.password;
-  
+  console.log(email,password,"in bakcend");
   const querydataa= {
     text:  `SELECT * FROM users	 
    WHERE email =$1`,
     values : [email] 
   }
-     
-
 client.query(querydataa).then((data)=>
 {
-    console.log(data.rows[0],"i m here");
-     const email = data.rows[0].email;
+    
+    console.log(data,"i m here");
+     const email= data.rows[0].email;
      const passworddata = data.rows[0].password;
      const salt = data.rows[0].salt;
      const uiddata = data.rows[0].uid;
@@ -123,9 +162,8 @@ client.query(querydataa).then((data)=>
      if(verfypwd==passworddata)
      {
       const tokenData = {email:data.email,password:data.password};
-      const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })
-      res.json({ uid:uiddata,token: token, status: "success", message: "login successful"})
-      console.log({ token: token, status: "success", message: "login successful" })
+      const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })    
+      res.send({ token: token, status: "success", message: "login successful" })
     } else {
       res.send({ status: "Incorrect", message: "failed" })
       console.log({ status: "Incorrect", message: "failed" })
@@ -136,19 +174,25 @@ client.query(querydataa).then((data)=>
 })
 })
 app.post('/addproduct', (req,res) => {
-  console.log("Add Product",req.body)
-    let productname=req.body.productname
-    let price= req.body.price
-    let category=req.body.category
-    let quantity = req.body.quantity
+  
+    const productname=req.body.productname
+    const price= req.body.price
+    const category=req.body.category
+    const quantity = req.body.quantity
+    const imgpath=req.body.imgpath
+    const brand=req.body.brand
     let uid=uuid();          
     let description=req.body.description
+    console.log("brand",brand)
+    const cloudFrontUrl = 'https://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
+    console.log(cloudFrontUrl,"i m url")
     const insertquery= {
-      text: `INSERT INTO products (uid, productname,price,category,quantity,description) 
-                        VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
-      values : [uid,productname,price,category,quantity,description]
+      text: `INSERT INTO products (uid, productname,price,category,quantity,description,imagepath,brand) 
+                        VALUES($1, $2, $3,$4,$5,$6,$7,$8) RETURNING *`,
+      values : [uid,productname,price,category,quantity,description,cloudFrontUrl,brand]
     }
     client.query(insertquery).then((data)=>{ 
+      
       console.log({status:true, message:" data inserted successfully"})
       res.send("done inserted successfull")
     }).catch((error) =>{ 
@@ -170,13 +214,15 @@ app.get('/getproducts',(req,res) => {
     console.error(err,"i m error")
   });
   
+  
 })
 app.post('/getbycategory', (req, res) =>{
- const category =req.body.category.toString()
+const category =req.body.category.toString().toLowerCase()
+console.log("i m cat",req.body.category)
 let querydata=`SELECT * FROM products WHERE category='${category}'`
-  console.log(querydata,'hureey')
+// let querydat1=`SELECT brand.brandname,products.* FROM brand INNER JOIN products ON brand.category ='${category}'` 
   client.query(querydata).then((data)=>{ 
-    console.log(data,"i m data")
+    console.log(data.rows,"i m done")
     res.send(data.rows)
   }).catch((error) =>{ 
     console.log(error,"i am error")
@@ -325,6 +371,7 @@ app.get('/cusorders/:id/:status',((req,res) => {
     console.log(error,"i am error")
   })
 }))
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
