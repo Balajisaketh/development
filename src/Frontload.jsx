@@ -14,9 +14,9 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-function Purifiers() {
+function Frontload() {
     const windowSize = useWindowSize();
-    const data=["All","Purosis","Aqua","Bluestar","Dolphin","Merlin","Kent","Hindustan uniliver","Faber","Aqua Tech","Livpure"]
+    const data=["All","bosch","Tide","surfxcel","ifb","Ariel"]
     const dispatch=useDispatch()
     const router=useNavigate()
     const filtrrproddata=useSelector((state)=>state.prods.filterdata)
@@ -35,11 +35,11 @@ useEffect(()=>{
 
     try{
         const body={
-            category:"waterfilter"
+            category:"frontload"
        }
             // Fetch data from the API if not available in localStorage
             axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
-                console.log(res.data,'i m resdata')
+                console.log(res.data,'i m resdata from loads')
                 if(res.data.length>0){           
                     console.log("resdata",res.data.length);
                  localStorage.setItem('products',JSON.stringify(res.data))
@@ -74,19 +74,19 @@ const filteredproductsdata=(branddata)=>{
     setbrand(branddata);
     console.log(pdata,"i m pdata");
 console.log("Productbrand",branddata)
-const filteredProducts = branddata === 'All'
+const filteredProductsfromtopload = branddata === 'All'
   ? JSON.parse(pdata)
   : JSON.parse(pdata).filter((product) => product.brandname === branddata.toLowerCase());
-console.log(filteredProducts,"i m here filtered")
+console.log( filteredProductsfromtopload,"i m here filtered")
 const objfiltered={
-    branddata: filteredProducts.brandname,
-    productname: filteredProducts.productname,
-    price: filteredProducts.price,
-    quantity:filteredProducts.quantity,
-    category:filteredProducts.category,
-    imagepath:filteredProducts.imagepath,
-    uid:filteredProducts.uid,
-    description:filteredProducts.description
+    branddata:  filteredProductsfromtopload.brandname,
+    productname:  filteredProductsfromtopload.productname,
+    price:  filteredProductsfromtopload.price,
+    quantity:filteredProductsfromtopload.quantity,
+    category:filteredProductsfromtopload.category,
+    imagepath:filteredProductsfromtopload.imagepath,
+    uid:filteredProductsfromtopload.uid,
+    description:filteredProductsfromtopload.description
 
 
 }
@@ -284,27 +284,23 @@ else
         })
     }
                     </>
-                  ):brand.toLocaleLowerCase()=="aqua" ?(
+                  ):brand.toLocaleLowerCase()=="bosch" ?(
                     <>
-                    <h1>aqua</h1>
+              <h1>bosch</h1>
                     </>
-                  ):brand.toLocaleLowerCase()=="purosis"?(<>
+                  ):brand.toLocaleLowerCase()=="tide"?(<>
                   <h1>pusro</h1>
-                  </>):brand.toLocaleLowerCase()=="bluestar"?(
+                  </>):brand.toLocaleLowerCase()=="surfxecl"?(
                     <>
-                    <h1>bluestar</h1>
+                    <h1>surfcslk</h1>
                     </>
-                  ):brand.toLocaleLowerCase()=="kent"?(
+                  ):brand.toLocaleLowerCase()=="ifb"?(
                     <>
-                    <h1>kent</h1>
+                    <h1>ifb</h1>
                     </>
-                  ):brand.toLocaleLowerCase()=="livpure" ?(
+                  ):brand.toLocaleLowerCase()=="ariel" ?(
                     <>
-                    <h1>livpure</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="faber" ?(
-                    <>
-                    <h1>faber</h1>
+                    <h1>Ariel</h1>
                     </>
                   ):brand.toLocaleLowerCase()=="initial" ?(
                     <>
@@ -339,4 +335,4 @@ else
 }
 
 
-export default Purifiers
+export default Frontload

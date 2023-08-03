@@ -69,7 +69,7 @@ const dispatch=useDispatch()
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/frontliquid")}>Front Load liquids</a>
+<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/frontloadliquid")}>Front Load liquids</a>
 
 </li>
 <li className='text-left m-3'>

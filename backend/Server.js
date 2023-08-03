@@ -179,14 +179,16 @@ app.post('/addproduct', (req,res) => {
     const category=req.body.category
     const quantity = req.body.quantity
     const imgpath=req.body.imgpath
+    const brand=req.body.brand
     let uid=uuid();          
     let description=req.body.description
+    console.log("brand",brand)
     const cloudFrontUrl = 'https://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
     console.log(cloudFrontUrl,"i m url")
     const insertquery= {
-      text: `INSERT INTO products (uid, productname,price,category,quantity,description,imagepath) 
-                        VALUES($1, $2, $3,$4,$5,$6,$7) RETURNING *`,
-      values : [uid,productname,price,category,quantity,description,cloudFrontUrl]
+      text: `INSERT INTO products (uid, productname,price,category,quantity,description,imagepath,brand) 
+                        VALUES($1, $2, $3,$4,$5,$6,$7,$8) RETURNING *`,
+      values : [uid,productname,price,category,quantity,description,cloudFrontUrl,brand]
     }
     client.query(insertquery).then((data)=>{ 
       
@@ -211,11 +213,13 @@ app.get('/getproducts',(req,res) => {
     console.error(err,"i m error")
   });
   
+  
 })
 app.post('/getbycategory', (req, res) =>{
-const category =req.body.category.toString()
+const category =req.body.category.toString().toLowerCase()
+console.log("i m cat",req.body.category)
 let querydata=`SELECT * FROM products WHERE category='${category}'`
-  
+// let querydat1=`SELECT brand.brandname,products.* FROM brand INNER JOIN products ON brand.category ='${category}'` 
   client.query(querydata).then((data)=>{ 
     console.log(data.rows,"i m done")
     res.send(data.rows)

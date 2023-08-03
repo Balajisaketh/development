@@ -63,7 +63,7 @@ const handleIncrement = (uiddata) => {
       }
     };
   
-  const windowsize=useWindowSize()
+  
   if(wsaize.width<=820 && wsaize.width>425)
 {
   
@@ -138,7 +138,7 @@ return(
   </>
 )
 }
-else if(wsaize.width>=425 && wsaize.width<=819)
+else if(wsaize.width>=325 && wsaize.width<=819)
 {
   return(
     <>
