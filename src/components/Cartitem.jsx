@@ -2,7 +2,7 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faRubleSign, faRupeeSign} from '@fortawesome/free-solid-svg-icons'
-const CartItem = ({ product, decrement,increment }) => {
+const CartItem = ({ product, decrement,increment, deleteItem }) => {
     
   return (
  <div className="grid grid-flow-col col-span-9  my-auto p-1 mx-6 shadow-md rounded-md h-auto">
@@ -11,8 +11,9 @@ const CartItem = ({ product, decrement,increment }) => {
   </div>
   <div className="col-span-2 grid grid-flow-row ">
 <p className="justify-self-start mx-2">{product?.productname}</p>
-<p className="justify-self-start mx-2">{product?.price*product?.quantity}
+<p className="justify-self-start mx-2"> 
 <span><FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/></span>
+{product?.price*product?.quantity}
 </p>
 
   </div>
@@ -28,7 +29,7 @@ const CartItem = ({ product, decrement,increment }) => {
   </div>
   <div className="col-span-2  h-full">
 <>
-<FontAwesomeIcon icon={faTrash} className="mt-6" size="xl" color="red"/>
+<FontAwesomeIcon icon={faTrash} className="mt-6" size="xl" color="red" onClick={()=>deleteItem(product?.uid)}/>
 </>
   </div>
  </div>

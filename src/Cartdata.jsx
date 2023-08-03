@@ -62,50 +62,53 @@ const handleIncrement = (uiddata) => {
      })
       }
     };
+
+    const handleDeleteItem = (uiddata) => {
+      const newCartvalus = cartvalus.filter( function(item) {
+        return item.uid != uiddata
+      });
+    dispatch(resetcart(newCartvalus))
+    };
   
-  
-  if(wsaize.width<=820 && wsaize.width>425)
+  const windowsize=useWindowSize()
+  if(wsaize.width<=768 && wsaize.width>425)
 {
   
-  return (
-    <>
+//   return (
+//     <>
 
-<div className='grid grid-flow-col col-span-12 h-10  h-screen relative'>
-    <div className='col-span-8  grid-flow-row relative'>
-      <div className='absolute left-10 top-3'>
-  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' />
-  </div>
-  <div className='rounded w-40 absolute right-20 top-10 bg-red-950' onClick={()=>removecartdata()}>
-    Reset cart
-  </div>
-     {/* <div className='grid  grid-flow-col col-span-8 space-x-10 mt-10'>
-     <p className='col-span-2 text-sm'>Name</p>
-<p className='col-span-2 text-sm text-center'>Quantity</p>
-<p className='col-span-2 text-sm'>price</p>
-<p className='col-span-2 text-sm'>Remove item</p>
-     </div> */}
+// <div className='grid grid-flow-col col-span-12 h-10  h-screen relative'>
+//     <div className='col-span-8  grid-flow-row relative'>
+//       <div className='absolute left-10 top-3'>
+//   <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' />
+//   </div>
+//   <div className='rounded w-40 absolute right-20 top-10 bg-red-950' onClick={()=>removecartdata()}>
+//     Reset cart
+//   </div>
+//      {/* <div className='grid  grid-flow-col col-span-8 space-x-10 mt-10'>
+//      <p className='col-span-2 text-sm'>Name</p>
+// <p className='col-span-2 text-sm text-center'>Quantity</p>
+// <p className='col-span-2 text-sm'>price</p>
+// <p className='col-span-2 text-sm'>Remove item</p>
+//      </div> */}
      
-     <div className='grid grid-flow-row col-span-9  h-screen mt-10 bg-red-200'>
-      {
-        cartvalus.map((val,index)=>(
+//      <div className='grid grid-flow-row col-span-9  h-screen mt-10 bg-red-200'>
+//       {
+//         cartvalus.map((val,index)=>(
 
-    <>
-           <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} />
-    </>
-        ))  
-      }
-     </div>
-   </div>
-    <div className='col-span-2 bg-yellow-800 h-screen'>
+//     <>
+//            <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem} />
+//     </>
+//         ))  
+//       }
+//      </div>
+//    </div>
+//     <div className='col-span-2 bg-yellow-800 h-screen'>
 
-    </div>
-  </div>
-      </>
-  )
-}
-else if(wsaize.width>820 && wsaize.width<=2560)
-{
-
+//     </div>
+//   </div>
+//       </>
+//   )
 return(
   <>
   <div className='grid grid-flow-col col-span-12 h-auto shadow-lg h-screen'>
@@ -113,7 +116,7 @@ return(
     <div className='absolute left-10 top-10'>
   <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/layout")} />
   </div>
-  <div className='rounded w-30 absolute right-48 p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
+  <div className='rounded w-30 absolute right-[20%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
     Reset cart
   </div>
     <div className='col-span-8  grid-flow-row relative mt-20'>
@@ -123,7 +126,7 @@ return(
         cartvalus.length>0 ?cartvalus.map((val,index)=>(
 
     <>
-           <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement}/>
+           <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
     </>
         )):(
           <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
@@ -138,7 +141,42 @@ return(
   </>
 )
 }
-else if(wsaize.width>=325 && wsaize.width<=819)
+else if(wsaize.width>768 && wsaize.width<=2560)
+{
+
+return(
+  <>
+  <div className='grid grid-flow-col col-span-12 h-auto shadow-lg h-screen'>
+    
+    <div className='absolute left-10 top-10'>
+  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/layout")} />
+  </div>
+  <div className='rounded w-30 absolute right-[20%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
+    Reset cart
+  </div>
+    <div className='col-span-8  grid-flow-row relative mt-20'>
+
+     <div className='grid grid-flow-row col-span-9  h-auto space-y-8'>
+      {
+        cartvalus.length>0 ?cartvalus.map((val,index)=>(
+
+    <>
+           <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
+    </>
+        )):(
+          <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
+        )
+      }
+     </div>
+   </div>
+    <div className='col-span-2 bg-yellow-800 h-screen'>
+
+    </div>
+  </div>
+  </>
+)
+}
+else if(wsaize.width>=425 && wsaize.width<=768)
 {
   return(
     <>
@@ -155,7 +193,7 @@ else if(wsaize.width>=325 && wsaize.width<=819)
           cartvalus.map((val,index)=>(
   
       <>
-             <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement}/>
+             <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
       </>
           ))
         }
