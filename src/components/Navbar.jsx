@@ -29,7 +29,7 @@ const dispatch=useDispatch()
   }
    const getfilteredprods=(dataval,routedata)=>{
     console.log(dataval,routedata,"i m data route")
-    router('/'+routedata)
+    router('/'+routedata + "?category=" + dataval)
    }
 
   return (
@@ -64,12 +64,12 @@ const dispatch=useDispatch()
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/chimneys")}>Chimneys</a>
+<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("chimney", "frontloadliquid")}>Chimneys</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/frontloadliquid")}>Front Load liquids</a>
+<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquid")}>Front Load liquids</a>
 
 </li>
 <li className='text-left m-3'>
