@@ -3,6 +3,7 @@
 
   const initialState = {
     filterdata:[],
+    alertdata:true
 
     
   }
@@ -15,11 +16,13 @@
       
       state.filterdata.push(action.payload);
     },
-    
+    alertreducer:(state,action) => {
+   state.alertdata=action.payload;
+    },
     },
   })
 
   // Action creators are generated for each case reducer function
-  export const { filterreducer} = ProductSlice.actions
+  export const { filterreducer,alertreducer} = ProductSlice.actions
 
   export default ProductSlice.reducer

@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import useWindowSize from './hooks/useWindowsize';
 import { Carousel } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { useSelector} from 'react-redux';
 import { useEffect } from 'react';
@@ -14,23 +14,28 @@ import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+
 function Frontload() {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
     const productcategory = query.get('category');
-    console.log(productcategory + " product category");
+    // console.log(productcategory + " product category");
     const windowSize = useWindowSize();
-    const data=["All","bosch","Tide","surfxcel","ifb","Ariel"]
+    const [data1,setdata]=useState([])
     const dispatch=useDispatch()
     const router=useNavigate()
     const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
-    console.log(filtrrproddata,"i m data from store filter")
+    const alertstatus=useSelector((state)=>state.prods.alertdata)
+    console.log(alertstatus,"i m alert status")
+    // console.log(filtrrproddata,"i m data from store filter")
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState([])
     const [renddata,setrendata]=useState("yes")
+    const [filterdrop,SetFilterdrop]=useState(false)
     const cartdata=useSelector((state)=>state.cart.items)
     console.log(cartdata,'i m cartdone')    
     let count=0;
+    
 useEffect(()=>{
     console.log("i m rend data",renddata)
 
@@ -43,6 +48,7 @@ useEffect(()=>{
             const body={
                 category:productcategory
            }
+           console.log("product category",body)
            // Fetch data from the API if not available in localStorage
            axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
             console.log(res.data,'i m resdata from loads')
@@ -70,6 +76,8 @@ useEffect(()=>{
            }).catch((error)=>{
                console.log(error,"i m catching error" ) 
            })
+           
+
         } else {
            alert("Category not found") 
         }
@@ -79,6 +87,7 @@ useEffect(()=>{
           console.error('Error fetching products:', error);
         }
 },[]);
+
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
     setbrand(branddata);
@@ -87,7 +96,7 @@ console.log("Productbrand",branddata)
 const filteredProductsfromtopload = branddata === 'All'
   ? JSON.parse(pdata)
   : JSON.parse(pdata).filter((product) => product.brand === branddata.toLowerCase());
-console.log( filteredProductsfromtopload,"i m here filtered")
+// console.log( filteredProductsfromtopload,"i m here filtered")
 filteredProductsfromtopload.map((product,index)=>{ 
 const objfiltered={
     branddata:  product.brand,
@@ -101,14 +110,28 @@ const objfiltered={
 
 
 }
-console.log(objfiltered,"i m objected")    
+// console.log(objfiltered,"i m objected")    
 dispatch(frontloadreducer(objfiltered))
 })
 
 }
-console.log("Productbrand",brand)
-console.log(count,"i m here")
-console.log(stval,"i m here data ")
+// console.log("Productbrand",brand)
+// console.log(count,"i m here")
+// console.log(stval,"i m here data ")
+useEffect(()=>{
+        console.log("useeffect called")
+        const body={
+            category:productcategory
+        }
+        console.log(body,'i m product')
+    axios.post("http://localhost:3001/api/getbybrand",body).then((res)=>{
+        setdata(res.data)
+
+    }).catch((err)=>{
+        console.log(err,"i m eror")
+        
+    });
+    },[])
 if(windowSize.width<=425)
 {
     return (
@@ -137,7 +160,7 @@ else if(windowSize.width<=768 && windowSize.width<=820){
          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
     {
         filtrrproddata?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
+            // console.log(val?.uid,'i m value');
             return (
                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
             )
@@ -154,25 +177,6 @@ else if(windowSize.width<=768 && windowSize.width<=820){
               
         </div>
 
-        {/* <div className='grid grid-cols-12 grid-flow-col'>
-         <div className='grid col-span-3 h-screen w-auto bg-green-400'>
-               <p>jhfdx</p>
-         </div>
-         <div className='grid col-span-9'>
-         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-    {
-        stval?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
-            return (
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-            )
-        })
-    }
-    </div>
-    </div>
-    
-        </div>
-         */}
 
 
         
@@ -184,102 +188,53 @@ else
 {
     return (
         <>
-        {/* <div className='grid grid-cols-12 row grid-flow-col relative  w-screen h-auto'>
-            <div className='w-screen h-auto absolute top-3 '>
-
-              <Navbar/>
-
-        
-            </div>
-             <div className='w-screen h-auto my-[42vh] '>
-            <div className='grid grid-cols-12 grid-flow-col w-screen h-auto'>
-         <div className='col-span-3 h-auto      '>
-               <h1 className='text-xl text-black font-medium'>Filter by Brand</h1>
-             <div className='col-span-2 w-3/4 mx-auto'>
-             {
-                data?.map((val,index)=>(
-<ul className='list-none mt-4'>
-                <li className='bg-white shadow-md rounded-md p-4 border border-gray-300' onClick={()=>{
-                    filteredproductsdata(data[index])
-                    }}>
-                 {val}
-                </li>
-               </ul>
-                ))
-               }
-               
-             </div>
-
-         </div>
-         <div className='grid col-span-8'>
-         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-            {
-                  brand =='All' ? (
-                    <>
-                    {
-        stval?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
-            return (
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-            )
-        })
-    }
-                    </>
-                  )  : brand== 'Purosis' || 'purosis' ?
-                  (<>
-                  <h1>puros</h1>
-                  </>): brand=='Aqua' || 'aqua' ?
-                  (
-                    <></>
-                  ): brand=='Hindustan uniliver'|| 'hindustanuniliver' || 'hindustan uniliver' ?
-                  (
-                    <></>
-                  ) :brand=='kent'|| 'kent' ?(
-<>
-</>
-                  ):brand =='Faber || faber'
-            }
-    
-    </div>
-    </div>
-    
-        </div>
-        
-            </div> 
-          
-
-              
-        </div> */}
+      
     <div>
         <Navbar/>
-         <div className='grid grid-cols-12 grid-flow-col my-[6vh]'>
+         <div className='grid grid-cols-12 grid-flow-col my-[6vh] relative'>
          <div className='grid col-span-3 h-[75vh] w-auto '>
-         <h1 className='text-xl text-black font-medium'>Filter by Brand</h1>
+         <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
+         <span><FontAwesomeIcon icon={faFilter} size='md' className='mx-3 mt-4' color='gray' onClick={()=>SetFilterdrop(!filterdrop)}/></span>
+         </h1>
          {
-                data?.map((val,index)=>(
-<ul className='list-none mt-4'>
-                <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
-                    filteredproductsdata(data[index])
-                    }}>
-                 {val}
-                </li>
-               </ul>
-                ))
+            filterdrop==true ?(
+                <>
+                <div className='w-1/2 mx-auto'>
+
+             
+<select name="cars" id="cars">
+  <option>Filter By</option>
+  <option >Price</option>
+  <option >Brand</option>
+  
+</select>
+                </div>
+                </>
+            ):(
+                <></>
+            )
+         }
+         {
+            
+data1?.map((val, i)=>{
+    // console.log(val,"i m opbjecgt")
+    return (
+       <>
+       <ul className='list-none mt-4'>
+       <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                     filteredproductsdata(val?.brand)
+                     }}>
+                  {val?.brand}
+            </li>
+       </ul>
+       </>
+    )
+})
                }
 
          </div>
-         {/* <div className='grid col-span-9'>
-         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-    {
-        stval?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
-            return (
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-            )
-        })
-    }
-    </div>
-    </div> */}
+         
+         
          <div className='grid col-span-8'>
          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {
@@ -288,7 +243,7 @@ else
                     {
 
         stval?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
+            // console.log(val?.uid,'i m value');
             return (
                 <>
                 
@@ -302,7 +257,8 @@ else
                     <>
                     {
        filtrrproddata?.map((val,index)=>{
-            console.log(val?.imagepath,'i m  bisch value');
+        
+            // console.log(val?.imagepath,'i m  bisch value');
             return (
                 <>
  

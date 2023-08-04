@@ -11,14 +11,18 @@ import { filterreducer } from './redux/Alldata';
 import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 function Purifiers() {
     const windowSize = useWindowSize();
-    const data=["All","Purosis","Aqua","Bluestar","Dolphin","Merlin","Kent","Hindustan uniliver","Faber","Aqua Tech","Livpure"]
+    const [data1,setdata]=useState([])
     const dispatch=useDispatch()
     const router=useNavigate()
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    const query = useQuery();
+    const productcategory = query.get('category');
+    console.log(productcategory + " product category");
     const filtrrproddata=useSelector((state)=>state.prods.filterdata)
     console.log(filtrrproddata,"i m data from store filter bosch")
     const [brand,setbrand]=useState("initial")
@@ -27,6 +31,20 @@ function Purifiers() {
     const cartdata=useSelector((state)=>state.cart.items)
     console.log(cartdata,'i m cartdone')    
     let count=0;
+    useEffect(()=>{
+      console.log("useeffect called")
+      const body={
+          category:productcategory
+      }
+      console.log(body,'i m product')
+  axios.post("http://localhost:3001/api/getbybrand",body).then((res)=>{
+      setdata(res.data)
+
+  }).catch((err)=>{
+      console.log(err,"i m eror")
+      
+  });
+  },[])
 useEffect(()=>{
     console.log("i m rend data",renddata)
 
@@ -35,7 +53,7 @@ useEffect(()=>{
 
     try{
         const body={
-            category:"waterfilter"
+            category:productcategory
        }
             // Fetch data from the API if not available in localStorage
             axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
@@ -243,18 +261,29 @@ else
          <div className='grid grid-cols-12 grid-flow-col my-[6vh]'>
          <div className='grid col-span-3 h-[75vh] w-auto '>
          <h1 className='text-xl text-black font-medium'>Filter by Brand</h1>
-         {
-                data?.map((val,index)=>(
-<ul className='list-none mt-4'>
-                <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
-                    filteredproductsdata(data[index])
-                    }}>
-                 {val}
-                </li>
-               </ul>
-                ))
-               }
-
+       {
+        data1?.map((val, i)=>{
+          console.log(val,"i am from water filters")
+          if(val==null || val==undefined)
+          {
+            <></>
+          }
+          else{
+          return (
+             <>
+             <ul className='list-none mt-4'>
+             <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                           filteredproductsdata(val?.brand)
+                           }}>
+                        {val?.brand}
+                  </li>
+             </ul>
+             </>
+          )
+                          }
+      })
+    
+       }
          </div>
          {/* <div className='grid col-span-9'>
          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">

@@ -1,10 +1,12 @@
 // ProductCard.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart, getquantity } from '../redux/CartSlice';
 import Navbar from './Navbar';
 import { useSelector } from 'react-redux';
+import { Alert } from 'flowbite-react';
+import { alertreducer } from '../redux/Alldata';
 const ProductCard = ({imageUrl, description,price,productname,uid})  => {
     console.log(productname,imageUrl,description,price,uid,"i m product card"); 
     const dispatch=useDispatch()
@@ -19,9 +21,17 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
         
 
      }
+     
+
      dispatch(addToCart(obj));
+     setTimeout(() => {
+      dispatch(alertreducer(false))
+    }, 3000);
+     
     }
+    
   return (
+  
     <>
     <div className="h-auto bg-white shadow-lg rounded-lg p-4 md:p-8 relative lg:h-auto relative p-10 xl:p-10 h-full relative">
       <div className="mb-4">
