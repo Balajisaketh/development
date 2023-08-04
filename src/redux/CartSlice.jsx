@@ -10,7 +10,21 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      state.items.push({...action.payload,quantity:1});
+      
+console.log(action.payload,"i m action");
+      const { uid, quantity } = action.payload;
+      console.log(uid, quantity,"here in redux!");
+      const productIndex = state.items.findIndex((product) => product.uid === uid);
+      if (productIndex !== -1) {
+        console.log(productIndex,"inside")  
+        state.items[productIndex].quantity+=1
+        
+      
+      }
+      else{
+        state.items.push({ ...action.payload, quantity: 1 });
+      }
+
     },
 
     increaseQuantity: (state, action) => {
