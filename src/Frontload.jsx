@@ -7,7 +7,7 @@ import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons
 import { useState } from 'react';
 import { useSelector} from 'react-redux';
 import { useEffect } from 'react';
-import { filterreducer } from './redux/Alldata';
+import { filterreducer, frontloadreducer } from './redux/FrontloadSlice';
 import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
@@ -19,7 +19,7 @@ function Frontload() {
     const data=["All","bosch","Tide","surfxcel","ifb","Ariel"]
     const dispatch=useDispatch()
     const router=useNavigate()
-    const filtrrproddata=useSelector((state)=>state.prods.filterdata)
+    const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
     console.log(filtrrproddata,"i m data from store filter")
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState([])
@@ -76,21 +76,24 @@ const filteredproductsdata=(branddata)=>{
 console.log("Productbrand",branddata)
 const filteredProductsfromtopload = branddata === 'All'
   ? JSON.parse(pdata)
-  : JSON.parse(pdata).filter((product) => product.brandname === branddata.toLowerCase());
+  : JSON.parse(pdata).filter((product) => product.brand === branddata.toLowerCase());
 console.log( filteredProductsfromtopload,"i m here filtered")
+filteredProductsfromtopload.map((product,index)=>{ 
 const objfiltered={
-    branddata:  filteredProductsfromtopload.brandname,
-    productname:  filteredProductsfromtopload.productname,
-    price:  filteredProductsfromtopload.price,
-    quantity:filteredProductsfromtopload.quantity,
-    category:filteredProductsfromtopload.category,
-    imagepath:filteredProductsfromtopload.imagepath,
-    uid:filteredProductsfromtopload.uid,
-    description:filteredProductsfromtopload.description
+    branddata:  product.brand,
+    productname:  product.productname,
+    price:  product.price,
+    quantity:product.quantity,
+    category:product.category,
+    imagepath:product.imagepath,
+    uid:product.uid,
+    description:product.description
 
 
 }
-dispatch(filterreducer(objfiltered))
+console.log(objfiltered,"i m objected")    
+dispatch(frontloadreducer(objfiltered))
+})
 
 }
 console.log("Productbrand",brand)
@@ -123,7 +126,7 @@ else if(windowSize.width<=768 && windowSize.width<=820){
          <div className='grid col-span-9'>
          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
     {
-        stval?.map((val,index)=>{
+        filtrrproddata?.map((val,index)=>{
             console.log(val?.uid,'i m value');
             return (
                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
@@ -273,6 +276,7 @@ else
                   brand.toLocaleLowerCase() =='all'  ? (
                     <>
                     {
+
         stval?.map((val,index)=>{
             console.log(val?.uid,'i m value');
             return (
@@ -286,7 +290,19 @@ else
                     </>
                   ):brand.toLocaleLowerCase()=="bosch" ?(
                     <>
-              <h1>bosch</h1>
+                    {
+       filtrrproddata?.map((val,index)=>{
+            console.log(val?.imagepath,'i m  bisch value');
+            return (
+                <>
+ 
+                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+                </>
+                 
+            )
+                 
+        })
+    }
                     </>
                   ):brand.toLocaleLowerCase()=="tide"?(<>
                   <h1>pusro</h1>

@@ -20,7 +20,7 @@ function Purifiers() {
     const dispatch=useDispatch()
     const router=useNavigate()
     const filtrrproddata=useSelector((state)=>state.prods.filterdata)
-    console.log(filtrrproddata,"i m data from store filter")
+    console.log(filtrrproddata,"i m data from store filter bosch")
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState([])
     const [renddata,setrendata]=useState("yes")
@@ -90,6 +90,7 @@ const objfiltered={
 
 
 }
+console.log("brands",objfiltered)
 dispatch(filterreducer(objfiltered))
 
 }
