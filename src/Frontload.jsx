@@ -85,7 +85,7 @@ useEffect(()=>{
         }
 },[]);
 
-const filteredproductsdata=(branddata)=>{
+const filteredproductsdata=(branddata,uid)=>{
     const pdata=localStorage.getItem('products');
     setbrand(branddata);
     console.log(pdata,"i m pdata");
@@ -93,7 +93,13 @@ console.log("Productbrand",branddata)
 const filteredProductsfromtopload = branddata === 'All'
   ? JSON.parse(pdata)
   : JSON.parse(pdata).filter((product) => product.brand === branddata.toLowerCase());
-// console.log( filteredProductsfromtopload,"i m here filtered")
+console.log( filteredProductsfromtopload,"i m here filtered")
+const alreadyexist=filtrrproddata.filter((product) =>product.uid===uid)
+if(alreadyexist)
+{
+    console.log(alreadyexist,"i m here already")    
+}
+else{
 filteredProductsfromtopload.map((product,index)=>{ 
 const objfiltered={
     branddata:  product.brand,
@@ -110,7 +116,7 @@ const objfiltered={
 // console.log(objfiltered,"i m objected")    
 dispatch(frontloadreducer(objfiltered))
 })
-
+}
 }
 // console.log("Productbrand",brand)
 // console.log(count,"i m here")
@@ -219,7 +225,7 @@ data1?.map((val, i)=>{
        <>
        <ul className='list-none mt-4'>
        <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
-                     filteredproductsdata(val?.brand)
+                     filteredproductsdata(val?.brand,val?.uid)
                      }}>
                   {val?.brand}
             </li>
