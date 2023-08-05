@@ -16,13 +16,10 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 
 function Frontload() {
-<<<<<<< HEAD
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
     const productcategory = query.get('category');
-    // console.log(productcategory + " product category");
-=======
->>>>>>> parent of dad13fe (filter modified)
+    console.log(productcategory + " product category");
     const windowSize = useWindowSize();
     const [data1,setdata]=useState([])
     const dispatch=useDispatch()
@@ -46,13 +43,11 @@ useEffect(()=>{
     console.log("hi i m from stor",pdata)
 
     try{
-<<<<<<< HEAD
         if(productcategory!=null || productcategory != undefined || productcategory !="") {
 
             const body={
                 category:productcategory
            }
-           console.log("product category",body)
            // Fetch data from the API if not available in localStorage
            axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
             console.log(res.data,'i m resdata from loads')
@@ -80,43 +75,10 @@ useEffect(()=>{
            }).catch((error)=>{
                console.log(error,"i m catching error" ) 
            })
-           
-
         } else {
            alert("Category not found") 
         }
-=======
-        const body={
-            category:"frontload"
-       }
-            // Fetch data from the API if not available in localStorage
-            axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
-                console.log(res.data,'i m resdata from loads')
-                if(res.data.length>0){           
-                    console.log("resdata",res.data.length);
-                 localStorage.setItem('products',JSON.stringify(res.data))
-                  const filnl=JSON.parse(pdata)
-                  console.log(filnl,res.data,"i m datatype");
-                  console.log(filnl.length,res.data.length,"i m datatypelen");
-                  if(filnl.length>res.data.length  || count==0){
-                     setrendata("changed")
-                     setvalue(res.data);
-                     
-                }
-                else{
-                    setrendata("yes")
-                    count+=1;
-                }
-                }
-                else{
-                  alert("no products found matching your search")
-                  console.log(res.rows,"i am  error")
-                }
->>>>>>> parent of dad13fe (filter modified)
             
-               }).catch((error)=>{
-                   console.log(error,"i m catching error" ) 
-               })
           
         } catch (error) {
           console.error('Error fetching products:', error);
