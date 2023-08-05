@@ -11,7 +11,7 @@ import { filterreducer, frontloadreducer } from './redux/FrontloadSlice';
 import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 
