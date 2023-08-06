@@ -373,7 +373,7 @@ app.get('/cusorders/:id/:status',((req,res) => {
     console.log(error,"i am error")
   })
 }))
-app.post('/api/getbybrand',(req,res)=>{
+app.post('/api/getbrand',(req,res)=>{
   const category=req.body.category
   console.log(category,"i m category")
   const qry={
@@ -384,6 +384,21 @@ app.post('/api/getbybrand',(req,res)=>{
   client.query(qry).then((respdata)=>{
     const all=[{brand:"All"}]
   res.send(respdata.rows.concat(all));
+    
+  })
+})
+app.post('/api/getbybrand',(req,res)=>{
+  const category=req.body.category
+  const brand=req.body.brand
+  console.log(category,brand,"i m category")
+  const qry={
+  
+    
+    text:`SELECT DISTINCT brand FROM products WHERE category = '${category}' AND brand = '${brand}'`
+  }
+  client.query(qry).then((respdata)=>{
+    
+  res.send(respdata);
     
   })
 })

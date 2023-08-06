@@ -24,15 +24,19 @@ function Frontload() {
     const [data1,setdata]=useState([])
     const dispatch=useDispatch()
     const router=useNavigate()
+    
     const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
     const alertstatus=useSelector((state)=>state.prods.alertdata)
     console.log(alertstatus,"i m alert status")
     // console.log(filtrrproddata,"i m data from store filter")
     const [brand,setbrand]=useState("initial")
-    const [stval,setvalue]=useState([])
+    const [stval,setvalue]=useState()
     const [renddata,setrendata]=useState("yes")
+    const [brandDataRendered, setBrandDataRendered] = useState(false);
+    const [rendprods,setrendprods]=useState([])
     const [filterdrop,SetFilterdrop]=useState(false)
     const cartdata=useSelector((state)=>state.cart.items)
+    const [alldata,setdalldata]=useState([])
     console.log(cartdata,'i m cartdone')    
     let count=0;
     
@@ -55,6 +59,7 @@ useEffect(()=>{
             if(res.data.length>0){           
                 console.log("resdata",res.data.length);
              localStorage.setItem('products',JSON.stringify(res.data))
+             
               const filnl=JSON.parse(pdata)
               console.log(filnl,res.data,"i m datatype");
               console.log(filnl.length,res.data.length,"i m datatypelen");
@@ -87,51 +92,47 @@ useEffect(()=>{
           console.error('Error fetching products:', error);
         }
 },[]);
-
+useEffect(()=>{
+  const body={
+    "category":productcategory
+  }
+  axios.post('http://localhost:3001/api/getbrand',body).then((res)=>{
+    setdata(res.data)
+    console.log(res.data,"i m brand data")
+  }).catch((err)=>{
+    console.error(err,"i m brand error")
+  })
+},[])
+console.log("i m data1:",data1);
+const apicallbrand=(brandata)=>{
+  const body={
+    "category":productcategory,
+    "brand":brandata.toLowerCase()
+  }
+  axios.post('http://localhost:3001/api/getbybrand',body).then((res)=>{
+    console.log(res.data,"i m get by brand");
+    setvalue(res.data);
+  }).catch((err)=>{
+    console.error(err,"i m brand error")
+  })
+}
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
     setbrand(branddata);
     console.log(pdata,"i m pdata");
 console.log("Productbrand",branddata)
-const filteredProductsfromtopload = branddata === 'All'
-  ? JSON.parse(pdata)
-  : JSON.parse(pdata).filter((product) => product.brand === branddata.toLowerCase());
-// console.log( filteredProductsfromtopload,"i m here filtered")
-filteredProductsfromtopload.map((product,index)=>{ 
-const objfiltered={
-    branddata:  product.brand,
-    productname:  product.productname,
-    price:  product.price,
-    quantity:product.quantity,
-    category:product.category,
-    imagepath:product.imagepath,
-    uid:product.uid,
-    description:product.description
+ branddata === 'All'
+  ? setdalldata(JSON.parse(pdata))
+  : setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata));
 
-
-}
-// console.log(objfiltered,"i m objected")    
-dispatch(frontloadreducer(objfiltered))
-})
-
-}
+ apicallbrand(branddata)
 // console.log("Productbrand",brand)
 // console.log(count,"i m here")
 // console.log(stval,"i m here data ")
-useEffect(()=>{
-        console.log("useeffect called")
-        const body={
-            category:productcategory
-        }
-        console.log(body,'i m product')
-    axios.post("http://localhost:3001/api/getbybrand",body).then((res)=>{
-        setdata(res.data)
 
-    }).catch((err)=>{
-        console.log(err,"i m eror")
-        
-    });
-    },[])
+
+  }
+
 if(windowSize.width<=425)
 {
     return (
@@ -158,14 +159,15 @@ else if(windowSize.width<=768 && windowSize.width<=820){
          </div>
          <div className='grid col-span-9'>
          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-    {
-        filtrrproddata?.map((val,index)=>{
-            // console.log(val?.uid,'i m value');
+    {/* {
+        alldata?.map((val,index)=>{
+            console.log(val?.uid,'i m value');
             return (
                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
             )
         })
-    }
+    } */}
+    
     </div>
     </div>
     
@@ -217,7 +219,7 @@ else
          {
             
 data1?.map((val, i)=>{
-    // console.log(val,"i m opbjecgt")
+    console.log(val,"i m object in brand")
     return (
        <>
        <ul className='list-none mt-4'>
@@ -236,71 +238,41 @@ data1?.map((val, i)=>{
          
          
          <div className='grid col-span-8'>
-         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-            {
-                  brand.toLocaleLowerCase() =='all'  ? (
-                    <>
-                    {
-
-        stval?.map((val,index)=>{
-            // console.log(val?.uid,'i m value');
-            return (
-                <>
-                
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-                </>
-            )
-        })
-    }
-                    </>
-                  ):brand.toLocaleLowerCase()=="bosch" ?(
-                    <>
-                    {
-       filtrrproddata?.map((val,index)=>{
-        
-            // console.log(val?.imagepath,'i m  bisch value');
-            return (
-                <>
- 
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-                </>
-                 
-            )
-                 
-        })
-    }
-                    </>
-                  ):brand.toLocaleLowerCase()=="tide"?(<>
-                  <h1>pusro</h1>
-                  </>):brand.toLocaleLowerCase()=="surfxecl"?(
-                    <>
-                    <h1>surfcslk</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="ifb"?(
-                    <>
-                    <h1>ifb</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="ariel" ?(
-                    <>
-                    <h1>Ariel</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="initial" ?(
-                    <>
-                                 {
-        stval?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
-            return (
-                <>
-                
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-                </>
-            )
-        })
-    }
-                    </>
-                  ) :(<></>)
-            }
-
+      
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+  {/* {
+     alldata?.map((val,index)=>{
+      console.log(val,"ni amma tra")
+      return (
+        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      )
+     })
+  } */}
+  {
+    brand =="initial" ?(
+<>
+{
+       stval?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+       })
+}
+</>
+    ):(
+      <>
+      {
+       alldata?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+       })
+}
+      </>
+    )
+  }
     </div>
     </div>
     
@@ -314,7 +286,8 @@ data1?.map((val, i)=>{
 }
 
  
-}
 
+
+}
 
 export default Frontload
