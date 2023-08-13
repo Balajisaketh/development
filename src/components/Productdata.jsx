@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux';
 import { addToCart, getquantity } from '../redux/CartSlice';
 import Navbar from './Navbar';
 import { useSelector } from 'react-redux';
-import { Alert } from 'flowbite-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faRubleSign, faRupeeSign} from '@fortawesome/free-solid-svg-icons'
 import { alertreducer } from '../redux/Alldata';
 const ProductCard = ({imageUrl, description,price,productname,uid})  => {
     console.log(productname,imageUrl,description,price,uid,"i m product card"); 
@@ -33,7 +34,7 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
   return (
   
     <>
-    <div className="h-auto bg-white shadow-lg rounded-lg p-4 md:p-8 relative lg:h-auto relative p-10 xl:p-10 h-full relative">
+    <div className="h-auto w-auto bg-white shadow-lg rounded-lg p-4 md:p-8 relative lg:h-auto relative p-10 xl:p-10 h-full relative">
       <div className="mb-4">
         <img
           src={imageUrl}
@@ -46,12 +47,16 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
         
       </div>
       <div className="flex flex-col md:flex-row md:justify-between md:items-center xl:grid grid-flow-col gap-3 space-x-4 items-center">
-        <span className="text-lg font-bold text-black mb-2 md:mb-0 md:text-xl">
-          ${price}
-        </span>
-        <button className="px-4 py-2 rounded-full bg-orange-400  text-white" onClick={()=>dispatching()}>
+        {/* <span className="text-lg font-bold text-black mb-2 md:mb-0 md:text-xl">
+        <FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/> {price}
+        </span> */}
+        <div className='flex'>
+        <FontAwesomeIcon icon={faIndianRupeeSign} className=" mx-1 mt-4"/>
+        <p className='mt-3'>{price}</p>
+        </div>
+        <div className="rounded-md  p-3  bg-orange-400  text-white" onClick={()=>dispatching()}>
           Add to Cart
-        </button>
+        </div>
       </div>
     
     </div>

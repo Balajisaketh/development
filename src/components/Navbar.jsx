@@ -64,7 +64,7 @@ const dispatch=useDispatch()
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("chimney", "frontloadliquid")}>Chimneys</a>
+<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("chimneys", "chimneys")}>Chimneys</a>
 
 </li>
 <li className='text-left m-3'>

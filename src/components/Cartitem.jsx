@@ -12,7 +12,7 @@ const CartItem = ({ product, decrement,increment, deleteItem }) => {
   <div className="col-span-2 grid grid-flow-row ">
 <p className="justify-self-start mx-2">{product?.productname}</p>
 <p className="justify-self-start mx-2"> 
-<span><FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/></span>
+<span>  <FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/>   </span>
 {product?.price*product?.quantity}
 </p>
 
