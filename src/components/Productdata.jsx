@@ -39,7 +39,7 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
         <img
           src={imageUrl}
           alt={productname}
-          className="w-full h-auto object-contain rounded-md"
+          className="w-full h-[50vh] object-contain rounded-md"
         />
       </div>
       <div className="mb-5">

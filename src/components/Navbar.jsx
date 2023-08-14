@@ -10,9 +10,17 @@ import { ToggleSwitch } from 'flowbite-react'
 import { useNavigate } from 'react-router-dom'
 import { filterreducer } from '../redux/Alldata'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { getquantity } from '../redux/CartSlice'
 function Navbar() {
 const router=useNavigate()
   const [prod,setprod]= useState(false)
+let cartItems=useSelector((state)=>state.cart.items)
+// Calculate the total quantity of cart items
+const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+
+
 
   const [areasWeServe,setAreasWeServe]=useState(false)
 
@@ -134,6 +142,9 @@ const dispatch=useDispatch()
 </div>
 <div className='col-span-4 grid grid-flow-col'>
 <h1 className='m-auto text-lg'>Your orders</h1>
+
+
+<p className='text-red-900'>{totalQuantity}</p>
 <FontAwesomeIcon icon={faShoppingCart} size='xl' className='my-auto' onClick={()=>router("/cart")}/>
 <FontAwesomeIcon icon={faUserCircle} size='xl' className='my-auto'/>
 </div>

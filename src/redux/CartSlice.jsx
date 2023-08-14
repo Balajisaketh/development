@@ -23,6 +23,8 @@ console.log(action.payload,"i m action");
       }
       else{
         state.items.push({ ...action.payload, quantity: 1 });
+        
+        
       }
 
     },
@@ -36,7 +38,7 @@ console.log(action.payload,"i m action");
      if (productIndex !== -1) {
       console.log(productIndex,"inside")  
       state.items[productIndex].quantity = quantity;
-      state.quantitydata = quantity;
+      
     }
      
     },
@@ -53,7 +55,7 @@ console.log(action.payload,"i m action");
           const productIndex = state.items.findIndex((product) => product.uid === productId);
       if (productIndex !== -1) {
         state.items[productIndex].quantity = quantity;
-        state.quantitydata=quantity
+        
       }
      
         
@@ -62,6 +64,7 @@ console.log(action.payload,"i m action");
     },
     resetcart:(state,action)=>{
       state.items = action.payload
+      state.quantitydata=0
        
     },
     
@@ -71,5 +74,5 @@ console.log(action.payload,"i m action");
 });
 
 export const { addToCart, increaseQuantity, decreaseQuantity,resetcart } = cartSlice.actions;
-export const getquantity = cartSlice.quantitydata
+
 export default cartSlice.reducer;
