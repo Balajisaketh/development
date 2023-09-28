@@ -10,9 +10,17 @@ import { ToggleSwitch } from 'flowbite-react'
 import { useNavigate } from 'react-router-dom'
 import { filterreducer } from '../redux/Alldata'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { getquantity } from '../redux/CartSlice'
 function Navbar() {
 const router=useNavigate()
   const [prod,setprod]= useState(false)
+let cartItems=useSelector((state)=>state.cart.items)
+// Calculate the total quantity of cart items
+const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+
+
 
   const [areasWeServe,setAreasWeServe]=useState(false)
 
@@ -29,7 +37,7 @@ const dispatch=useDispatch()
   }
    const getfilteredprods=(dataval,routedata)=>{
     console.log(dataval,routedata,"i m data route")
-    router('/category/'+routedata)
+    router('/'+routedata + "?category=" + dataval)
    }
 
   return (
@@ -53,33 +61,33 @@ const dispatch=useDispatch()
      <ul className='justify-start column'>
       <li className='text-left m-3'>
 
-<a href="#" className="block mx-1  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("waterfilter","waterfilters")}>Water purifiers</a>
+<a href="#" className="block mx-1  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("waterfilter","filters")}>Water purifiers</a>
 
 </li>
 
 <li className='text-left m-3'>
 
-<a href="#" className="block mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("stove","stove")}>Stoves</a>
+<a href="#" className="block mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/stoves")}>Stoves</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("chimneys","chimneys")}>Chimneys</a>
+<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("chimneys", "chimneys")}>Chimneys</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>
+<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquid")}>Front Load liquids</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("topload","toploadliquids")}>Top Load liquids</a>
+<a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/topliquid")}>Top Load liquids</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("washingpowders","washingpowders")}>Washing machine powders</a>
+<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/washingmachinepowders")}>Washing machine powders</a>
 
 </li>
 </ul>
@@ -134,6 +142,9 @@ const dispatch=useDispatch()
 </div>
 <div className='col-span-4 grid grid-flow-col'>
 <h1 className='m-auto text-lg'>Your orders</h1>
+
+
+<p className='text-red-900'>{totalQuantity}</p>
 <FontAwesomeIcon icon={faShoppingCart} size='xl' className='my-auto' onClick={()=>router("/cart")}/>
 <FontAwesomeIcon icon={faUserCircle} size='xl' className='my-auto'/>
 </div>
