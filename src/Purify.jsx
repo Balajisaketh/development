@@ -19,8 +19,14 @@ function Purifiers() {
     const data=["All","Purosis","Aqua","Bluestar","Dolphin","Merlin","Kent","Hindustan uniliver","Faber","Aqua Tech","Livpure"]
     const dispatch=useDispatch()
     const router=useNavigate()
+<<<<<<< Updated upstream
     const filtrrproddata=useSelector((state)=>state.prods.filterdata)
     console.log(filtrrproddata,"i m data from store filter bosch")
+=======
+    const alertstatus=useSelector((state)=>state.prods.alertdata)
+    console.log(alertstatus,"i m alert status")
+    // console.log(filtrrproddata,"i m data from store filter")
+>>>>>>> Stashed changes
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState([])
     const [renddata,setrendata]=useState("yes")
@@ -69,6 +75,33 @@ useEffect(()=>{
           console.error('Error fetching products:', error);
         }
 },[]);
+<<<<<<< Updated upstream
+=======
+useEffect(()=>{
+  const body={
+    "category":productcategory
+  }
+  axios.post('http://localhost:3001/api/getbrand',body).then((res)=>{
+    setdata(res.data.reverse())
+    console.log(res.data,"i m brand data")
+  }).catch((err)=>{
+    console.error(err,"i m brand error")
+  })
+},[])
+console.log("i m data1:",data1);
+const apicallbrand=(brandata)=>{
+  const body={
+    "category":productcategory,
+    "brand":brandata.toLowerCase()
+  }
+  axios.post('http://localhost:3001/api/getbybrand',body).then((res)=>{
+    console.log(res.data,"i m get by brand");
+    setvalue(res.data);
+  }).catch((err)=>{
+    console.error(err,"i m brand error")
+  })
+}
+>>>>>>> Stashed changes
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
     setbrand(branddata);

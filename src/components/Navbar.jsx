@@ -59,7 +59,7 @@ const dispatch=useDispatch()
 
 <li className='text-left m-3'>
 
-<a href="#" className="block mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/stoves")}>Stoves</a>
+<a href="#" className="block mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("stove","stove")}>Stoves</a>
 
 </li>
 <li className='text-left m-3'>
@@ -69,17 +69,21 @@ const dispatch=useDispatch()
 </li>
 <li className='text-left m-3'>
 
+<<<<<<< Updated upstream
 <a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/frontloadliquid")}>Front Load liquids</a>
+=======
+<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>
+>>>>>>> Stashed changes
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/topliquid")}>Top Load liquids</a>
+<a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("topload","toploadliquids")}>Top Load liquids</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/washingmachinepowders")}>Washing machine powders</a>
+<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("washingpowders","washingpowders")}>Washing machine powders</a>
 
 </li>
 </ul>

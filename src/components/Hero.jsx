@@ -25,32 +25,23 @@ function Hero() {
       setCurrentIndex(slideIndex);
     };
     const slides = [
-        {
-          url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80',
-        },
-        {
-          url: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80',
-        },
-        {
-          url: 'https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80',
-        },
+       
         {
           url: 'https://d3mquo2i52s67z.cloudfront.net/stoving.jpg',
         },
         {
-          url: 'https://d3mquo2i52s67z.cloudfront.net/chimney.jpg',
-        },
-        {
           url: 'https://d3mquo2i52s67z.cloudfront.net/rename.jpg',
         },
+        
+
       ];
      
 if(windowSize.width<=425)
 {
     return (
-      <div className='max-w-[2560px] h-[740px] w-full m-auto py-16 px-4 relative group'>
+      <div className='max-w-[2560px] h-[800px] w-full m-auto py-16 px-4 relative group'>
       <div
-        style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
+        style={{ backgroundImage: `url(${slides[currentIndex].url})`,objectFit: 'contain',backgroundSize:'30%' }}
         className='w-full h-full rounded-2xl bg-center bg-cover duration-500'
       ></div>
       {/* Left Arrow */}
@@ -80,7 +71,7 @@ else{
     return (
         <>
         
-<div className='max-w-[2560px] h-[740px] w-full m-auto py-16 px-4 relative group'>
+<div className='max-w-[2560px] h-[100vh] mb-4  mt-6 w-full  p-auto relative group'>
       <div
         style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
         className='w-full h-full rounded-2xl bg-center bg-cover duration-500'
@@ -105,6 +96,7 @@ else{
           </div>
         ))}
       </div>
+      
     </div>
         </>
       )

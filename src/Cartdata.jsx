@@ -23,6 +23,9 @@ const [quantityupdated,setquantity]=useState(1)
     
     const [count, setCount] = useState(1);
     let c=1
+    const totalCartPrice = cartvalus.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
 const handleIncrement = (uiddata) => {
       console.log("i m entered");
       console.log(uiddata,)
@@ -106,7 +109,7 @@ const handleIncrement = (uiddata) => {
 //     <div className='col-span-2 bg-yellow-800 h-screen'>
 
 //     </div>
-//   </div>
+//   </div> 
 //       </>
 //   )
 return(
@@ -146,15 +149,15 @@ else if(wsaize.width>768 && wsaize.width<=2560)
 
 return(
   <>
-  <div className='grid grid-flow-col col-span-12 h-auto shadow-lg h-screen'>
+  <div className='grid grid-flow-col col-span-12 h-auto shadow-lg h-auto'>
     
     <div className='absolute left-10 top-10'>
-  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/layout")} />
+  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/")} />
   </div>
-  <div className='rounded w-30 absolute right-[20%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
+  <div className='rounded w-30 absolute right-[40%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
     Reset cart
   </div>
-    <div className='col-span-8  grid-flow-row relative mt-20'>
+    <div className='col-span-8    grid-flow-row relative mt-20'>
 
      <div className='grid grid-flow-row col-span-9  h-auto space-y-8'>
       {
@@ -169,8 +172,18 @@ return(
       }
      </div>
    </div>
-    <div className='col-span-2 bg-yellow-800 h-screen'>
+    <div className='col-span-2 h-auto '>
+     <div className='card shadow-lg bg-white h-[50vh] ml-4 mr-4  mt-10'>
+           {
+            totalCartPrice ==0 ?
+            <p>{"0.00"}</p>:
+            <div className='column space-y-2 my-10'>
+                  <p>&#8377;  {totalCartPrice}</p>
 
+                  <button className='w-3/4 bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg'>Proceed to checkout</button>
+              </div>
+           }
+     </div>
     </div>
   </div>
   </>

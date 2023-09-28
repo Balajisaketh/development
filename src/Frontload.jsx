@@ -19,8 +19,15 @@ function Frontload() {
     const data=["All","bosch","Tide","surfxcel","ifb","Ariel"]
     const dispatch=useDispatch()
     const router=useNavigate()
+<<<<<<< Updated upstream
     const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
     console.log(filtrrproddata,"i m data from store filter")
+=======
+    // const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
+    const alertstatus=useSelector((state)=>state.prods.alertdata)
+    console.log(alertstatus,"i m alert status")
+    // console.log(filtrrproddata,"i m data from store filter")
+>>>>>>> Stashed changes
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState([])
     const [renddata,setrendata]=useState("yes")
@@ -31,7 +38,7 @@ useEffect(()=>{
     console.log("i m rend data",renddata)
 
     const pdata=localStorage.getItem('products');
-    console.log("hi i m from stor",pdata)
+    console.log("hi i m from store",pdata)
 
     try{
         const body={
@@ -69,6 +76,33 @@ useEffect(()=>{
           console.error('Error fetching products:', error);
         }
 },[]);
+<<<<<<< Updated upstream
+=======
+useEffect(()=>{
+  const body={
+    "category":productcategory
+  }
+  axios.post('http://localhost:3001/api/getbrand',body).then((res)=>{
+    setdata(res.data.reverse())
+    console.log(res.data,"i m brand data")
+  }).catch((err)=>{
+    console.error(err,"i m brand error")
+  })
+},[])
+console.log("i m data1:",data1);
+const apicallbrand=(brandata)=>{
+  const body={
+    "category":productcategory,
+    "brand":brandata.toLowerCase()
+  }
+  axios.post('http://localhost:3001/api/getbybrand',body).then((res)=>{
+    console.log(res.data,"i m get by brand");
+    setvalue(res.data);
+  }).catch((err)=>{
+    console.error(err,"i m brand error")
+  })
+}
+>>>>>>> Stashed changes
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
     setbrand(branddata);
@@ -246,6 +280,7 @@ else
          <div className='grid col-span-3 h-[75vh] w-auto '>
          <h1 className='text-xl text-black font-medium'>Filter by Brand</h1>
          {
+<<<<<<< Updated upstream
                 data?.map((val,index)=>(
 <ul className='list-none mt-4'>
                 <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
@@ -255,6 +290,41 @@ else
                 </li>
                </ul>
                 ))
+=======
+            filterdrop==true ?(
+                <>
+                <div className='w-1/2 mx-auto'>
+
+             
+<select name="cars" id="cars">
+  <option>Filter By</option>
+  <option >Price</option>
+  <option >Brand</option>
+  
+</select>
+                </div>
+                </>
+            ):(
+                <></>
+            )
+         }
+         {
+            
+data1.reverse()?.map((val, i)=>{
+    console.log(val,"i m object in brand")
+    return (
+       <>
+       <ul className='list-none mt-4'>
+       <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                     filteredproductsdata(val?.brand)
+                     }}>
+                  {val?.brand}
+            </li>
+       </ul>
+       </>
+    )
+})
+>>>>>>> Stashed changes
                }
 
          </div>

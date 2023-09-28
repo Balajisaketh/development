@@ -10,20 +10,27 @@ import Cartdata from './Cartdata';
 import Filterslayout from './Filterslayout';
 import Chimneys from './Chimney';
 import Frontload from './Frontload';
-
+import Topload from './Topload';
+import Proddescription from './components/proddescription';
+import Stoves from './Stoves';
+import Washingmachinepowders from './Washingpowders'
 function App() {
   return (
     <div className="App">
        <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Signup />}/>
-          <Route path="/login" element={<Login />} /> 
+          <Route path="/" element={<Layout />} /> 
           <Route path="/chimneys" element={<Chimneys/>} /> 
-          <Route path="/layout" element={<Layout />} /> 
           <Route path='/data' element={<Mdata />}/>
           <Route path='/filters' element={<Purifiers/>}/>
-          <Route path='/frontloadliquid' element={<Frontload/>}/>
+          <Route path='/frontloadliquids' element={<Frontload/>}/>
           <Route path='/cart' element={<Cartdata/>}/>
+          <Route path='/toploadliquids' element={<Topload/>}/>
+          <Route path='/stove' element={<Stoves/>}/>
+          <Route path='/washingpowders' element={<Washingmachinepowders/>}/>
+          <Route path="/product/:uid" element={<Proddescription />} />
+
+
           
       </Routes>
     </BrowserRouter>

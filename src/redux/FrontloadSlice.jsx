@@ -6,7 +6,8 @@ const initialState = {
 
   frontliquid :[],
   toploadata:[],
-  
+  stoves:[],
+  washingpowders:[]
 }
 
 const FrontLoadSlice = createSlice({
@@ -24,6 +25,9 @@ const FrontLoadSlice = createSlice({
   toploadreducer:(state,action) => {
     state.toploadata.push(action.payload);
   },
+  washingpowderreducer:(state,action)=>{
+state.washingpowders.push(action.payload)
+  }
   },
 })
 

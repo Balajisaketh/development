@@ -371,7 +371,46 @@ app.get('/cusorders/:id/:status',((req,res) => {
     console.log(error,"i am error")
   })
 }))
+<<<<<<< Updated upstream
 
+=======
+app.post('/api/getbrand',(req,res)=>{
+  const category=req.body.category
+  console.log(category,"i m category")
+  const qry={
+  
+    
+    text:`SELECT DISTINCT brand FROM products WHERE category = '${category}'`
+  }
+  client.query(qry).then((respdata)=>{
+    if(respdata.rows.length==0)
+    {
+      res.send(respdata.rows)
+    }
+    else{
+
+      const all=[{brand:"All"}]
+    res.send(respdata.rows.concat(all));
+    }
+    
+  })
+})
+app.post('/api/getbybrand',(req,res)=>{
+  const category=req.body.category
+  const brand=req.body.brand
+  console.log(category,brand,"i m category")
+  const qry={
+  
+    
+    text:`SELECT DISTINCT brand FROM products WHERE category = '${category}' AND brand = '${brand}'`
+  }
+  client.query(qry).then((respdata)=>{
+    
+  res.send(respdata);
+    
+  })
+})
+>>>>>>> Stashed changes
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
