@@ -46,8 +46,13 @@ function  Chimneys() {
 useEffect(()=>{
     console.log("i m rend data",renddata)
 
-    const pdata=localStorage.getItem('products');
-    console.log("hi i m from stor",pdata)
+//   }).catch((err)=>{
+//       console.log(err,"i m eror")
+      
+//   });
+//   },[])
+// useEffect(()=>{
+//     console.log("i m rend data",renddata)
 
     try{
         if(productcategory!=null || productcategory != undefined || productcategory !="") {
@@ -204,6 +209,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
         </div>
 
 
+
         
         </>
       )
@@ -213,7 +219,7 @@ else
 {
     return (
         <>
-        
+      
     <div>
         <Navbar/>
          <div className='grid grid-cols-12 grid-flow-col my-[6vh]'>
@@ -231,65 +237,46 @@ else
                } */}
 
          </div>
+         
+         
+         <div className='grid col-span-8'>
       
-         {/* <div className='grid col-span-8'>
-         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-            {
-                  brand.toLocaleLowerCase() =='all'  ? (
-                    <>
-                    {
-        stval?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
-            return (
-                <>
-                
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-                </>
-            )
-        })
-    }
-                    </>
-                  ):brand.toLocaleLowerCase()=="aqua" ?(
-                    <>
-                    <h1>aqua</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="purosis"?(<>
-                  <h1>pusro</h1>
-                  </>):brand.toLocaleLowerCase()=="bluestar"?(
-                    <>
-                    <h1>bluestar</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="kent"?(
-                    <>
-                    <h1>kent</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="livpure" ?(
-                    <>
-                    <h1>livpure</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="faber" ?(
-                    <>
-                    <h1>faber</h1>
-                    </>
-                  ):brand.toLocaleLowerCase()=="initial" ?(
-                    <>
-                                 {
-        stval?.map((val,index)=>{
-            console.log(val?.uid,'i m value');
-            return (
-                <>
-                
-                <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-                </>
-            )
-        })
-    }
-                    </>
-                  ) :(<></>)
-            }
-
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+  {/* {
+     alldata?.map((val,index)=>{
+      console.log(val,"ni amma tra")
+      return (
+        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      )
+     })
+  } */}
+  {
+    brand =="initial" ?(
+<>
+{
+       stval?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+       })
+}
+</>
+    ):(
+      <>
+      {
+       alldata?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+       })
+}
+      </>
+    )
+  }
     </div>
-    </div> */}
+    </div>
     
         </div>
          
@@ -301,7 +288,8 @@ else
 }
 
  
-}
 
+
+}
 
 export default Chimneys

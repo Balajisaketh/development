@@ -17,6 +17,7 @@ const {Client}=require("pg")
 const path=require('path');
 // const {upload} =require('.././backend/Multer');
 const multer = require("multer");
+const index = require('uuid-random')
 const storage = multer.diskStorage({
     destination: function (req,res,cb){
         cb(null, path.join(__dirname, 'uploads'));
@@ -218,11 +219,11 @@ app.get('/getproducts',(req,res) => {
 })
 app.post('/getbycategory', (req, res) =>{
 const category =req.body.category.toString().toLowerCase()
-console.log("i m cat",req.body.category)
+console.log(category,"in bakcend of grt by")  
 let querydata=`SELECT * FROM products WHERE category='${category}'`
 // let querydat1=`SELECT brand.brandname,products.* FROM brand INNER JOIN products ON brand.category ='${category}'` 
   client.query(querydata).then((data)=>{ 
-    console.log(data.rows,"i m done")
+    
     res.send(data.rows)
   }).catch((error) =>{ 
     console.log(error,"i am error")
@@ -270,6 +271,7 @@ app.post('/addorders', (req, res) => {
       res.send({status: false,message:"failed"}) 
     }) 
 })
+
 app.post('/updateprice',(req,res) => {
   let uuid = req.body.uid
   console.log(uuid,"i m uid")
@@ -371,7 +373,6 @@ app.get('/cusorders/:id/:status',((req,res) => {
     console.log(error,"i am error")
   })
 }))
-
 app.post('/api/getbrand',(req,res)=>{
   const category=req.body.category
   console.log(category,"i m category")
@@ -381,15 +382,8 @@ app.post('/api/getbrand',(req,res)=>{
     text:`SELECT DISTINCT brand FROM products WHERE category = '${category}'`
   }
   client.query(qry).then((respdata)=>{
-    if(respdata.rows.length==0)
-    {
-      res.send(respdata.rows)
-    }
-    else{
-
-      const all=[{brand:"All"}]
-    res.send(respdata.rows.concat(all));
-    }
+    const all=[{brand:"All"}]
+  res.send(respdata.rows.concat(all));
     
   })
 })

@@ -10,7 +10,23 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      state.items.push({...action.payload,quantity:1});
+      
+console.log(action.payload,"i m action");
+      const { uid, quantity } = action.payload;
+      console.log(uid, quantity,"here in redux!");
+      const productIndex = state.items.findIndex((product) => product.uid === uid);
+      if (productIndex !== -1) {
+        console.log(productIndex,"inside")  
+        state.items[productIndex].quantity+=1
+        
+      
+      }
+      else{
+        state.items.push({ ...action.payload, quantity: 1 });
+        
+        
+      }
+
     },
 
     increaseQuantity: (state, action) => {
@@ -22,7 +38,7 @@ const cartSlice = createSlice({
      if (productIndex !== -1) {
       console.log(productIndex,"inside")  
       state.items[productIndex].quantity = quantity;
-      state.quantitydata = quantity;
+      
     }
      
     },
@@ -39,7 +55,7 @@ const cartSlice = createSlice({
           const productIndex = state.items.findIndex((product) => product.uid === productId);
       if (productIndex !== -1) {
         state.items[productIndex].quantity = quantity;
-        state.quantitydata=quantity
+        
       }
      
         
@@ -48,6 +64,7 @@ const cartSlice = createSlice({
     },
     resetcart:(state,action)=>{
       state.items = action.payload
+      state.quantitydata=0
        
     },
     
@@ -57,5 +74,5 @@ const cartSlice = createSlice({
 });
 
 export const { addToCart, increaseQuantity, decreaseQuantity,resetcart } = cartSlice.actions;
-export const getquantity = cartSlice.quantitydata
+
 export default cartSlice.reducer;
