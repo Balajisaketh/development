@@ -4,7 +4,6 @@
   const initialState = {
     filterdata:[],
     alertdata:true
-
     
   }
 
