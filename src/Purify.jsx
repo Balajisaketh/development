@@ -11,22 +11,22 @@ import { filterreducer } from './redux/Alldata';
 import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate ,useLocation} from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 function Purifiers() {
     const windowSize = useWindowSize();
-    const data=["All","Purosis","Aqua","Bluestar","Dolphin","Merlin","Kent","Hindustan uniliver","Faber","Aqua Tech","Livpure"]
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    const query = useQuery();
+    const productcategory = query.get('category');
+    const [data,setdata]=useState([])
     const dispatch=useDispatch()
     const router=useNavigate()
-<<<<<<< Updated upstream
     const filtrrproddata=useSelector((state)=>state.prods.filterdata)
     console.log(filtrrproddata,"i m data from store filter bosch")
-=======
     const alertstatus=useSelector((state)=>state.prods.alertdata)
     console.log(alertstatus,"i m alert status")
     // console.log(filtrrproddata,"i m data from store filter")
->>>>>>> Stashed changes
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState([])
     const [renddata,setrendata]=useState("yes")
@@ -75,20 +75,10 @@ useEffect(()=>{
           console.error('Error fetching products:', error);
         }
 },[]);
-<<<<<<< Updated upstream
-=======
 useEffect(()=>{
-  const body={
-    "category":productcategory
-  }
-  axios.post('http://localhost:3001/api/getbrand',body).then((res)=>{
-    setdata(res.data.reverse())
-    console.log(res.data,"i m brand data")
-  }).catch((err)=>{
-    console.error(err,"i m brand error")
-  })
+ apicallbrand()
 },[])
-console.log("i m data1:",data1);
+
 const apicallbrand=(brandata)=>{
   const body={
     "category":productcategory,
@@ -101,7 +91,6 @@ const apicallbrand=(brandata)=>{
     console.error(err,"i m brand error")
   })
 }
->>>>>>> Stashed changes
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
     setbrand(branddata);

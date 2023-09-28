@@ -11,24 +11,25 @@ import { filterreducer, frontloadreducer } from './redux/FrontloadSlice';
 import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 function Frontload() {
     const windowSize = useWindowSize();
-    const data=["All","bosch","Tide","surfxcel","ifb","Ariel"]
+    
+    const useQuery = () => new URLSearchParams(useLocation().search);
+    const query = useQuery();
+    const productcategory = query.get('category');
     const dispatch=useDispatch()
     const router=useNavigate()
-<<<<<<< Updated upstream
     const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
     console.log(filtrrproddata,"i m data from store filter")
-=======
     // const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
     const alertstatus=useSelector((state)=>state.prods.alertdata)
     console.log(alertstatus,"i m alert status")
     // console.log(filtrrproddata,"i m data from store filter")
->>>>>>> Stashed changes
     const [brand,setbrand]=useState("initial")
+    const [data,setdata]=useState([])
     const [stval,setvalue]=useState([])
     const [renddata,setrendata]=useState("yes")
     const cartdata=useSelector((state)=>state.cart.items)
@@ -76,8 +77,6 @@ useEffect(()=>{
           console.error('Error fetching products:', error);
         }
 },[]);
-<<<<<<< Updated upstream
-=======
 useEffect(()=>{
   const body={
     "category":productcategory
@@ -89,7 +88,7 @@ useEffect(()=>{
     console.error(err,"i m brand error")
   })
 },[])
-console.log("i m data1:",data1);
+
 const apicallbrand=(brandata)=>{
   const body={
     "category":productcategory,
@@ -102,7 +101,6 @@ const apicallbrand=(brandata)=>{
     console.error(err,"i m brand error")
   })
 }
->>>>>>> Stashed changes
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
     setbrand(branddata);
@@ -280,7 +278,6 @@ else
          <div className='grid col-span-3 h-[75vh] w-auto '>
          <h1 className='text-xl text-black font-medium'>Filter by Brand</h1>
          {
-<<<<<<< Updated upstream
                 data?.map((val,index)=>(
 <ul className='list-none mt-4'>
                 <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
@@ -290,41 +287,6 @@ else
                 </li>
                </ul>
                 ))
-=======
-            filterdrop==true ?(
-                <>
-                <div className='w-1/2 mx-auto'>
-
-             
-<select name="cars" id="cars">
-  <option>Filter By</option>
-  <option >Price</option>
-  <option >Brand</option>
-  
-</select>
-                </div>
-                </>
-            ):(
-                <></>
-            )
-         }
-         {
-            
-data1.reverse()?.map((val, i)=>{
-    console.log(val,"i m object in brand")
-    return (
-       <>
-       <ul className='list-none mt-4'>
-       <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
-                     filteredproductsdata(val?.brand)
-                     }}>
-                  {val?.brand}
-            </li>
-       </ul>
-       </>
-    )
-})
->>>>>>> Stashed changes
                }
 
          </div>
@@ -340,7 +302,7 @@ data1.reverse()?.map((val, i)=>{
     }
     </div>
     </div> */}
-         <div className='grid col-span-8'>
+         {/* <div className='grid col-span-8'>
          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {
                   brand.toLocaleLowerCase() =='all'  ? (
@@ -407,7 +369,39 @@ data1.reverse()?.map((val, i)=>{
 
     </div>
     </div>
+     */}
+        <div className='grid col-span-8'>
+         <div className="md:grid-cols-8">
+ 
+  {
+    brand =="initial" ?(
+<>
+{
+      <div className="grid grid-cols-2 gap-4">
+      {stval?.map((val, index) => {
+         return (
+          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+         })}
+    </div>
     
+}
+</>
+    ):(
+      <>
+      {
+       alldata?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+       })
+}
+      </>
+    )
+  }
+    </div>
+    </div>
         </div>
          
         </div>

@@ -1,19 +1,20 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { BrowserRouter,Route,Routes } from 'react-router-dom'
-import Login from './Login'
-import Signup from './Signup';
+
 import Layout from './Layout';
 import Mdata from './Mdata';
 import Purifiers from './Purify';
 import Cartdata from './Cartdata';
-import Filterslayout from './Filterslayout';
+
 import Chimneys from './Chimney';
 import Frontload from './Frontload';
 import Topload from './Topload';
 import Proddescription from './components/proddescription';
 import Stoves from './Stoves';
 import Washingmachinepowders from './Washingpowders'
+
+
 function App() {
   return (
     <div className="App">

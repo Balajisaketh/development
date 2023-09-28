@@ -3,13 +3,10 @@
 
   const initialState = {
     filterdata:[],
-<<<<<<< Updated upstream
 
     
-=======
     alertdata:true,
     allproductsdata:[]
->>>>>>> Stashed changes
   }
 
   const ProductSlice = createSlice({
@@ -20,9 +17,7 @@
       
       state.filterdata.push(action.payload);
     },
-<<<<<<< Updated upstream
     
-=======
     alertreducer:(state,action) => {
    state.alertdata=action.payload;
     },
@@ -30,15 +25,10 @@
       console.log("i am payload",action.payload)
       state.allproductsdata=action.payload
     }
->>>>>>> Stashed changes
     },
   })
 
   // Action creators are generated for each case reducer function
-<<<<<<< Updated upstream
-  export const { filterreducer} = ProductSlice.actions
-=======
   export const { filterreducer,alertreducer,allproductsdatareducer} = ProductSlice.actions
->>>>>>> Stashed changes
 
   export default ProductSlice.reducer

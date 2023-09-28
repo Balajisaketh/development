@@ -371,9 +371,7 @@ app.get('/cusorders/:id/:status',((req,res) => {
     console.log(error,"i am error")
   })
 }))
-<<<<<<< Updated upstream
 
-=======
 app.post('/api/getbrand',(req,res)=>{
   const category=req.body.category
   console.log(category,"i m category")
@@ -410,7 +408,6 @@ app.post('/api/getbybrand',(req,res)=>{
     
   })
 })
->>>>>>> Stashed changes
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

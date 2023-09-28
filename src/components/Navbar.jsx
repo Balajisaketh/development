@@ -29,7 +29,7 @@ const dispatch=useDispatch()
   }
    const getfilteredprods=(dataval,routedata)=>{
     console.log(dataval,routedata,"i m data route")
-    router('/'+routedata)
+    router('/category/'+routedata)
    }
 
   return (
@@ -53,7 +53,7 @@ const dispatch=useDispatch()
      <ul className='justify-start column'>
       <li className='text-left m-3'>
 
-<a href="#" className="block mx-1  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("waterfilter","filters")}>Water purifiers</a>
+<a href="#" className="block mx-1  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("waterfilter","waterfilters")}>Water purifiers</a>
 
 </li>
 
@@ -64,16 +64,12 @@ const dispatch=useDispatch()
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/chimneys")}>Chimneys</a>
+<a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("chimneys","chimneys")}>Chimneys</a>
 
 </li>
 <li className='text-left m-3'>
 
-<<<<<<< Updated upstream
-<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/frontloadliquid")}>Front Load liquids</a>
-=======
 <a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>
->>>>>>> Stashed changes
 
 </li>
 <li className='text-left m-3'>
