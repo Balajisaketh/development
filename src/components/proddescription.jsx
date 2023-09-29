@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { useSelector,useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useWindowSize from '../hooks/useWindowsize';
@@ -10,19 +10,34 @@ import Navbar from './Navbar';
 function Proddescription() {
   const wsaize=useWindowSize();
   const allProducts = useSelector((state) => state.prods.allproductsdata);
+  const [selectedItem, setselectedItem] = useState(null);
   console.log(allProducts,"i am here data")
   const { uid } = useParams();
   console.log("i am params data",uid)
-  const foundItem = allProducts.find((product) => product.uid == uid)
-  console.log(foundItem,"i am fond item")
+  
+  useEffect(()=>{
+
+    const foundItem = allProducts.find((product) => product.uid == uid)
+    console.log(foundItem,"i am founded")
+    setselectedItem(foundItem)
+
+  },[uid])
+  
+
+  
+console.log(selectedItem,"i am data selected")
   const dispatch=useDispatch()
     
     const dispatching=()=>{
+      if(selectedItem)
+      {
+   console.log(selectedItem.imagepath,"j am selected")
+      
      const obj={
-        description:foundItem.description,
-        imageUrl:foundItem.imagepath,
-        price:foundItem.price,
-        productname:foundItem.productname,
+        description:selectedItem.description,
+        imageUrl:selectedItem.imagepath,
+        price:selectedItem.price,
+        productname:selectedItem.productname,
         uid:uid,
         quantity:1
         
@@ -36,6 +51,8 @@ function Proddescription() {
     }, 3000);
      
     }
+    
+  }
   
 if(wsaize.width<=425)
 {
@@ -64,7 +81,7 @@ else if(wsaize.width<=1023 && wsaize.width>425)
      <div className="flex mt-10">
       <div className=" ml-20">
         <img
-          src={foundItem.imagepath} // Replace with your image URL
+          src={selectedItem?.imagepath} // Replace with your image URL
           alt="Product Image"
           className="max-w-full h-auto"
         />
@@ -82,9 +99,9 @@ else if(wsaize.width<=1023 && wsaize.width>425)
       <div className='grid grid-flow-row w-[70vw] h-auto border   ml-10 '>
         <div className='column'>
 
-  <h1 className='font-bold text-2xl text-left ml-10 mt-4 '>{foundItem.productname}</h1>
-  <p className="text-black font-bold mb-4 mx-7 my-4 text-left"><span><FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/> </span>{foundItem.price}</p>
-  <p className='text-left ml-10 mt-5'>{foundItem.description}</p>
+  <h1 className='font-bold text-2xl text-left ml-10 mt-4 '>{selectedItem?.productname}</h1>
+  <p className="text-black font-bold mb-4 mx-7 my-4 text-left"><span><FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/> </span>{selectedItem?.price}</p>
+  <p className='text-left ml-10 mt-5'>{selectedItem?.description}</p>
   <div className='text-left m-10'>
   <button className='bg-orange-400 p-4 rounded-md  text-white' onClick={()=>dispatching()}>Add to Cart</button>
   </div>

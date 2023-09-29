@@ -1,16 +1,20 @@
 // ProductCard.js
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { addToCart, getquantity } from '../redux/CartSlice';
 import Navbar from './Navbar';
 import { useSelector } from 'react-redux';
+import useWindowSize from '../hooks/useWindowsize';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faRubleSign, faRupeeSign} from '@fortawesome/free-solid-svg-icons'
 import { alertreducer } from '../redux/Alldata';
 const ProductCard = ({imageUrl, description,price,productname,uid})  => {
     console.log(productname,imageUrl,description,price,uid,"i m product card"); 
+    const windowSize = useWindowSize();
     const dispatch=useDispatch()
+    const router=useNavigate()
     const dispatching=()=>{
      const obj={
         description:description,
@@ -31,10 +35,11 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
      
     }
     
+    
   return (
   
     <>
-    <div className="h-auto w-auto bg-white shadow-lg rounded-lg p-4 md:p-8 relative lg:h-auto relative p-10 xl:p-10 h-full relative">
+    <div className="h-auto w-auto bg-white shadow-lg rounded-lg p-4 md:p-8 relative lg:h-auto relative p-10 xl:p-10 h-full relative" onClick={()=> router(`/product/${uid}`)}>
       <div className="mb-4">
         <img
           src={imageUrl}

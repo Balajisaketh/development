@@ -9,8 +9,8 @@ const CartItem = ({ product, decrement,increment, deleteItem }) => {
   <div className="grid col-span-1 ">
 <img src={product?.imageUrl} alt={product.productname} className="h-[80px] mx-auto w-[60px] justify-self-end"/>
   </div>
-  <div className="col-span-2 grid grid-flow-row ">
-<p className="justify-self-start mx-2">{product?.productname}</p>
+  <div className="col-span-2 grid grid-flow-row w-[200px]">
+<p className="justify-self-start mx-2 text-left">{product?.productname}</p>
 <p className="justify-self-start mx-2"> 
 <span>  <FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/>   </span>
 {product?.price*product?.quantity}

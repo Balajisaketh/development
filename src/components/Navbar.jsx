@@ -61,13 +61,13 @@ const dispatch=useDispatch()
      <ul className='justify-start column'>
       <li className='text-left m-3'>
 
-<a href="#" className="block mx-1  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("waterfilter","filters")}>Water purifiers</a>
+<a href="#" className="block mx-1  whitespace-nowrap text-left hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("waterfilter","waterfilters")}>Water purifiers</a>
 
 </li>
 
 <li className='text-left m-3'>
 
-<a href="#" className="block mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/stoves")}>Stoves</a>
+<a href="#" className="block mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("stove","stove")}>Stoves</a>
 
 </li>
 <li className='text-left m-3'>
@@ -77,17 +77,17 @@ const dispatch=useDispatch()
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquid")}>Front Load liquids</a>
+<a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/topliquid")}>Top Load liquids</a>
+<a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("topload","toploadliquids")}>Top Load liquids</a>
 
 </li>
 <li className='text-left m-3'>
 
-<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>router("/washingmachinepowders")}>Washing machine powders</a>
+<a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("washingpowders","washingpowders")}>Washing machine powders</a>
 
 </li>
 </ul>
@@ -146,7 +146,7 @@ const dispatch=useDispatch()
 
 <p className='text-red-900'>{totalQuantity}</p>
 <FontAwesomeIcon icon={faShoppingCart} size='xl' className='my-auto' onClick={()=>router("/cart")}/>
-<FontAwesomeIcon icon={faUserCircle} size='xl' className='my-auto'/>
+{/* <FontAwesomeIcon icon={faUserCircle} size='xl' className='my-auto'/> */}
 </div>
 {
   console.log(data,'i m data')

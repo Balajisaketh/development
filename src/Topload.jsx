@@ -12,6 +12,7 @@ import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Tabproductcard from './components/Tabproductcard';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 
@@ -142,19 +143,73 @@ if(windowSize.width<=425)
    </>
       )
 }
-else if(windowSize.width<=768 && windowSize.width<=820){
+
+ else if(windowSize.width>=768 && windowSize.width<=1023){
     return (
         <>
-        <div className='grid grid-cols-12 row grid-flow-col relative  w-full h-auto'>
-            <div className='w-screen h-auto absolute top-3 bg-red-300'>
+        <div>
+        <Navbar/>
+         <div className='grid grid-cols-12 grid-flow-col my-[6vh] relative'>
+         <div className='grid col-span-3 h-[75vh] w-auto '>
+         <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
+         
+         </h1>
+       
+         {
+            
+            data1?.map((val, i)=>{
+                console.log(val,"i m object in brand")
+                return (
+                   <>
+                   <ul className='list-none mt-4'>
+                   <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                                 filteredproductsdata(val?.brand)
+                                 }}>
+                              {val?.brand}
+                        </li>
+                   </ul>
+                   </>
+                )
+            })
+                           }
 
-              <Navbar/>
-
-        
-            </div>
-           
-
-              
+         </div>
+         
+         
+         <div className='grid col-span-8'>
+      
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+ 
+  {
+    brand =="initial" ?(
+<>
+{
+       stval?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+       })
+}
+</>
+    ):(
+      <>
+      {
+       alldata?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        )
+       })
+}
+      </>
+    )
+  }
+    </div>
+    </div>
+    
+        </div>
+         
         </div>
 
 
@@ -162,6 +217,7 @@ else if(windowSize.width<=768 && windowSize.width<=820){
         
         </>
       )
+
 }
 
 else 
@@ -174,8 +230,7 @@ else
          <div className='grid grid-cols-12 grid-flow-col my-[6vh] relative'>
          <div className='grid col-span-3 h-[75vh] w-auto '>
          <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
-         <span><FontAwesomeIcon icon={faFilter} size='md' className='mx-3 mt-4' color='gray' onClick={()=>SetFilterdrop(!filterdrop)}/></span>
-         </h1>
+       </h1>
          {
             filterdrop==true ?(
                 <>

@@ -14,6 +14,7 @@ import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Tabproductcard from './components/Tabproductcard';
 
 function Washingmachinepowders() {
     const useQuery = () => new URLSearchParams(useLocation().search);
@@ -142,26 +143,79 @@ if(windowSize.width<=425)
    </>
       )
 }
-else if(windowSize.width<=768 && windowSize.width<=820){
-    return (
-        <>
-        <div className='grid grid-cols-12 row grid-flow-col relative  w-full h-auto'>
-            <div className='w-screen h-auto absolute top-3 bg-red-300'>
+else if(windowSize.width>=768 && windowSize.width<=1023){
+  return (
+      <>
+      <div>
+      <Navbar/>
+       <div className='grid grid-cols-12 grid-flow-col my-[6vh] relative'>
+       <div className='grid col-span-3 h-[75vh] w-auto '>
+       <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
+       
+       </h1>
+     
+       {
+          
+          data1?.map((val, i)=>{
+              console.log(val,"i m object in brand")
+              return (
+                 <>
+                 <ul className='list-none mt-4'>
+                 <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                               filteredproductsdata(val?.brand)
+                               }}>
+                            {val?.brand}
+                      </li>
+                 </ul>
+                 </>
+              )
+          })
+                         }
 
-              <Navbar/>
+       </div>
+       
+       
+       <div className='grid col-span-8'>
+    
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
 
-        
-            </div>
-           
-
-              
-        </div>
-
-
-
-        
-        </>
+{
+  brand =="initial" ?(
+<>
+{
+     stval?.map((val,index)=>{
+      console.log(val,"ni amma tra")
+      return (
+        <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
+     })
+}
+</>
+  ):(
+    <>
+    {
+     alldata?.map((val,index)=>{
+      console.log(val,"ni amma tra")
+      return (
+        <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      )
+     })
+}
+    </>
+  )
+}
+  </div>
+  </div>
+  
+      </div>
+       
+      </div>
+
+
+
+      
+      </>
+    )
 }
 
 else 
