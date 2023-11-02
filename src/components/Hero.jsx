@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+
+
 function Hero() {
     const windowSize = useWindowSize();
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,24 +38,25 @@ function Hero() {
 
       ];
      
-if(windowSize.width<=425)
+if(windowSize.width>=425 && windowSize.width<768)
 {
     return (
-      <div className='max-w-[2560px] h-[800px] w-full m-auto py-16 px-4 relative group'>
+    
+     <div className='max-w-[2560px] h-[500px] w-full m-auto relative group '>
       <div
-        style={{ backgroundImage: `url(${slides[currentIndex].url})`,objectFit: 'contain',backgroundSize:'30%' }}
-        className='w-full h-full rounded-2xl bg-center bg-cover duration-500'
+        style={{ backgroundImage: `url(${slides[currentIndex].url})`,objectFit: 'contain',backgroundSize:'90%' }}
+        className='w-full h-screen  rounded-2xl bg-center bg-cover duration-500 bg-no-repeat'
       ></div>
       {/* Left Arrow */}
-      <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+      <div className='hidden group-hover:block absolute top-[50vh] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
         <FontAwesomeIcon icon={faChevronLeft} size={30} onClick={prevSlide}/>
       </div>
       {/* Right Arrow */}
-      <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
+      <div className='hidden group-hover:block absolute top-[50vh] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
         
         <FontAwesomeIcon icon={faChevronRight} size={30} onClick={nextSlide} color='white'/>
       </div>
-      <div className='flex top-4 justify-center py-2'>
+      <div className='flex top-2 justify-center py-2 h-20'>
         {slides.map((slide, slideIndex) => (
           <div
             key={slideIndex}
@@ -65,6 +68,7 @@ if(windowSize.width<=425)
         ))}
       </div>
     </div>
+    
       )
 }
 else{

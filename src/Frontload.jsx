@@ -11,20 +11,31 @@ import { filterreducer, frontloadreducer } from './redux/FrontloadSlice';
 import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
+import { sidebarreducer } from './redux/Alldata';
 import Tabproductcard from './components/Tabproductcard';
 import { useLocation, useNavigate } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-
+import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
+import Sidebarr from './components/Sidebarr';
 function Frontload() {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
+    
     const productcategory = query.get('category');
     // console.log(productcategory + " product category");
     const windowSize = useWindowSize();
     const [data1,setdata]=useState([])
     const dispatch=useDispatch()
     const router=useNavigate()
+    
+  
+  let checkside=useSelector((state)=>state.prods.checksidebar);
+  
+  useEffect(()=>{
+    dispatch(sidebarreducer(false))
+  },[])
+
     
     const filtrrproddata=useSelector((state)=>state.frontload.frontliquid)
     const alertstatus=useSelector((state)=>state.prods.alertdata)
@@ -35,6 +46,7 @@ function Frontload() {
     const [renddata,setrendata]=useState("yes")
     const [brandDataRendered, setBrandDataRendered] = useState(false);
     const [rendprods,setrendprods]=useState([])
+    const[toggle,settoggle]=useState(false);
     const [filterdrop,SetFilterdrop]=useState(false)
     const cartdata=useSelector((state)=>state.cart.items)
     const [alldata,setdalldata]=useState([])
@@ -134,15 +146,124 @@ console.log("Productbrand",branddata)
 
   }
 
-if(windowSize.width<=425)
-{
-    return (
-   <>
+  if(windowSize.width>=425 && windowSize.width<768)
+  {
+      return (
+        <>
+        <div>
+        <Navbar opensidebar={toggle}  />
+        {
+          checkside==true ? 
+          (
+            <>
+              
+            <div className='column '>
+            <div className="col-span-auto h-50 bg-black z-10">
+  <Sidebarr/>
+    </div>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
+          <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
+          <p>Filter</p>
+           
+         </div>
+         <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
+       
+        {
+          brand =="initial" ?(
+      <>
+      {
+             stval?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                 <div className='flex mx-4 space-x-3'>
+              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+              <p className='mt-3 font-medium'>{val?.price}</p>
+              </div>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4">
+                Add to Cart
+              </div>
+                </div>
+              )
+             })
+      }
+      </>
+          ):(
+            <>
+            {
+             alldata?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+              )
+             })
+      }
+            </>
+          )
+        }
+          </div>
+       </div>
+            </>
+          ) :
+          (
+            <>
+            <div className='column bg-white'>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
+          <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
+          <p>Filter</p>
+           
+         </div>
+         <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
+       
+        {
+          brand =="initial" ?(
+      <>
+      {
+             stval?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                 <div className='flex mx-4 space-x-3'>
+              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+              <p className='mt-3 font-medium'>{val?.price}</p>
+              </div>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4">
+                Add to Cart
+              </div>
+                </div>
+              )
+             })
+      }
+      </>
+          ):(
+            <>
+            {
+             alldata?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+              )
+             })
+      }
+            </>
+          )
+        }
+          </div>
+       </div>
+            </>
+          )
+        }
+        </div>
+       
+      
+         </>
+        )
+  }
 
-
-   </>
-      )
-}
 else if(windowSize.width>=768 && windowSize.width<=1023){
   return (
       <>

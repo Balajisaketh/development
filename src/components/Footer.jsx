@@ -53,7 +53,7 @@ function footer() {
           </div>
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-white mb-4">Our products</h2>
-            <ul className="space-y-2">
+            <ul className="space-y-2 justify-start">
             <li><p className="hover:text-blue-500">Washing liquids</p></li>
               <li><p className="hover:text-blue-500">Stoves</p></li>
               <li><p className="hover:text-blue-500">Chimneys</p></li>
@@ -64,7 +64,7 @@ function footer() {
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-white mb-4">Connect</h2>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-blue-500">Facebook</a></li>
+              <li><a href="#" className="hover:text-blue-500 ">Facebook</a></li>
               <li><a href="#" className="hover:text-blue-500">Twitter</a></li>
               <li><a href="#" className="hover:text-blue-500">Instagram</a></li>
               <li><a href="#" className="hover:text-blue-500">LinkedIn</a></li>

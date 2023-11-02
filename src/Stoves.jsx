@@ -15,14 +15,21 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import Tabproductcard from './components/Tabproductcard';
+import Sidebarr from './components/Sidebarr';
+import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
+import { sidebarreducer } from './redux/Alldata';
+import { alertreducer } from './redux/Alldata';
+import { addToCart } from './redux/CartSlice';
 
 function Stoves() {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
+    const checkside=useSelector((state)=>state.prods.checksidebar);
     const productcategory = query.get('category');
     // console.log(productcategory + " product category");
     const windowSize = useWindowSize();
     const [data1,setdata]=useState([])
+    const[toggle,settoggle]=useState(true);
     const dispatch=useDispatch()
     const router=useNavigate()
     const filtrrproddata=useSelector((state)=>state.topload)
@@ -40,7 +47,29 @@ function Stoves() {
     const [alldata,setdalldata]=useState([])
     console.log(cartdata,'i m cartdone')    
     let count=0;
-    
+    useEffect(()=>{
+      dispatch(sidebarreducer(false))
+    },[])
+    const dispatching=({imageUrl,price,description,productname,uid})=>{
+      const obj={
+         description:description,
+         imageUrl:imageUrl,
+         price:price,
+         productname:productname,
+         uid:uid,
+         quantity:1
+         
+ 
+      }
+      
+ 
+      dispatch(addToCart(obj));
+      setTimeout(() => {
+       dispatch(alertreducer(false))
+     }, 3000);
+      
+     }
+     
 useEffect(()=>{
     console.log("i m rend data",renddata)
 
@@ -134,15 +163,144 @@ console.log("Productbrand",branddata)
 
   }
 
-if(windowSize.width<=425)
-{
-    return (
-   <>
+  if(windowSize.width>=425 && windowSize.width<768)
+  {
+      return (
+        <>
+        <div>
+        <Navbar opensidebar={toggle}  />
+        {
+          checkside==true ? 
+          (
+            <>
+              
+            <div className='column '>
+            <div className="col-span-auto h-50 bg-black z-10">
+  <Sidebarr/>
+    </div>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
+          <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
+          <p>Filter</p>
+           
+         </div>
+         <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
+       
+        {
+          brand =="initial" ?(
+      <>
+      {
+             stval?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                 <div className='flex mx-4 space-x-3'>
+              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+              <p className='mt-3 font-medium'>{val?.price}</p>
+              </div>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                Add to Cart
+              </div>
+                </div>
+              )
+             })
+      }
+      </>
+          ):(
+            <>
+            {
+             alldata?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                 <div className='flex mx-4 space-x-3'>
+              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+              <p className='mt-3 font-medium'>{val?.price}</p>
+              </div>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                Add to Cart
+              </div>
+                </div>
+              )
+             })
+      }
+            </>
+          )
+        }
+          </div>
+       </div>
+            </>
+          ) :
+          (
+            <>
+            <div className='column bg-white'>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
+          <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
+          <p>Filter</p>
+           
+         </div>
+         <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
+       
+        {
+          brand =="initial" ?(
+      <>
+      {
+             stval?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                 <div className='flex mx-4 space-x-3'>
+              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+              <p className='mt-3 font-medium'>{val?.price}</p>
+              </div>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                Add to Cart
+              </div>
+                </div>
+              )
+             })
+      }
+      </>
+          ):(
+            <>
+            {
+             alldata?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                 <div className='flex mx-4 space-x-3'>
+              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+              <p className='mt-3 font-medium'>{val?.price}</p>
+              </div>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                Add to Cart
+              </div>
+                </div>
+              )
+             })
+      }
+            </>
+          )
+        }
+          </div>
+       </div>
+            </>
+          )
+        }
+        </div>
+       
+      
+         </>
+        )
+  }
 
-
-   </>
-      )
-}
 else if(windowSize.width>=768 && windowSize.width<=1023){
   return (
       <>

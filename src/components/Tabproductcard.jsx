@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 import { addToCart, getquantity } from '../redux/CartSlice';
 import Navbar from './Navbar';
 import { useSelector } from 'react-redux';
@@ -28,9 +29,9 @@ function Tabproductcard({imageUrl, description,price,productname,uid}) {
     }, 3000);
      
     }
-    
+    const router=useNavigate()
   return (
-    <div  className="  border border-gray-300 rounded w-auto">
+    <div  className="  border border-gray-300 rounded w-auto" onClick={()=> router(`/product/${uid}`)}>
           {/* Render item data here */}
           <div>
           <img

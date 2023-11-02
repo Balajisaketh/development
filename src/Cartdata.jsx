@@ -8,14 +8,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faCircleLeft} from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import CartItem from './components/Cartitem'
+import Usermodal from './modals/usermodal'
 function Cartdata() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+  const submitForm = (data) => {
+    // Handle form submission here, for example, send data to a server
+    console.log("Form data submitted:", data);
+  };
     const cartvalus=useSelector((state)=>state.cart.items)
     const navigate=useNavigate();
   const wsaize=useWindowSize();
   console.log(wsaize,"i m hw");
   console.log(cartvalus,"i m here");
 const [quantityupdated,setquantity]=useState(1)
-    
+    const [open,isopen]=useState(false);
     const dispatch=useDispatch()
     const statedta=useSelector((state)=>state.cart.items)
     console.log("i m a t",statedta)
@@ -74,57 +88,28 @@ const handleIncrement = (uiddata) => {
     };
   
   const windowsize=useWindowSize()
+
   if(wsaize.width<=768 && wsaize.width>425)
 {
   
-//   return (
-//     <>
 
-// <div className='grid grid-flow-col col-span-12 h-10  h-screen relative'>
-//     <div className='col-span-8  grid-flow-row relative'>
-//       <div className='absolute left-10 top-3'>
-//   <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' />
-//   </div>
-//   <div className='rounded w-40 absolute right-20 top-10 bg-red-950' onClick={()=>removecartdata()}>
-//     Reset cart
-//   </div>
-//      {/* <div className='grid  grid-flow-col col-span-8 space-x-10 mt-10'>
-//      <p className='col-span-2 text-sm'>Name</p>
-// <p className='col-span-2 text-sm text-center'>Quantity</p>
-// <p className='col-span-2 text-sm'>price</p>
-// <p className='col-span-2 text-sm'>Remove item</p>
-//      </div> */}
-     
-//      <div className='grid grid-flow-row col-span-9  h-screen mt-10 bg-red-200'>
-//       {
-//         cartvalus.map((val,index)=>(
-
-//     <>
-//            <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem} />
-//     </>
-//         ))  
-//       }
-//      </div>
-//    </div>
-//     <div className='col-span-2 bg-yellow-800 h-screen'>
-
-//     </div>
-//   </div> 
-//       </>
-//   )
 return(
   <>
-  <div className='grid grid-flow-col col-span-12 h-auto shadow-lg h-screen'>
+  
+  {isPopupOpen && (
+    <Usermodal onClose={closePopup} onSubmit={submitForm} />
+  )}
+  <div className='grid grid-flow-row col-span-12 h-auto shadow-lg h-auto'>
     
     <div className='absolute left-10 top-10'>
-  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/layout")} />
+  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/")} />
   </div>
-  <div className='rounded w-30 absolute right-[20%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
+  <div className='rounded w-30 absolute right-[30%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
     Reset cart
   </div>
     <div className='col-span-8  grid-flow-row relative mt-20'>
 
-     <div className='grid grid-flow-row col-span-9  h-auto space-y-8'>
+     <div className='grid grid-flow-row col-span-12  h-auto space-y-8 my-10'>
       {
         cartvalus.length>0 ?cartvalus.map((val,index)=>(
 
@@ -137,8 +122,22 @@ return(
       }
      </div>
    </div>
-    <div className='col-span-2 bg-yellow-800 h-screen'>
 
+   <div className='col-span-8 '>
+     <div className='card shadow-lg bg-white h-[50vh] ml-4 mr-4  mt-10'>
+           {
+            totalCartPrice ==0 ?
+            <p>{"0.00"}</p>:
+            <div className='column space-y-2 my-10w-1/2 absolute right-6'>
+              <div className='flex  w-40 t-2 mx-auto'>
+                <p>Total Bill :</p>
+                  <p>&#8377;  {totalCartPrice}</p>
+                  </div>
+
+                  <button className='w-auto bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg' onClick={()=>openPopup()}>Proceed to checkout</button>
+              </div>
+           }
+     </div>
     </div>
   </div>
   </>
@@ -149,6 +148,9 @@ else if(wsaize.width>768 && wsaize.width<=2560)
 
 return(
   <>
+    {isPopupOpen && (
+    <Usermodal onClose={closePopup} onSubmit={submitForm} />
+  )}
   <div className='grid grid-flow-col col-span-12 h-auto shadow-lg h-auto'>
     
     <div className='absolute left-10 top-10'>
@@ -180,7 +182,7 @@ return(
             <div className='column space-y-2 my-10'>
                   <p>&#8377;  {totalCartPrice}</p>
 
-                  <button className='w-3/4 bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg'>Proceed to checkout</button>
+                  <button className='w-3/4 bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg' onClick={()=>openPopup()}>Proceed to checkout</button>
               </div>
            }
      </div>
@@ -193,27 +195,50 @@ else if(wsaize.width>=425 && wsaize.width<=768)
 {
   return(
     <>
-    <div className='grid grid-flow-col col-span-12 h-10 shadow-lg h-screen'>
-      <div className='col-span-8  grid-flow-row'>
-       {/* <div className='grid  grid-flow-col col-span-8 space-x-10 mt-10'>
-       <p className='col-span-2 text-sm'>Name</p>
-  <p className='col-span-2 text-sm text-center'>Quantity</p>
-  <p className='col-span-2 text-sm'>price</p>
-  <p className='col-span-2 text-sm'>Remove item</p>
-       </div> */}
-       <div className='grid grid-flow-row col-span-12  h-screen'>
-        {
-          cartvalus.map((val,index)=>(
-  
-      <>
-             <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
-      </>
-          ))
-        }
-       </div>
+      {isPopupOpen && (
+    <Usermodal onClose={closePopup} onSubmit={submitForm} />
+  )}
+     <div className='grid grid-flow-row col-span-12 h-auto shadow-lg h-auto'>
+    
+    <div className='absolute left-10 top-10'>
+  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/")} />
+  </div>
+  <div className='rounded w-30 absolute right-[10%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
+    Reset cart
+  </div>
+    <div className='col-span-8  grid-flow-row relative mt-20'>
+
+     <div className='grid grid-flow-row col-span-12  h-auto space-y-8 my-10'>
+      {
+        cartvalus.length>0 ?cartvalus.map((val,index)=>(
+
+    <>
+           <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
+    </>
+        )):(
+          <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
+        )
+      }
      </div>
-     
+   </div>
+
+   <div className='col-span-8 '>
+     <div className='card shadow-lg bg-white h-[50vh] ml-4 mr-4  mt-10'>
+           {
+            totalCartPrice ==0 ?
+            <p>{"0.00"}</p>:
+            <div className='column space-y-2 my-10w-1/2 absolute right-6'>
+              <div className='flex  w-40 t-2 mx-auto'>
+                <p>Total Bill :</p>
+                  <p>&#8377;  {totalCartPrice}</p>
+                  </div>
+
+                  <button className='w-auto bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg' onClick={()=>openPopup()} onSubmit={()=>submitForm()}>Proceed to checkout</button>
+              </div>
+           }
+     </div>
     </div>
+  </div>
     </>
   )
 }

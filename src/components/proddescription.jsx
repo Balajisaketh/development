@@ -67,10 +67,29 @@ else if(wsaize.width<=1023 && wsaize.width>425)
 
   //  a
   return (
-    <div>
-    {/* <h1>Product Details</h1>
-    <p>Product ID: {uid}</p> */}
-    {/* You can use 'productId' in your component as needed */}
+    <div className='column'>
+      <Navbar/>
+      <div className='grid grid-flow-col'>
+
+ <div className='grid-cols-auto  m'>
+        <img
+          src={selectedItem?.imagepath} // Replace with your image URL
+          alt="Product Image"
+          className="max-w-full h-auto mx-auto w-[200] my-10 mx-10"
+        />
+      </div>
+      <div className='grid grid-flow-row grid-cols-auto h-auto border   ml-10 '>
+        <div className='column'>
+
+  <h1 className='font-bold text-2xl text-left ml-3 mt-4 '>{selectedItem?.productname}</h1>
+  <p className="text-black font-bold mb-4 mx-2 my-4 text-left"><span><FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/> </span>{selectedItem?.price}</p>
+  <p className='text-left ml-3 mt-5'>{selectedItem?.description}</p>
+  <div className='text-left mx-3 mt-5'>
+  <button className='bg-orange-400 p-4 rounded-md  text-white' onClick={()=>dispatching()}>Add to Cart</button>
+  </div>
+        </div>
+      </div>
+      </div>
   </div>
   )
   else if(wsaize.width>=1024)

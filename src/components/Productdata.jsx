@@ -39,6 +39,7 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
   return (
   
     <>
+    
     <div className="h-auto w-auto bg-white shadow-lg rounded-lg p-4 md:p-8 relative lg:h-auto relative p-10 xl:p-10 h-full relative" onClick={()=> router(`/product/${uid}`)}>
       <div className="mb-4">
         <img
