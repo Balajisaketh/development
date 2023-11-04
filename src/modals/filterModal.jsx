@@ -1,27 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Filtermodal = ({ isOpen, onClose}) => {
-    console.log("i am entered bey",isOpen,onClose)
+const Filtermodal = ({ isOpen, onClose }) => {
   if (!isOpen) {
     return null;
   }
-{
-    isOpen ==true ?
-    (
-        <div className="modal-overlay h-auto bg-red-900 w-auto">
-          <div className="modal">
-            <button className="close-button" onClick={onClose}>
-              Close
-            </button>
-            <h1>jdwohigdui</h1>
-          </div>
+
+  return (
+    <div className="modal-overlay">
+      <div className="column">
+        {/* <div className='flex justify-center space-x-2 mt-1'>
+      <input type='checkbox'/>
+      <p>Low to High</p>
         </div>
-      ) :(
-        <></>
-      )
-
-}
-
+        <div className='flex justify-center space-x-2 mt-9'>
+      <input type='checkbox'/>
+      <p>High to  Low </p>
+        </div> */}
+        <button className="w-1/2 my-5 rounded bg-black text-white" onClick={onClose}>
+          Close
+        </button>
+        
+      </div>
+    </div>
+  );
 };
 
 export default Filtermodal;

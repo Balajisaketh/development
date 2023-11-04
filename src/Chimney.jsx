@@ -41,6 +41,9 @@ function  Chimneys() {
     const [brandDataRendered, setBrandDataRendered] = useState(false);
     const [rendprods,setrendprods]=useState([])
     const [filterdrop,SetFilterdrop]=useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    
     const cartdata=useSelector((state)=>state.cart.items)
     const [alldata,setdalldata]=useState([])
     console.log(cartdata,'i m cartdone')    
@@ -68,7 +71,14 @@ function  Chimneys() {
      }, 3000);
       
      }
-     
+     const openModal = () => {
+      console.log("clicked me")
+      setIsModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
 useEffect(()=>{
     console.log("i m rend data",renddata)
 
@@ -176,7 +186,7 @@ console.log("Productbrand",branddata)
             <div className="col-span-auto h-50 bg-black z-10">
   <Sidebarr/>
     </div>
-         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded' onClick={()=>openModal()}>
           <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
           <p>Filter</p>
            
@@ -235,7 +245,7 @@ console.log("Productbrand",branddata)
           (
             <>
             <div className='column bg-white'>
-         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded' onClick={()=>openModal()}>
           <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
           <p>Filter</p>
            
@@ -388,7 +398,7 @@ else
          
          </h1>
        
-         {
+         {/* {
             
 data1?.map((val, i)=>{
     console.log(val,"i m object in brand")
@@ -404,7 +414,40 @@ data1?.map((val, i)=>{
        </>
     )
 })
+               } */}
+                       <div className='column'>
+         {
+            
+data1?.map((val, i)=>{
+    console.log(val,"i m object in brand")
+    return (
+       <>
+       <div className='column'>
+       <ul className='list-none mt-4'>
+       <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                     filteredproductsdata(val?.brand)
+                     }}>
+                  {val?.brand}
+            </li>
+       </ul>
+     
+       </div>
+       </>
+    )
+})
                }
+                 <div className='column mt-10'>
+                  <h1 className='font-bold '>Filter By Price</h1>
+          <div className='flex space-x-2 justify-center mt-5'>
+         <input type='checkbox'/>
+         <p>Low to High</p>
+          </div>
+          <div className='flex space-x-2 justify-center my-5'>
+         <input type='checkbox'/>
+         <p> High to Low </p>
+          </div>
+       </div>
+               </div>
 
          </div>
          
