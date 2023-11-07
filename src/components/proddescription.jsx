@@ -9,15 +9,15 @@ import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faRubleSign, faR
 import Navbar from './Navbar';
 function Proddescription() {
   const wsaize=useWindowSize();
-  const allProducts = useSelector((state) => state.prods.allproductsdata);
   const [selectedItem, setselectedItem] = useState(null);
-  console.log(allProducts,"i am here data")
+  const storedProducts = JSON.parse(localStorage.getItem('products'));
+  console.log(storedProducts,"i am here data")
   const { uid } = useParams();
   console.log("i am params data",uid)
   
   useEffect(()=>{
 
-    const foundItem = allProducts.find((product) => product.uid == uid)
+    const foundItem = storedProducts.find((product) => product.uid == uid)
     console.log(foundItem,"i am founded")
     setselectedItem(foundItem)
 

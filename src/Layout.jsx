@@ -8,11 +8,17 @@ import { useSelector } from 'react-redux'
 import { useState } from 'react'
 
 import Sidebarr from './components/Sidebarr'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { allprods } from './redux/Alldata'
 function Layout() {
   const wsaize=useWindowSize();
   const[toggle,settoggle]=useState(true);
+  const dispatch=useDispatch();
+  const [prods,setprods]=useState([])
   const checkside=useSelector((state)=>state.prods.checksidebar);
   console.log("i sm checkside", checkside)
+
   if(wsaize.width>=425 && wsaize.width<=768)
   {
     return (

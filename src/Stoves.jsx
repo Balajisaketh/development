@@ -45,7 +45,9 @@ function Stoves() {
     const [filterdrop,SetFilterdrop]=useState(false)
     const cartdata=useSelector((state)=>state.cart.items)
     const [alldata,setdalldata]=useState([])
+    const [sorteddata,setsorteddata]=useState();
     console.log(cartdata,'i m cartdone')    
+    const [pricefilter ,setpricefilter]=useState("nofilter")
     let count=0;
     useEffect(()=>{
       dispatch(sidebarreducer(false))
@@ -154,15 +156,34 @@ console.log("Productbrand",branddata)
  branddata === 'All'
   ? setdalldata(JSON.parse(pdata))
   : setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata));
+branddata=="ALL" ? setsorteddata(setdalldata(JSON.parse(pdata)))
+: setsorteddata(setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata)));
 
- apicallbrand(branddata)
-// console.log("Productbrand",brand)
+console.log("chek bey",branddata)
 // console.log(count,"i m here")
 // console.log(stval,"i m here data ")
 
 
   }
 
+  const lowtohigh=()=>{
+      setpricefilter("ascending")
+      console.log("entered")
+      console.log([...alldata],"i am datta check all")
+      const sorted = stval.sort((a, b) => a.price - b.price);
+      console.log("ni abba sorted",sorted);
+      setsorteddata(sorted)
+      console.log(sorteddata,"i am data check")
+  }
+  const hightolow=()=>{
+    setpricefilter("descending")
+    console.log("entered")
+    const sorted = stval.sort((a, b) => b.price - a.price);
+    setsorteddata(sorted)
+    console.log(sorteddata,"i am data check")
+      
+
+  }
   if(windowSize.width>=425 && windowSize.width<768)
   {
       return (
@@ -186,6 +207,54 @@ console.log("Productbrand",branddata)
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
        
         {
+           brand=='initial' && pricefilter=="ascending"?
+         (
+          <>
+          {
+              sorteddata?.map((val,index)=>{
+                console.log(val,"ni amma tra")
+                return (
+                  <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                    <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                   <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                   <div className='flex mx-4 space-x-3'>
+                <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+                <p className='mt-3 font-medium'>{val?.price}</p>
+                </div>
+                <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                  Add to Cart
+                </div>
+                  </div>
+                )
+               })
+          }
+          </>
+         ) :
+         brand=='initial' && pricefilter=="descending"?
+         (
+          <>{
+            sorteddata?.map((val,index)=>{
+              console.log(val,"ni amma tra")
+              return (
+                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                 <div className='flex mx-4 space-x-3'>
+              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+              <p className='mt-3 font-medium'>{val?.price}</p>
+              </div>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                Add to Cart
+              </div>
+                </div>
+              )
+             })
+          }
+
+          </>
+
+         ) :
+
           brand =="initial" ?(
       <>
       {
@@ -210,6 +279,52 @@ console.log("Productbrand",branddata)
           ):(
             <>
             {
+              brand=='initial' && pricefilter=="ascending"?
+              (
+               <>
+               {
+                  sorteddata?.map((val,index)=>{
+                    console.log(val,"ni amma tra")
+                    return (
+                      <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                        <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                       <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                       <div className='flex mx-4 space-x-3'>
+                    <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+                    <p className='mt-3 font-medium'>{val?.price}</p>
+                    </div>
+                    <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                      Add to Cart
+                    </div>
+                      </div>
+                    )
+                   })
+               }
+               </>
+              ) :
+              brand=='initial' && pricefilter=="descending"?
+              (
+               <>
+               {sorteddata?.map((val,index)=>{
+                    console.log(val,"ni amma tra")
+                    return (
+                      <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                        <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                       <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                       <div className='flex mx-4 space-x-3'>
+                    <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+                    <p className='mt-3 font-medium'>{val?.price}</p>
+                    </div>
+                    <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                      Add to Cart
+                    </div>
+                      </div>
+                    )
+                   })
+               }
+               </>
+     
+              ) :
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
@@ -245,6 +360,54 @@ console.log("Productbrand",branddata)
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
        
         {
+          brand=='initial' && pricefilter=="ascending"?
+          (
+           <>
+           {
+              alldata?.map((val,index)=>{
+                console.log(val,"ni amma tra")
+                return (
+                  <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                    <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                   <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                   <div className='flex mx-4 space-x-3'>
+                <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+                <p className='mt-3 font-medium'>{val?.price}</p>
+                </div>
+                <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                  Add to Cart
+                </div>
+                  </div>
+                )
+               })
+           }
+           </>
+          ) :
+          brand=='initial' && pricefilter=="descending"?
+          (
+           <>
+           {
+              alldata?.map((val,index)=>{
+                console.log(val,"ni amma tra")
+                return (
+                  <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                    <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                   <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                   <div className='flex mx-4 space-x-3'>
+                <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+                <p className='mt-3 font-medium'>{val?.price}</p>
+                </div>
+                <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                  Add to Cart
+                </div>
+                  </div>
+                )
+               })
+           }
+           
+           </>
+ 
+          ) :
           brand =="initial" ?(
       <>
       {
@@ -269,6 +432,53 @@ console.log("Productbrand",branddata)
           ):(
             <>
             {
+              brand=='initial' && pricefilter=="ascending"?
+              (
+               <>
+               {
+                  alldata?.map((val,index)=>{
+                    console.log(val,"ni amma tra")
+                    return (
+                      <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                        <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                       <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                       <div className='flex mx-4 space-x-3'>
+                    <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+                    <p className='mt-3 font-medium'>{val?.price}</p>
+                    </div>
+                    <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                      Add to Cart
+                    </div>
+                      </div>
+                    )
+                   })
+               }
+               </>
+              ) :
+              brand=='initial' && pricefilter=="descending"?
+              (
+               <>
+               {
+                  alldata?.map((val,index)=>{
+                    console.log(val,"ni amma tra")
+                    return (
+                      <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                        <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+                       <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+                       <div className='flex mx-4 space-x-3'>
+                    <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+                    <p className='mt-3 font-medium'>{val?.price}</p>
+                    </div>
+                    <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+                      Add to Cart
+                    </div>
+                      </div>
+                    )
+                   })
+               }
+               </>
+     
+              ) :
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
@@ -338,7 +548,55 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
 
 {
-  brand =="initial" ?(
+  brand=='initial' && pricefilter=="ascending"?
+  (
+   <>
+   {
+      alldata?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+            <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+           <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+           <div className='flex mx-4 space-x-3'>
+        <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+        <p className='mt-3 font-medium'>{val?.price}</p>
+        </div>
+        <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+          Add to Cart
+        </div>
+          </div>
+        )
+       })
+   }
+   </>
+  ) :
+  brand=='initial' && pricefilter=="descending"?
+  (
+   <>
+   {
+      sorteddata?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+            <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+           <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+           <div className='flex mx-4 space-x-3'>
+        <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+        <p className='mt-3 font-medium'>{val?.price}</p>
+        </div>
+        <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+          Add to Cart
+        </div>
+          </div>
+        )
+       })
+   }
+   
+   </>
+
+  ) :
+  brand =="All" || brand=="initial" ?(
 <>
 {
      stval?.map((val,index)=>{
@@ -352,6 +610,55 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
   ):(
     <>
     {
+      brand=='initial' && pricefilter=="ascending"?
+      (
+       <>
+       {
+          alldata?.map((val,index)=>{
+            console.log(val,"ni amma tra")
+            return (
+              <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+               <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+               <div className='flex mx-4 space-x-3'>
+            <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+            <p className='mt-3 font-medium'>{val?.price}</p>
+            </div>
+            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+              Add to Cart
+            </div>
+              </div>
+            )
+           })
+       }
+
+       </>
+      ) :
+      brand=='initial' && pricefilter=="descending"?
+      (
+       <>
+       {
+          alldata?.map((val,index)=>{
+            console.log(val,"ni amma tra")
+            return (
+              <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
+                <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
+               <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+               <div className='flex mx-4 space-x-3'>
+            <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
+            <p className='mt-3 font-medium'>{val?.price}</p>
+            </div>
+            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+              Add to Cart
+            </div>
+              </div>
+            )
+           })
+       }
+       
+       </>
+
+      ) :
      alldata?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
@@ -388,30 +695,17 @@ else
          <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
          <span><FontAwesomeIcon icon={faFilter} size='md' className='mx-3 mt-4' color='gray' onClick={()=>SetFilterdrop(!filterdrop)}/></span>
          </h1>
-         {
-            filterdrop==true ?(
-                <>
-                <div className='w-1/2 mx-auto'>
+        <div className='column'>
 
-             
-<select name="cars" id="cars">
-  <option>Filter By</option>
-  <option >Price</option>
-  <option >Brand</option>
-  
-</select>
-                </div>
-                </>
-            ):(
-                <></>
-            )
-         }
          {
             
+
+    
 data1?.map((val, i)=>{
     console.log(val,"i m object in brand")
     return (
        <>
+      
        <ul className='list-none mt-4'>
        <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
                      filteredproductsdata(val?.brand)
@@ -419,13 +713,24 @@ data1?.map((val, i)=>{
                   {val?.brand}
             </li>
        </ul>
+      
        </>
     )
 })
                }
+                <div className='mt-10 mx-auto  column '>
+          <div className='flex mx-auto'>
+        <input type='radio' name="option" onClick={()=>lowtohigh()}/>
+        <p>Low to High</p>
+          </div>
+          <div className='flex mx-auto'>
+        <input type='radio' name="option" onClick={()=>hightolow()}/>
+        <p>High to Low</p>
+          </div>
+       </div>
+       </div>
+               </div>
 
-         </div>
-         
          
          <div className='grid col-span-8'>
       
@@ -439,7 +744,39 @@ data1?.map((val, i)=>{
      })
   } */}
   {
-    brand =="initial" ?(
+    brand=='initial' && pricefilter=="ascending"?
+    (
+     <>
+     {
+        sorteddata?.map((val,index)=>{
+          console.log(val,"ascendin")
+          return (
+            
+              <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            
+          )
+         })
+     }
+     </>
+    ) :
+    brand=='initial' && pricefilter=="descending"?
+    (
+     <>
+     {
+      
+      sorteddata?.map((val,index)=>{
+          console.log(val,"dscnding")
+          
+            return (
+              <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            
+          )
+         })
+     }
+     </>
+
+    ) :
+    brand=="All" || brand =="initial"?(
 <>
 {
        stval?.map((val,index)=>{
@@ -454,6 +791,33 @@ data1?.map((val, i)=>{
     ):(
       <>
       {
+        brand=='initial' && pricefilter=="ascending"?
+         (
+          <>
+          {
+              sorteddata?.map((val,index)=>{
+                console.log(val,"ni amma tra")
+                return (
+                  <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+                )
+               })
+          }
+          </>
+         ) :
+         brand=='initial' && pricefilter=="descending"?
+         (
+          <>
+          {
+              sorteddata?.map((val,index)=>{
+                console.log(val,"ni amma tra")
+                return (
+                  <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+                )
+               })
+          }
+          </>
+
+         ) :
        alldata?.map((val,index)=>{
         console.log(val,"ni amma tra")
         return (
