@@ -406,7 +406,6 @@ function  Purifiers() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openModal = () => {
-      console.log("i am opening")
       setIsModalOpen(true);
     };
   
@@ -560,7 +559,7 @@ console.log("Productbrand",branddata)
         <>
         <div>
         <Navbar opensidebar={toggle}  />
-        
+        <Filtermodal isModalOpen={openModal} onClose={closeModal}/>
         {
           checkside==true ? 
           (
@@ -570,18 +569,10 @@ console.log("Productbrand",branddata)
             <div className="col-span-auto h-50 bg-black z-10">
   <Sidebarr/>
     </div>
-    {
-      isModalOpen &&
-      (
-        <Filtermodal isOpen={openModal} onClose={closeModal}/>
-         
-        
-      )
-    }
-         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded' onClick={()=>openModal()}>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
           <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
       
-          <p  >Filter</p>
+          <p onClick={openModal}>Filter</p>
            
          </div>
          
@@ -601,7 +592,7 @@ console.log("Productbrand",branddata)
               <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
               <p className='mt-3 font-medium'>{val?.price}</p>
               </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4">
                 Add to Cart
               </div>
                 </div>
@@ -615,17 +606,7 @@ console.log("Productbrand",branddata)
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-               <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-               <div className='flex mx-4 space-x-3'>
-            <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-            <p className='mt-3 font-medium'>{val?.price}</p>
-            </div>
-            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-              Add to Cart
-            </div>
-              </div>
+                <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
               )
              })
       }
@@ -639,20 +620,11 @@ console.log("Productbrand",branddata)
           (
             <>
             <div className='column bg-white'>
-    
-         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded' onClick={()=>openModal()}>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
           <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
           <p>Filter</p>
            
          </div>
-         {
-      isModalOpen &&
-      (
-        <div className='my-10 w-3/4 mx-auto   border border-2 z-10 shadow-lg rounded'>
-        <Filtermodal isOpen={openModal} onClose={closeModal} />
-        </div>
-      )
-    }
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
        
         {
@@ -669,7 +641,7 @@ console.log("Productbrand",branddata)
               <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
               <p className='mt-3 font-medium'>{val?.price}</p>
               </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4">
                 Add to Cart
               </div>
                 </div>
@@ -683,17 +655,7 @@ console.log("Productbrand",branddata)
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-                 <div className='flex mx-4 space-x-3'>
-              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-              <p className='mt-3 font-medium'>{val?.price}</p>
-              </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-                Add to Cart
-              </div>
-                </div>
+                <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
               )
              })
       }
@@ -723,39 +685,23 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
        
        </h1>
      
-       <div className='column'>
-         {
-            
-data1?.map((val, i)=>{
-    console.log(val,"i m object in brand")
-    return (
-       <>
-       <div className='column'>
-       <ul className='list-none mt-4'>
-       <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
-                     filteredproductsdata(val?.brand)
-                     }}>
-                  {val?.brand}
-            </li>
-       </ul>
-     
-       </div>
-       </>
-    )
-})
-               }
-                 <div className='column mt-10'>
-                  <h1 className='font-bold '>Filter By Price</h1>
-          <div className='flex space-x-2 justify-center mt-5'>
-         <input type='checkbox'/>
-         <p>Low to High</p>
-          </div>
-          <div className='flex space-x-2 justify-center my-5'>
-         <input type='checkbox'/>
-         <p> High to Low </p>
-          </div>
-       </div>
-               </div>
+       {
+          
+          data1?.map((val, i)=>{
+              console.log(val,"i m object in brand")
+              return (
+                 <>
+                 <ul className='list-none mt-4'>
+                 <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                               filteredproductsdata(val?.brand)
+                               }}>
+                            {val?.brand}
+                      </li>
+                 </ul>
+                 </>
+              )
+          })
+                         }
 
        </div>
        
@@ -814,14 +760,12 @@ else
          <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
          </h1>
        
-         <div className='column'>
          {
             
 data1?.map((val, i)=>{
     console.log(val,"i m object in brand")
     return (
        <>
-       <div className='column'>
        <ul className='list-none mt-4'>
        <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
                      filteredproductsdata(val?.brand)
@@ -829,24 +773,10 @@ data1?.map((val, i)=>{
                   {val?.brand}
             </li>
        </ul>
-     
-       </div>
        </>
     )
 })
                }
-                 <div className='column mt-10'>
-                  <h1 className='font-bold '>Filter By Price</h1>
-          <div className='flex space-x-2 justify-center mt-5'>
-         <input type='checkbox'/>
-         <p>Low to High</p>
-          </div>
-          <div className='flex space-x-2 justify-center my-5'>
-         <input type='checkbox'/>
-         <p> High to Low </p>
-          </div>
-       </div>
-               </div>
 
          </div>
          

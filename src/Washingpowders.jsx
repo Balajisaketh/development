@@ -41,7 +41,6 @@ function Washingmachinepowders() {
     const [rendprods,setrendprods]=useState([])
     const [filterdrop,SetFilterdrop]=useState(false)
     const cartdata=useSelector((state)=>state.cart.items)
-    const [pricefilter,setpricefilter]=useState("nofilter")
     const [alldata,setdalldata]=useState([])
     console.log(cartdata,'i m cartdone')    
     let count=0;
@@ -125,7 +124,7 @@ const apicallbrand=(brandata)=>{
     console.error(err,"i m brand error")
   })
 }
-const dispatching=(imageUrl,price,description,productname,uid)=>{
+const dispatching=({imageUrl,price,description,productname,uid})=>{
   const obj={
      description:description,
      imageUrl:imageUrl,
@@ -147,14 +146,13 @@ const dispatching=(imageUrl,price,description,productname,uid)=>{
  
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
-
     setbrand(branddata);
     console.log(pdata,"i m pdata");
 console.log("Productbrand",branddata)
  branddata === 'All'
   ? setdalldata(JSON.parse(pdata))
   : setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata));
-  
+
  apicallbrand(branddata)
 // console.log("Productbrand",brand)
 // console.log(count,"i m here")
@@ -162,26 +160,6 @@ console.log("Productbrand",branddata)
 
 
   }
-  const filterfromlowtohigh=()=>{
-    const pdata=localStorage.getItem('products');
-    console.log(pdata,"i am set store")
-    console.log(alldata,"i am here all data")
-    setpricefilter("ascending");
-    const sortedData = JSON.parse(pdata).sort((a, b) => a.price - b.price);
-  setdalldata(sortedData);
-  console.log("Sorted data:", sortedData);
-
-  }
-
-const filterfromhightolow=()=>{
-  const pdata=localStorage.getItem('products');
-  setpricefilter("descending");
-  const sortedData = JSON.parse(pdata).sort((a, b) => b.price - a.price);
-  setdalldata(sortedData);
-  console.log("Sorted data:", sortedData);
-  }
-
-  
   const[toggle,settoggle]=useState(true);
   const checkside=useSelector((state)=>state.prods.checksidebar);
   if(windowSize.width>=425 && windowSize.width<768)
@@ -263,7 +241,6 @@ const filterfromhightolow=()=>{
           <p>Filter</p>
            
          </div>
-
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
        
         {
@@ -291,7 +268,6 @@ const filterfromhightolow=()=>{
           ):(
             <>
             {
-
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
@@ -410,17 +386,32 @@ else
          <div className='grid grid-cols-12 grid-flow-col my-[6vh] relative'>
          <div className='grid col-span-3 h-[75vh] w-auto '>
          <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
-        
+         <span><FontAwesomeIcon icon={faFilter} size='md' className='mx-3 mt-4' color='gray' onClick={()=>SetFilterdrop(!filterdrop)}/></span>
          </h1>
+         {
+            filterdrop==true ?(
+                <>
+                <div className='w-1/2 mx-auto'>
 
-         <div className='column'>
+             
+<select name="cars" id="cars">
+  <option>Filter By</option>
+  <option >Price</option>
+  <option >Brand</option>
+  
+</select>
+                </div>
+                </>
+            ):(
+                <></>
+            )
+         }
          {
             
 data1?.map((val, i)=>{
     console.log(val,"i m object in brand")
     return (
        <>
-       <div className='column'>
        <ul className='list-none mt-4'>
        <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
                      filteredproductsdata(val?.brand)
@@ -428,24 +419,10 @@ data1?.map((val, i)=>{
                   {val?.brand}
             </li>
        </ul>
-     
-       </div>
        </>
     )
 })
                }
-                 <div className='column mt-10'>
-                  <h1 className='font-bold '>Filter By Price</h1>
-          <div className='flex space-x-2 justify-center mt-5'>
-         <input type='radio' name='options' onClick={()=>filterfromlowtohigh()}/>
-         <p>Low to High</p>
-          </div>
-          <div className='flex space-x-2 justify-center my-5'>
-         <input type='radio' name='options' onClick={()=>filterfromhightolow()}/>
-         <p> High to Low </p>
-          </div>
-       </div>
-               </div>
 
          </div>
          
@@ -462,35 +439,6 @@ data1?.map((val, i)=>{
      })
   } */}
   {
-    brand== "initial" && pricefilter=="ascending" ?
-    (
-             <>
-              {
-
-alldata?.map((val,index)=>{
- console.log(val,"ni amma tra")
- return (
-   <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
- )
-})
-}
-             </>
-    ):
-    brand=="initial" && pricefilter=="descending" ?
-    (
-             <>
- {
-
-alldata?.map((val,index)=>{
- console.log(val,"ni amma tra")
- return (
-   <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
- )
-})
-}
-             </>
-    ):
-    
     brand =="initial" ?(
 <>
 {
@@ -505,38 +453,7 @@ alldata?.map((val,index)=>{
 </>
     ):(
       <>
-      
       {
-        brand!="initial" && pricefilter=="descending" ?
-        (
-<>
-{
-
-alldata?.map((val,index)=>{
- console.log(val,"ni amma tra")
- return (
-   <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
- )
-})
-}
-</>
-        ):
-
-        brand!="initial" && pricefilter=="descending" ?
-        (
-          <>
-           {
-
-alldata?.map((val,index)=>{
- console.log(val,"ni amma tra")
- return (
-   <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
- )
-})
-}
-          </>
-        ):
-
        alldata?.map((val,index)=>{
         console.log(val,"ni amma tra")
         return (

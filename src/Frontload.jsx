@@ -158,7 +158,6 @@ console.log("Productbrand",branddata)
 
 
   }
-
   const dispatching=(imageUrl,price,description,productname,uid)=>{
     console.log(
       {
@@ -220,17 +219,6 @@ console.log("Productbrand",branddata)
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
        
         {
-          // brand=='initial' && filter="ascending" ?(
-          // <>
-         
-          // </>
-          // ) :
-          // brand=='initial' && filter="descending" ?(
-
-          //   <>
-  
-          //   </>
-          //   ) :
           brand =="initial" ?(
       <>
       {
@@ -432,14 +420,12 @@ else
          <div className='grid col-span-3 h-[75vh] w-auto '>
          <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
         </h1>
-        <div className='column'>
          {
             
 data1?.map((val, i)=>{
     console.log(val,"i m object in brand")
     return (
        <>
-       <div className='column'>
        <ul className='list-none mt-4'>
        <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
                      filteredproductsdata(val?.brand)
@@ -447,24 +433,10 @@ data1?.map((val, i)=>{
                   {val?.brand}
             </li>
        </ul>
-     
-       </div>
        </>
     )
 })
                }
-                 <div className='column mt-10'>
-                  <h1 className='font-bold '>Filter By Price</h1>
-          <div className='flex space-x-2 justify-center mt-5'>
-         <input type='checkbox'/>
-         <p>Low to High</p>
-          </div>
-          <div className='flex space-x-2 justify-center my-5'>
-         <input type='checkbox'/>
-         <p> High to Low </p>
-          </div>
-       </div>
-               </div>
 
          </div>
          

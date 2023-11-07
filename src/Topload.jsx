@@ -49,23 +49,7 @@ function Topload() {
     useEffect(()=>{
       dispatch(sidebarreducer(false))
     },[])
-    const filterfromlowtohigh=()=>{
-      const pdata=localStorage.getItem('products');
-      console.log(pdata,"i am set store")
-      console.log(alldata,"i am here all data")
-      const sortedData = JSON.parse(pdata).sort((a, b) => a.price - b.price);
-    setdalldata(sortedData);
-    console.log("Sorted data:", sortedData);
-  
-    }
-  
-  const filterfromhightolow=()=>{
-    alldata.sort((a,b)=>a.price-b.price)
-    setdalldata(alldata.sort((a,b)=>a.price-b.price))
-    console.log("Sorted data:", alldata); 
-    }
-  
-    const dispatching=(imageUrl,price,description,productname,uid)=>{
+    const dispatching=({imageUrl,price,description,productname,uid})=>{
       const obj={
          description:description,
          imageUrl:imageUrl,
@@ -328,39 +312,23 @@ console.log("Productbrand",branddata)
          
          </h1>
        
-         <div className='column'>
          {
             
-data1?.map((val, i)=>{
-    console.log(val,"i m object in brand")
-    return (
-       <>
-       <div className='column'>
-       <ul className='list-none mt-4'>
-       <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
-                     filteredproductsdata(val?.brand)
-                     }}>
-                  {val?.brand}
-            </li>
-       </ul>
-     
-       </div>
-       </>
-    )
-})
-               }
-                 <div className='column mt-10'>
-                  <h1 className='font-bold '>Filter By Price</h1>
-          <div className='flex space-x-2 justify-center mt-5'>
-         <input type='checkbox'/>
-         <p>Low to High</p>
-          </div>
-          <div className='flex space-x-2 justify-center my-5'>
-         <input type='checkbox'/>
-         <p> High to Low </p>
-          </div>
-       </div>
-               </div>
+            data1?.map((val, i)=>{
+                console.log(val,"i m object in brand")
+                return (
+                   <>
+                   <ul className='list-none mt-4'>
+                   <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
+                                 filteredproductsdata(val?.brand)
+                                 }}>
+                              {val?.brand}
+                        </li>
+                   </ul>
+                   </>
+                )
+            })
+                           }
 
          </div>
          
@@ -420,15 +388,30 @@ else
          <div className='grid col-span-3 h-[75vh] w-auto '>
          <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
        </h1>
-         
-       <div className='column'>
+         {
+            filterdrop==true ?(
+                <>
+                <div className='w-1/2 mx-auto'>
+
+             
+<select name="cars" id="cars">
+  <option>Filter By</option>
+  <option >Price</option>
+  <option >Brand</option>
+  
+</select>
+                </div>
+                </>
+            ):(
+                <></>
+            )
+         }
          {
             
 data1?.map((val, i)=>{
     console.log(val,"i m object in brand")
     return (
        <>
-       <div className='column'>
        <ul className='list-none mt-4'>
        <li className='bg-white shadow-md rounded-md w-3/4 mx-auto p-4 border border-gray-300' onClick={()=>{
                      filteredproductsdata(val?.brand)
@@ -436,24 +419,10 @@ data1?.map((val, i)=>{
                   {val?.brand}
             </li>
        </ul>
-     
-       </div>
        </>
     )
 })
                }
-                 <div className='column mt-10'>
-                  <h1 className='font-bold '>Filter By Price</h1>
-          <div className='flex space-x-2 justify-center mt-5'>
-         <input type='checkbox'/>
-         <p>Low to High</p>
-          </div>
-          <div className='flex space-x-2 justify-center my-5'>
-         <input type='checkbox'/>
-         <p> High to Low </p>
-          </div>
-       </div>
-               </div>
 
          </div>
          
