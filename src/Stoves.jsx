@@ -156,10 +156,9 @@ console.log("Productbrand",branddata)
  branddata === 'All'
   ? setdalldata(JSON.parse(pdata))
   : setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata));
-branddata=="ALL" ? setsorteddata(setdalldata(JSON.parse(pdata)))
-: setsorteddata(setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata)));
 
-console.log("chek bey",branddata)
+
+
 // console.log(count,"i m here")
 // console.log(stval,"i m here data ")
 
@@ -168,17 +167,16 @@ console.log("chek bey",branddata)
 
   const lowtohigh=()=>{
       setpricefilter("ascending")
-      console.log("entered")
-      console.log([...alldata],"i am datta check all")
-      const sorted = stval.sort((a, b) => a.price - b.price);
-      console.log("ni abba sorted",sorted);
+
+      const sorted = alldata?.sort((a, b) => a.price - b.price);
+      
       setsorteddata(sorted)
-      console.log(sorteddata,"i am data check")
+      
   }
   const hightolow=()=>{
     setpricefilter("descending")
     console.log("entered")
-    const sorted = stval.sort((a, b) => b.price - a.price);
+    const sorted = alldata?.sort((a, b) => b.price - a.price);
     setsorteddata(sorted)
     console.log(sorteddata,"i am data check")
       
@@ -255,7 +253,7 @@ console.log("chek bey",branddata)
 
          ) :
 
-          brand =="initial" ?(
+          brand =="initial" || brand =="All"?(
       <>
       {
              stval?.map((val,index)=>{
@@ -364,7 +362,7 @@ console.log("chek bey",branddata)
           (
            <>
            {
-              alldata?.map((val,index)=>{
+              sorteddata?.map((val,index)=>{
                 console.log(val,"ni amma tra")
                 return (
                   <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
@@ -387,7 +385,7 @@ console.log("chek bey",branddata)
           (
            <>
            {
-              alldata?.map((val,index)=>{
+              sorteddata?.map((val,index)=>{
                 console.log(val,"ni amma tra")
                 return (
                   <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
@@ -408,7 +406,7 @@ console.log("chek bey",branddata)
            </>
  
           ) :
-          brand =="initial" ?(
+          brand =="initial" || brand=="ALL" ?(
       <>
       {
              stval?.map((val,index)=>{
@@ -436,7 +434,7 @@ console.log("chek bey",branddata)
               (
                <>
                {
-                  alldata?.map((val,index)=>{
+                  sorteddata?.map((val,index)=>{
                     console.log(val,"ni amma tra")
                     return (
                       <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
@@ -459,7 +457,7 @@ console.log("chek bey",branddata)
               (
                <>
                {
-                  alldata?.map((val,index)=>{
+                  sorteddata?.map((val,index)=>{
                     console.log(val,"ni amma tra")
                     return (
                       <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
@@ -552,7 +550,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
   (
    <>
    {
-      alldata?.map((val,index)=>{
+      sorteddata?.map((val,index)=>{
         console.log(val,"ni amma tra")
         return (
           <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
@@ -614,7 +612,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
       (
        <>
        {
-          alldata?.map((val,index)=>{
+          sorteddata?.map((val,index)=>{
             console.log(val,"ni amma tra")
             return (
               <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
@@ -638,7 +636,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
       (
        <>
        {
-          alldata?.map((val,index)=>{
+          sorteddata?.map((val,index)=>{
             console.log(val,"ni amma tra")
             return (
               <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
