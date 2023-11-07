@@ -15,13 +15,9 @@ import { sidebarreducer } from './redux/Alldata';
 import Tabproductcard from './components/Tabproductcard';
 import { useLocation, useNavigate } from 'react-router-dom'
 import Footer from './components/Footer';
-import { alertreducer } from './redux/Alldata';
-
 import Navbar from './components/Navbar';
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import Sidebarr from './components/Sidebarr';
-import Filtermodal from './modals/filterModal';
-import { addToCart } from './redux/CartSlice';
 function Frontload() {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
@@ -32,16 +28,7 @@ function Frontload() {
     const [data1,setdata]=useState([])
     const dispatch=useDispatch()
     const router=useNavigate()
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const openModal = () => {
-      console.log("clicked me")
-      setIsModalOpen(true);
-    };
-  
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
+    
   
   let checkside=useSelector((state)=>state.prods.checksidebar);
   
@@ -158,38 +145,7 @@ console.log("Productbrand",branddata)
 
 
   }
-  const dispatching=(imageUrl,price,description,productname,uid)=>{
-    console.log(
-      {
-        description:description,
-        imageUrl:imageUrl,
-        price:price,
-        productname:productname,
-        uid:uid,
-        quantity:1
-        
- 
-     }
-    )
-    const obj={
-       description:description,
-       imageUrl:imageUrl,
-       price:price,
-       productname:productname,
-       uid:uid,
-       quantity:1
-       
 
-    }
-    
-
-    dispatch(addToCart(obj));
-    setTimeout(() => {
-     dispatch(alertreducer(false))
-   }, 3000);
-    
-   }
-   
   if(windowSize.width>=425 && windowSize.width<768)
   {
       return (
@@ -201,21 +157,15 @@ console.log("Productbrand",branddata)
           (
             <>
               
-            <div className='column bg-red-900'>
+            <div className='column '>
             <div className="col-span-auto h-50 bg-black z-10">
   <Sidebarr/>
     </div>
-    {isModalOpen && (
-    <Filtermodal isOpen={openModal} onClose={closeModal} />
-  )}
-         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-red-900 border border-2 z-20 mt-4 shadow-sm rounded' onClick={()=>{
-          console.log("i am clicke bey ")
-         }}>
+         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
           <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
-          <p className='text-yellow'>Filter</p>
+          <p>Filter</p>
            
          </div>
-         
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
        
         {
@@ -232,7 +182,7 @@ console.log("Productbrand",branddata)
               <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
               <p className='mt-3 font-medium'>{val?.price}</p>
               </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4">
                 Add to Cart
               </div>
                 </div>
@@ -246,17 +196,7 @@ console.log("Productbrand",branddata)
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-                 <div className='flex mx-4 space-x-3'>
-              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-              <p className='mt-3 font-medium'>{val?.price}</p>
-              </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-                Add to Cart
-              </div>
-                </div>
+                <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
               )
              })
       }
@@ -291,7 +231,7 @@ console.log("Productbrand",branddata)
               <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
               <p className='mt-3 font-medium'>{val?.price}</p>
               </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val.imagepath,val.price,val?.description,val.productname,val.uid)}>
+              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4">
                 Add to Cart
               </div>
                 </div>
@@ -305,17 +245,7 @@ console.log("Productbrand",branddata)
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-                 <div className='flex mx-4 space-x-3'>
-              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-              <p className='mt-3 font-medium'>{val?.price}</p>
-              </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val.imagepath,val.price,val.description,val.productname,val.uid)}>
-                Add to Cart
-              </div>
-                </div>
+                <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
               )
              })
       }

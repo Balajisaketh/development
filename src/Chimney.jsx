@@ -49,7 +49,7 @@ function  Chimneys() {
     useEffect(()=>{
       dispatch(sidebarreducer(false))
     },[])
-    const dispatching=(imageUrl,price,description,productname,uid)=>{
+    const dispatching=({imageUrl,price,description,productname,uid})=>{
       const obj={
          description:description,
          imageUrl:imageUrl,

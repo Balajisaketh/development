@@ -386,13 +386,11 @@ import Productcard from './components/Productdata';
 import { useDispatch } from 'react-redux';
 import axios from 'axios'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { addToCart } from './redux/CartSlice';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { sidebarreducer } from './redux/Alldata';
-import { alertreducer } from './redux/Alldata';
-import Filtermodal from '../src/modals/filterModal';
+
 function  Purifiers() {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
@@ -403,15 +401,7 @@ function  Purifiers() {
     const dispatch=useDispatch()
     const router=useNavigate()
     const[toggle,settoggle]=useState(true);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const openModal = () => {
-      setIsModalOpen(true);
-    };
-  
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
+    
     const alertstatus=useSelector((state)=>state.prods.alertdata)
     console.log(alertstatus,"i m alert status")
     // console.log(filtrrproddata,"i m data from store filter")
@@ -521,45 +511,13 @@ console.log("Productbrand",branddata)
 
 
   }
-  const dispatching=(imageUrl,price,description,productname,uid)=>{
-    console.log(
-      {
-        description:description,
-        imageUrl:imageUrl,
-        price:price,
-        productname:productname,
-        uid:uid,
-        quantity:1
-        
- 
-     }
-    )
-    const obj={
-       description:description,
-       imageUrl:imageUrl,
-       price:price,
-       productname:productname,
-       uid:uid,
-       quantity:1
-       
 
-    }
-    
-
-    dispatch(addToCart(obj));
-    setTimeout(() => {
-     dispatch(alertreducer(false))
-   }, 3000);
-    
-   }
-   
   if(windowSize.width>=425 && windowSize.width<768)
   {
       return (
         <>
         <div>
         <Navbar opensidebar={toggle}  />
-        <Filtermodal isModalOpen={openModal} onClose={closeModal}/>
         {
           checkside==true ? 
           (
@@ -571,11 +529,9 @@ console.log("Productbrand",branddata)
     </div>
          <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
           <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
-      
-          <p onClick={openModal}>Filter</p>
+          <p>Filter</p>
            
          </div>
-         
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
        
         {
