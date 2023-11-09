@@ -14,7 +14,7 @@ const cartSlice = createSlice({
 console.log(action.payload,"i m action");
       const { uid, quantity } = action.payload;
       console.log(uid, quantity,"here in redux!");
-      const productIndex = state.items.findIndex((product) => product.uid === uid);
+      const productIndex = state.items.findIndex((product) => product.uid == uid);
       if (productIndex !== -1) {
         console.log(productIndex,"inside")  
         state.items[productIndex].quantity+=1
@@ -33,7 +33,7 @@ console.log(action.payload,"i m action");
       
         console.log('incQuantity',action.payload)
         const { productId, quantity } = action.payload;
-     const productIndex = state.items.findIndex((product) => product.uid === productId);
+     const productIndex = state.items.findIndex((product) => product.uid == productId);
      console.log(state.items,productIndex,productId,"i m indexed quantity")
      if (productIndex !== -1) {
       console.log(productIndex,"inside")  
@@ -45,7 +45,7 @@ console.log(action.payload,"i m action");
     decreaseQuantity: (state, action) => {
       console.log('decreaseQuantity',action.payload)
       const { productId, quantity } = action.payload;
-      const item = state.items.find((item) => item.uid === productId);
+      const item = state.items.find((item) => item.uid == productId);
       if (item) {
         if (item.quantity === 1) {
           // If the quantity is 1, remove the item from the cart

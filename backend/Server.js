@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3001
 const cors = require('cors')
-
+const pgp = require("pg-promise")();
 app.use(cors())
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -37,6 +37,12 @@ const client = new Client({
   password: '1234',
   port: 5432, 
 });
+
+
+// Use the db object to execute the test query
+
+const db = pgp(client);
+
 client.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
@@ -179,18 +185,16 @@ app.post('/addproduct', (req,res) => {
     const productname=req.body.productname
     const price= req.body.price
     const category=req.body.category
-    const quantity = req.body.quantity
     const imgpath=req.body.imgpath
     const brand=req.body.brand
-    let uid=uuid();          
     let description=req.body.description
     console.log("brand",brand)
     const cloudFrontUrl = 'https://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
     console.log(cloudFrontUrl,"i m url")
     const insertquery= {
-      text: `INSERT INTO products (uid, productname,price,category,quantity,description,imagepath,brand) 
-                        VALUES($1, $2, $3,$4,$5,$6,$7,$8) RETURNING *`,
-      values : [uid,productname,price,category,quantity,description,cloudFrontUrl,brand]
+      text: `INSERT INTO products (name,description,price,category,brand,imagepath) 
+                        VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
+      values : [productname,description,price,category,brand,cloudFrontUrl]
     }
     client.query(insertquery).then((data)=>{ 
       
@@ -203,6 +207,29 @@ app.post('/addproduct', (req,res) => {
     }) 
 
 })
+app.post("/insertusers",(req,res)=>{
+  const formData = req.body;
+  const name=formData.fullname;
+  const email=formData.email;
+  const phno=formData.phonenumber;
+  const country=formData.country;
+  const addres=formData.addres1.concat(formData.address2);
+  const state=formData.state;
+  const custid=uuid()
+  const insertquery= {
+    text: `INSERT INTO customers (fullname,email,phone_number,address,country,state,customer_id) 
+                      VALUES($1, $2,$3,$4,$5,$6,$7) RETURNING *`,
+    values : [name,email,phno,addres,country,state,custid,]
+  }
+  client.query(insertquery).then((data) => {
+    console.log(data,"i m done")
+    res.send({status:true, message:"insert successfully"});
+
+  } ).catch((err) => {
+    console.error(err,"i m error")
+  });
+})
+
 
 app.get('/getproducts',(req,res) => {
     const getqury=`SELECT * FROM products`
@@ -249,28 +276,61 @@ app.post('/deleteusers', (req,res)=>{
         }) 
                 
 })           
-app.post('/addorders', (req, res) => {
-  let orderid=uuid()
+// app.post('/addorders', (req, res) => {
+
+
+//   let orderid=req.body.uid  
+//   let orderamount=req.body.orderamount
+//   let quantity=req.body.quantity
+//   let orderstatus=req.body.orderstatus
+//   let productid=req.body.productid
+//   let customerid=req.body.customerid
+//   const insertquery= {
+//     text: `INSERT INTO orders (orderid,orderamount,orderstatus,productid,customerid,quantity)  
+//                       VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
+//     values : [orderid,orderamount,orderstatus,productid,customerid,quantity]
+//   }
+//       client.query(insertquery).then((data)=>{ 
+//       console.log({status:true, message:" data inserted successfully"})
+      
+//       res.send('success')
+//     }).catch((error) =>{ 
+//       console.log(error,"i am error")
+//       // console.log({status: false,message:error.message})
+//       res.send({status: false,message:"failed"}) 
+//     }) 
+// })
+app.post("/addorders", async (req, res) => {
+  try {
+    const proddata = req.body.proddata; // Assuming the request body contains a single product object
+console.log(proddata,"i am req body")
+const qrry = {
+  text: "INSERT INTO your_table (orderid, your_json_array_column) VALUES ($1, $2::jsonb)",
+  values: [10, proddata]
+};
+const ch={
+  text:"INSERT INTO your_table (orderid,your_json_array_column) VALUES ($1,($2::jsonb))",
+  values: [10, JSON.stringify(proddata)]
+
+}
+
+   client.query(ch
+    
+   ).then((respp)=>{
+    console.log("i am inserted")
+
+
+   }).catch((er)=>{
+    console.log("a mfai;ed",er)
+    
+   })
   
-  let orderamount=req.body.orderamount
-  let quantity=req.body.quantity
-  let orderstatus=req.body.orderstatus
-  let productid=req.body.productid
-  let customerid=req.body.customerid
-  const insertquery= {
-    text: `INSERT INTO orders (orderid,orderamount,orderstatus,productid,customerid,quantity)  
-                      VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
-    values : [orderid,orderamount,orderstatus,productid,customerid,quantity]
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred while inserting the product" });
   }
-      client.query(insertquery).then((data)=>{ 
-      console.log({status:true, message:" data inserted successfully"})
-      res.send('success')
-    }).catch((error) =>{ 
-      console.log(error,"i am error")
-      // console.log({status: false,message:error.message})
-      res.send({status: false,message:"failed"}) 
-    }) 
-})
+});
 
 app.post('/updateprice',(req,res) => {
   let uuid = req.body.uid

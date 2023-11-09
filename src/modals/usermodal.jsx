@@ -4,14 +4,31 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import useWindowSize from "../hooks/useWindowsize";
 import countrydata from '../jsondata/Country.json'
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 const Usermodal = ({ onClose, onSubmit }) => {
+  const cartprods=useSelector((state)=>state.cart.items)
+  console.log("i am cart data",cartprods)
+  
     console.log("inside modal")
     const wsaize=useWindowSize();
-  const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+      name: "",
+      email: "",
+      phone: "",
+      address1:"",
+      address2:""
+
+    });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    // Update the corresponding property in the formData object
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 const[countryid, setCountryid]=useState('');
  const[state, setState]=useState([]);
@@ -29,6 +46,56 @@ const[countryid, setCountryid]=useState('');
     const stateid= e.target.value;
     //console.log(stateid);
     setStateid(stateid);
+    
+  }
+
+  const userinfo=(e)=>{
+    e.preventDefault()
+    const body={
+           fullname:formData.name,
+           email:formData.email,
+           phonenumber:formData.phonenumber,
+           country:countryid,
+           state:stateid,
+           addres1:formData.address1,
+           address2:formData.address2
+          
+    }
+    axios.post("http://localhost:3001/insertusers",body).then((res)=>{
+      console.log("i am resp dara",res.data.status)
+
+         if(res.data.status==true)
+         {
+             
+             console.log("insert done")   
+             const fixuid=uuidv4()
+             const updatedJsonArr = cartprods.map((item) => ({
+              ...item,
+              orderid:fixuid 
+            }));
+            console.log("hamaya i a thre",updatedJsonArr) 
+            
+         const body={
+        proddata:updatedJsonArr  
+         }
+            
+             axios.post("http://localhost:3001/addorders",body).then((res)=>{
+
+                  if(res.status==true){
+                    console.log("order placed succesfully")
+                  }
+             }).catch((e)=>{
+              console.log("error in inserting derails of roder")
+
+             })
+          }
+         
+
+
+    }).catch((err)=>{
+      console.log("i am error",err)
+
+    })
 
   }
   const handleSubmit = (e) => {
@@ -47,20 +114,21 @@ if(wsaize.width>=425 && wsaize.width<=768)
     
      <div className="row mx-auto m-10 rounded-md w-auto ">
         <h2>Enter Your Delivery Details</h2>
-        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Name"/>
-        <input type="text" className="border border-2 p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="email@email.com"/>
+        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" value={formData.name}  placeholder="Name"/>
+        <input type="text" className="border border-2 p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" value={formData.email}  placeholder="email@email.com"/>
         <PhoneInput
                     country={'In'}
                     className="mt-4 mx-12 text-left w-3/4"
                     placeholder="enter your phone number"
+                    value={formData.phone} 
                 />
-        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 1"/>
-        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 2"/>
+        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 1" value={formData.address1} />
+        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 2" value={formData.address2} />
         <div className="content">
         <div className="row">
           <div className="col-sm-12">
          
-         <form className="row g-3" onSubmit={handleSubmit}>
+         <form className="row g-3" onSubmit={()=>userinfo()}>
 
               <div className="col-md-3  mt-5  mx-auto">
                         
@@ -85,7 +153,7 @@ if(wsaize.width>=425 && wsaize.width<=768)
                         <option value="">--Select State--</option>
                         {
                           state.map((getstate, index)=>(
-                            <option value={getstate.state_id} key={index}>{ getstate.state_name }</option>
+                            <option value={getstate.state_id} key={index}>{getstate.state_name }</option>
                           ))
                         }
                        
@@ -102,7 +170,7 @@ if(wsaize.width>=425 && wsaize.width<=768)
         </div>
         </div>
         <div className="flex">
-        <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6">
+        <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={(e)=>userinfo(e)}>
         Proceed to Pay
       </Button>
       <Button type="submit" className="w-1/4 mx-auto bg-red-900 mt-6" onClick={onclose}>
@@ -181,7 +249,7 @@ else{
         </div>
         </div>
         <div className="flex">
-        <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6">
+        <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={(e)=>userinfo(e)}>
         Proceed to Pay
       </Button>
       <Button type="submit" className="w-1/4 mx-auto bg-red-900 mt-6" onClick={onclose}>
