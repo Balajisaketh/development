@@ -18,6 +18,7 @@ const path=require('path');
 // const {upload} =require('.././backend/Multer');
 const multer = require("multer");
 const index = require('uuid-random')
+const { sendmail } = require('./Mailer'); 
 const storage = multer.diskStorage({
     destination: function (req,res,cb){
         cb(null, path.join(__dirname, 'uploads'));
@@ -302,27 +303,26 @@ app.post('/deleteusers', (req,res)=>{
 // })
 app.post("/addorders", async (req, res) => {
   try {
-    const proddata = req.body.proddata; // Assuming the request body contains a single product object
+    const proddata = req.body.proddata;
+    const orderid=req.body.orderid
+   
+     // Assuming the request body contains a single product object
 console.log(proddata,"i am req body")
-const qrry = {
-  text: "INSERT INTO your_table (orderid, your_json_array_column) VALUES ($1, $2::jsonb)",
-  values: [10, proddata]
-};
 const ch={
-  text:"INSERT INTO your_table (orderid,your_json_array_column) VALUES ($1,($2::jsonb))",
-  values: [10, JSON.stringify(proddata)]
-
+  text:"INSERT INTO orderdetails (orderid,your_json_array_column) VALUES ($1,($2::jsonb))",
+  values: [JSON.stringify(orderid), JSON.stringify(proddata)]
 }
 
-   client.query(ch
-    
-   ).then((respp)=>{
-    console.log("i am inserted")
+   client.query(ch).then((respp)=>{
+    console.log("i am inserted",respp)
 
-
+    // make your payment here after inserting
+    // and send mail of the order id to customer 
+    sendmail("gopikrishna.siripuram@gmail.com",orderid)
+    res.send({status:true,message:"order placed sucessfully"})
    }).catch((er)=>{
     console.log("a mfai;ed",er)
-    
+    res.send({status:true,message:"order unsuccess"})
    })
   
     
@@ -331,6 +331,21 @@ const ch={
     res.status(500).json({ error: "An error occurred while inserting the product" });
   }
 });
+// get order based on orderid working
+app.get("/getordersbyorderid/:orderid",(req,res)=>{
+        const orderid=req.params.orderid;
+        console.log("i am ordrid",orderid)
+        const quotedOrderid ='"' + orderid +'"';
+
+        console.log("i am chek",quotedOrderid)
+        const querydata = {text :`SELECT * FROM orderdetails WHERE orderid = $1`,values:[quotedOrderid]}
+        client.query(querydata).then((data) => {
+          console.log("i am rows",data)
+          res.send(data.rows)
+        }).catch((err) => {
+          console.log(err,"i am inside error");
+        });
+})
 
 app.post('/updateprice',(req,res) => {
   let uuid = req.body.uid

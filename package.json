@@ -19,6 +19,7 @@
     "firebase": "^9.22.2",
     "flowbite": "^1.8.1",
     "flowbite-react": "^0.4.11",
+    "nodemailer": "^6.9.7",
     "pg-promise": "^11.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

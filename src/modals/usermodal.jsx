@@ -71,12 +71,14 @@ const[countryid, setCountryid]=useState('');
              const fixuid=uuidv4()
              const updatedJsonArr = cartprods.map((item) => ({
               ...item,
-              orderid:fixuid 
+
             }));
+            
             console.log("hamaya i a thre",updatedJsonArr) 
             
          const body={
-        proddata:updatedJsonArr  
+        proddata:updatedJsonArr,
+        orderid:fixuid 
          }
             
              axios.post("http://localhost:3001/addorders",body).then((res)=>{
