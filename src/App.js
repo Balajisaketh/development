@@ -12,6 +12,7 @@ import Topload from './Topload';
 import Proddescription from './components/proddescription';
 import Stoves from './Stoves';
 import Washingmachinepowders from './Washingpowders'
+import Orders from './Orders';
 
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
           <Route path='/stove' element={<Stoves/>}/>
           <Route path='/washingpowders' element={<Washingmachinepowders/>}/>
           <Route path="/product/:uid" element={<Proddescription/>} />
-
+          <Route path="/orders" element={<Orders/>} />
 
           
       </Routes>

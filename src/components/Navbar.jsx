@@ -291,9 +291,7 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
         </div>
         </div>
         <div className='col-span-4 grid grid-flow-col'>
-        <h1 className='m-auto text-lg'>Your orders</h1>
-        
-        
+        <h1 className='m-auto text-lg' onClick={()=>router("/orders")}>Your orders</h1>
         <p className='text-red-900'>{totalQuantity}</p>
         <FontAwesomeIcon icon={faShoppingCart} size='xl' className='my-auto' onClick={()=>router("/cart")}/>
         {/* <FontAwesomeIcon icon={faUserCircle} size='xl' className='my-auto'/> */}

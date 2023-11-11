@@ -33,6 +33,7 @@ const Usermodal = ({ onClose, onSubmit }) => {
 const[countryid, setCountryid]=useState('');
  const[state, setState]=useState([]);
  const[stateid, setStateid]= useState('');
+ 
 
   const handlecounty=(e)=>{
     const getcountryId= e.target.value;
@@ -48,9 +49,35 @@ const[countryid, setCountryid]=useState('');
     setStateid(stateid);
     
   }
-
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const userinfo=(e)=>{
     e.preventDefault()
+    // formData.name==""|| formData.name==null ||formData.email==""|| formData.email==null || countryid==null || formData.address1=="" || formData.address1==null || formData.address2=="" || formData.address2==null
+    // ?(
+    //   <>
+          
+    //   </>
+    // ) :(
+    //   <>
+    //   {
+
+    //     formData.email.test(emailRegex)!=true && formData.phone.length!=10 ?
+    //    {
+             
+    //    }
+    //     :
+    //     (
+    //       <>
+    //         {
+              
+    //         }
+    //       </>
+    //     )
+        
+    //   }
+    //   </>
+    // )
     const body={
            fullname:formData.name,
            email:formData.email,
