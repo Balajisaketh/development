@@ -13,22 +13,16 @@ const Usermodal = ({ onClose, onSubmit }) => {
   
     console.log("inside modal")
     const wsaize=useWindowSize();
-    const [formData, setFormData] = useState({
-      name: "",
-      email: "",
-      phone: "",
-      address1:"",
-      address2:""
-
-    });
+    const [formData, setFormData] =useState(new FormData());
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target.value;
+    console.log(name,"i am name ra");
+    console.log(value,"i am value ra babu");
+
     // Update the corresponding property in the formData object
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+   formData.append(name,value)
+   console.log("i am form",formData)
   };
 const[countryid, setCountryid]=useState('');
  const[state, setState]=useState([]);
@@ -78,51 +72,42 @@ const[countryid, setCountryid]=useState('');
     //   }
     //   </>
     // )
+
+    const updatedJsonArr = cartprods.map((item) => ({
+      ...item,
+
+    }));
+    const fixuid=uuidv4()
     const body={
-           fullname:formData.name,
-           email:formData.email,
-           phonenumber:formData.phonenumber,
-           country:countryid,
-           state:stateid,
-           addres1:formData.address1,
-           address2:formData.address2
-          
-    }
-    axios.post("http://localhost:3001/insertusers",body).then((res)=>{
+      fullname:formData.namedata,
+      email:formData.mail,
+      phonenumber:formData.phoneno,
+      country:countryid,
+      state:stateid,
+      addres1:formData.address,
+      address2:formData.address1,
+      proddata:updatedJsonArr,
+      orderid:fixuid,
+     
+}
+const config = {     
+  headers: { 'content-type': 'multipart/form-data' }
+}
+
+
+console.log("i am body data",config,formData.namedata);
+    axios.post("http://localhost:3001/addorders",body).then((res)=>{
       console.log("i am resp dara",res.data.status)
-
-         if(res.data.status==true)
-         {
-             
-             console.log("insert done")   
-             const fixuid=uuidv4()
-             const updatedJsonArr = cartprods.map((item) => ({
-              ...item,
-
-            }));
-            
-            console.log("hamaya i a thre",updatedJsonArr) 
-            
-         const body={
-        proddata:updatedJsonArr,
-        orderid:fixuid 
-         }
-            
-             axios.post("http://localhost:3001/addorders",body).then((res)=>{
-
-                  if(res.status==true){
+      if(res.status==true){
                     console.log("order placed succesfully")
                   }
-             }).catch((e)=>{
-              console.log("error in inserting derails of roder")
 
-             })
-          }
-         
+
+
 
 
     }).catch((err)=>{
-      console.log("i am error",err)
+      console.log("i am error in inserting order data",err)
 
     })
 
@@ -143,16 +128,18 @@ if(wsaize.width>=425 && wsaize.width<=768)
     
      <div className="row mx-auto m-10 rounded-md w-auto ">
         <h2>Enter Your Delivery Details</h2>
-        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" value={formData.name}  placeholder="Name"/>
-        <input type="text" className="border border-2 p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" value={formData.email}  placeholder="email@email.com"/>
+        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" name="namedata" placeholder="Name" onChange={(e)=>handleChange(e)}/>
+        <input type="text" className="border border-2 p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" name="mail" placeholder="email@email.com" onChange={(e)=>handleChange(e)}/>
         <PhoneInput
                     country={'In'}
                     className="mt-4 mx-12 text-left w-3/4"
                     placeholder="enter your phone number"
-                    value={formData.phone} 
+                    name="phoneno"
+                    onChange={(e)=>handleChange(e)}
+                    
                 />
-        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 1" value={formData.address1} />
-        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 2" value={formData.address2} />
+        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 1" name="address" onChange={(e)=>handleChange(e)}/>
+        <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" placeholder="Address Lane 2" name="address1" onChange={(e)=>handleChange(e)}/>
         <div className="content">
         <div className="row">
           <div className="col-sm-12">
