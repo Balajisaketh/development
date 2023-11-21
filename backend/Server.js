@@ -304,6 +304,7 @@ app.post('/deleteusers', (req,res)=>{
 app.post("/addorders", async (req, res) => {
   try {
     const proddata = req.body.proddata;
+    
     const orderid=req.body.orderid
    
      // Assuming the request body contains a single product object
