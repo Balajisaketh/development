@@ -14,6 +14,7 @@ const transporter = nodemailer.createTransport({
 // Email content
 function sendmail(receivermailid,orderid)
 {
+  console.log(receivermailid,orderid,"i am inside sendmail")
     const mailOptions = {
         from: 'balajisakeths@gmail.com',
         to: receivermailid,

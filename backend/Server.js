@@ -302,33 +302,32 @@ app.post('/deleteusers', (req,res)=>{
 //     }) 
 // })
 app.post("/addorders", async (req, res) => {
+  console.log(req.body,"i am check me now")
   try {
-    const proddata = req.body.proddata;
-    const name=req.body.name;
+    const proddata =req.body.proddata; 
+    const name=req.body.fullname;
     const price=req.body.price;
     const email=req.body.email;
     const phno=req.body.phonenumber;
     const address=req.body.address1;
     const address2=req.body.address2;
-    const orderid=req.body.orderidpgad;
+    const orderid=req.body.orderid;
     const fulladdress=address+address2;
+    
      // Assuming the request body contains a single product object
-console.log(proddata,"i am req body")
+console.log(name,orderid,email,"i am req body")
 const ch={
-  text:"INSERT INTO orderdetails (orderid,your_json_array_column,email,name,phonenumber,address,price) VALUES ($1,($2::jsonb))",
-  values: [JSON.stringify(orderid), JSON.stringify(proddata),email,name,phno,fulladdress,price]
-
-
-
-
+  text:"INSERT INTO orderdetails (orderid,your_json_array_column,email,name,phonenumber,address,price,date) VALUES ($1,($2::jsonb),$3,$4,$5,$6,$7,$8)",
+  values: [orderid,JSON.stringify(proddata),email,name,phno,fulladdress,price,new Date()]
 }
 
    client.query(ch).then((respp)=>{
-    console.log("i am inserted",respp)
 
+    console.log("i am inserted",respp)
+        
     // make your payment here after inserting
     // and send mail of the order id to customer 
-    sendmail("gopikrishna.siripuram@gmail.com",orderid)
+    sendmail(email,orderid)
     res.send({status:true,message:"order placed sucessfully"})
    }).catch((er)=>{
     console.log("a mfai;ed",er)
