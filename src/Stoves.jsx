@@ -205,7 +205,7 @@ console.log("chek bey",branddata)
            
          </div>
          <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
-       
+       {/* paste */}
         {
            brand=='initial' && pricefilter=="ascending"?
          (
