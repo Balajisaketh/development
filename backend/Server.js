@@ -304,14 +304,23 @@ app.post('/deleteusers', (req,res)=>{
 app.post("/addorders", async (req, res) => {
   try {
     const proddata = req.body.proddata;
-    
-    const orderid=req.body.orderid
-   
+    const name=req.body.name;
+    const price=req.body.price;
+    const email=req.body.email;
+    const phno=req.body.phonenumber;
+    const address=req.body.address1;
+    const address2=req.body.address2;
+    const orderid=req.body.orderidpgad;
+    const fulladdress=address+address2;
      // Assuming the request body contains a single product object
 console.log(proddata,"i am req body")
 const ch={
-  text:"INSERT INTO orderdetails (orderid,your_json_array_column) VALUES ($1,($2::jsonb))",
-  values: [JSON.stringify(orderid), JSON.stringify(proddata)]
+  text:"INSERT INTO orderdetails (orderid,your_json_array_column,email,name,phonenumber,address,price) VALUES ($1,($2::jsonb))",
+  values: [JSON.stringify(orderid), JSON.stringify(proddata),email,name,phno,fulladdress,price]
+
+
+
+
 }
 
    client.query(ch).then((respp)=>{
