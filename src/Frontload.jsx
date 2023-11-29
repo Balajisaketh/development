@@ -23,6 +23,7 @@ function Frontload() {
     const query = useQuery();
     
     const productcategory = query.get('category');
+    const [pricefilter ,setpricefilter]=useState("nofilter")
     // console.log(productcategory + " product category");
     const windowSize = useWindowSize();
     const [data1,setdata]=useState([])
@@ -49,6 +50,7 @@ function Frontload() {
     const[toggle,settoggle]=useState(false);
     const [filterdrop,SetFilterdrop]=useState(false)
     const cartdata=useSelector((state)=>state.cart.items)
+    const [sorteddata,setsorteddata]=useState();
     const [alldata,setdalldata]=useState([])
     console.log(cartdata,'i m cartdone')    
     let count=0;
@@ -128,6 +130,31 @@ const apicallbrand=(brandata)=>{
   }).catch((err)=>{
     console.error(err,"i m brand error")
   })
+}
+const lowtohigh=()=>{
+  setpricefilter("ascending")
+  console.log("entered",brand);
+  console.log([...alldata],"i am datta check all")
+  // const sorted = stval.sort((a, b) => a.price - b.price);
+  // const filteredData = brand === "initial" || brand=="ALL" ? alldata : alldata.filter((product) => product.brand === brand);
+  // console.log("ni abba sorted",filteredData);
+  const sortagain=alldata.sort((a, b) => a.price - b.price);
+  console.log("sorting agai ",sortagain);
+  setsorteddata(sortagain);
+  console.log(sorteddata,"i am data check")
+}
+const hightolow=()=>{
+setpricefilter("descending")
+console.log("entered",brand)
+const sorted = stval.sort((a, b) => b.price - a.price);
+const filteredData = brand === "initial" || brand=='ALL' ? alldata : alldata.filter((product) => product.brand === brand);
+console.log("i am checking  error",filteredData);
+const sortagain=filteredData.sort((a, b) => b.price - a.price);
+console.log("sorting again  hgih ",sortagain);
+setsorteddata(sortagain);
+
+  
+
 }
 const filteredproductsdata=(branddata)=>{
     const pdata=localStorage.getItem('products');
@@ -367,6 +394,17 @@ data1?.map((val, i)=>{
     )
 })
                }
+                     <div className='mt-10 mx-auto  column '>
+                  <h2 className='font-bold mb-5'>Sort By Price</h2>
+          <div className='flex justify-center'>
+        <input type='radio' name="option" onClick={()=>lowtohigh()}/>
+        <p className='mx-2'>Low to High</p>
+          </div>
+          <div className='flex justify-center my-4'>
+        <input type='radio' name="option" onClick={()=>hightolow()}/>
+        <p className='mx-2'>High to Low</p>
+          </div>
+       </div>
 
          </div>
          
@@ -374,39 +412,119 @@ data1?.map((val, i)=>{
          <div className='grid col-span-8'>
       
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-  {/* {
-     alldata?.map((val,index)=>{
+  
+    {
+    brand ==='All' ?
+    (
+          <>
+          {
+     stval?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
         <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
-  } */}
-  {
-    brand =="initial" ?(
-<>
-{
-       stval?.map((val,index)=>{
-        console.log(val,"ni amma tra")
-        return (
-          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-        )
-       })
 }
-</>
-    ):(
+          </>
+    ):
+
+    brand =="initial" ?(
       <>
       {
-       alldata?.map((val,index)=>{
-        console.log(val,"ni amma tra")
-        return (
-          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-        )
-       })
-}
+         stval?.map((val,index)=>{
+          console.log(val,"ni amma tra")
+          return (
+            <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+          )
+         })
+          
+      }
+      </>
+          ):
+  (brand === 'All' || brand === 'initial') && pricefilter === 'ascending' ? (
+    <>
+      {sorteddata?.map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ) : (brand === 'All' || brand === 'initial') && pricefilter === 'descending' ? (
+    <>
+      {sorteddata?.slice().reverse().map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ) : (
+    
+    pricefilter!=="ascending" && pricefilter!=="descending" ?
+    (
+      <>
+      
+    {alldata
+        ?.filter((val) => val?.brand === brand).map((val, index) => (
+          <Productcard
+            key={index}
+            productname={val?.name}
+            imageUrl={val?.imagepath}
+            price={val?.price}
+            description={val?.description}
+            uid={val?.uid}
+          />
+        ))}
       </>
     )
-  }
+   :
+   pricefilter=="ascending" ?
+  (
+    <>
+    
+    {sorteddata?.map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ):
+  pricefilter=="descending" ?
+  (
+    <>
+    {/* <p>i am higher</p> */}
+    {sorteddata?.map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ):
+  (
+    <>
+    </>
+  )
+  )
+}
     </div>
     </div>
     

@@ -425,7 +425,7 @@ function  Purifiers() {
     
     useEffect(() => {
       console.log(brand,"i am brand chking useeffect");
-      brand=='initial' ?
+      brand=='initial' || brand=='All' ?
       console.log("do something")
       :
       filteredproductsdata(brand);
@@ -512,9 +512,9 @@ const apicallbrand=(brandata)=>{
     setpricefilter("ascending")
     console.log("entered",brand);
     console.log([...alldata],"i am datta check all")
-    // const sorted = stval.sort((a, b) => a.price - b.price);
-    // const filteredData = brand === "initial" || brand=="ALL" ? alldata : alldata.filter((product) => product.brand === brand);
-    // console.log("ni abba sorted",filteredData);
+    const sorted = stval.sort((a, b) => a.price - b.price);
+    const filteredData = brand === "initial" || brand=="ALL" ? alldata : alldata.filter((product) => product.brand === brand);
+    console.log("ni abba sorted",filteredData);
     const sortagain=alldata.sort((a, b) => a.price - b.price);
     console.log("sorting agai ",sortagain);
     setsorteddata(sortagain);
@@ -900,7 +900,7 @@ data1?.map((val, i)=>{
     )
   } */}
   {
-    brand ==='All' ?
+    brand ==='All' || brand ==='ALL'?
     (
           <>
           {
