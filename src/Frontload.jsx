@@ -26,6 +26,8 @@ function Frontload() {
     const [pricefilter ,setpricefilter]=useState("nofilter")
     // console.log(productcategory + " product category");
     const windowSize = useWindowSize();
+    
+    const [filtereddata,setfilterdata]=useState();
     const [data1,setdata]=useState([])
     const dispatch=useDispatch()
     const router=useNavigate()
@@ -107,6 +109,14 @@ useEffect(()=>{
           console.error('Error fetching products:', error);
         }
 },[]);
+useEffect(() => {
+  console.log(brand,"i am brand chking useeffect");
+  brand=='initial' || brand=='All' ?
+  console.log("do something")
+  :
+  filteredproductsdata(brand);
+   // This will show the updated state
+}, [brand]);
 useEffect(()=>{
   const body={
     "category":productcategory
@@ -135,9 +145,9 @@ const lowtohigh=()=>{
   setpricefilter("ascending")
   console.log("entered",brand);
   console.log([...alldata],"i am datta check all")
-  // const sorted = stval.sort((a, b) => a.price - b.price);
-  // const filteredData = brand === "initial" || brand=="ALL" ? alldata : alldata.filter((product) => product.brand === brand);
-  // console.log("ni abba sorted",filteredData);
+  const sorted = stval.sort((a, b) => a.price - b.price);
+  const filteredData = brand === "initial" || brand=="ALL" ? alldata : alldata.filter((product) => product.brand === brand);
+  console.log("ni abba sorted",filteredData);
   const sortagain=alldata.sort((a, b) => a.price - b.price);
   console.log("sorting agai ",sortagain);
   setsorteddata(sortagain);
@@ -157,21 +167,31 @@ setsorteddata(sortagain);
 
 }
 const filteredproductsdata=(branddata)=>{
-    const pdata=localStorage.getItem('products');
-    setbrand(branddata);
-    console.log(pdata,"i m pdata");
-console.log("Productbrand",branddata)
- branddata === 'All'
-  ? setdalldata(JSON.parse(pdata))
-  : setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata));
+console.log("on click calling brand",branddata)
+const pdata=localStorage.getItem('products');
+setbrand(branddata);
+console.log(pdata,"i m pdata");
+console.log("Productbrand",brand)
+branddata==="ALL" ? setsorteddata(setdalldata(JSON.parse(pdata)))
+: setsorteddata(setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata)));
 
- apicallbrand(branddata)
+console.log("chek bey",branddata)
+// here filter based on brand
+const filteredProducts = JSON.parse(pdata).filter(product => product.brand === branddata);
+console.log(filteredProducts,"i am sorted data by brand");
+branddata==="ALL" ? setsorteddata(setdalldata(JSON.parse(pdata)))
+: setsorteddata(filteredProducts)
+
+pricefilter ==="ascending" ?
+lowtohigh() :
+hightolow()
 // console.log("Productbrand",brand)
 // console.log(count,"i m here")
 // console.log(stval,"i m here data ")
 
 
-  }
+}
+
 
   if(windowSize.width>=425 && windowSize.width<768)
   {
