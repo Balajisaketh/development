@@ -40,7 +40,7 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
   
     <>
     
-    <div className="h-auto w-auto bg-white shadow-lg rounded-lg p-4 md:p-8 relative lg:h-auto relative p-10 xl:p-10 h-full relative" onClick={()=> router(`/product/${uid}`)}>
+    <div className="shadow-lg rounded-lg md:p-8 relative lg:h-[97%] w-auto relative xl:p-10 h-full relative" onClick={()=> router(`/product/${uid}`)}>
       <div className="mb-4">
         <img
           src={imageUrl}
@@ -48,22 +48,21 @@ const ProductCard = ({imageUrl, description,price,productname,uid})  => {
           className="w-full h-[50vh] object-contain rounded-md"
         />
       </div>
-      <div className="mb-5">
-        <h3 className="text-xl font-bold">{productname}</h3>
+      <h3 className='font-bold text-xl '>{productname}</h3>
+      <div className='grid grid-cols-12 grid-flow-col justify-content-start w-auto '>
         
-      </div>
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center xl:grid grid-flow-col gap-3 space-x-4 items-center">
-        {/* <span className="text-lg font-bold text-black mb-2 md:mb-0 md:text-xl">
-        <FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/> {price}
-        </span> */}
-        <div className='flex'>
-        <FontAwesomeIcon icon={faIndianRupeeSign} className=" mx-1 mt-4"/>
-        <p className='mt-3'>{price}</p>
+        
+      <div className='flex mt-4 space-x-2'>
+        <div className='flex col-span-6 space-x-1'>
+        <FontAwesomeIcon icon={faIndianRupeeSign} className='my-1'/>
+        <p>{price}</p>
         </div>
-        <div className="rounded-md  p-3  bg-orange-400  text-white" onClick={()=>dispatching()}>
-          Add to Cart
-        </div>
+        <div className='bg-black whitespace-nowrap h-10 px-3 rounded-md'>
+         <p className='my-1 text-white'>Add to cart</p>
+          </div>
       </div>
+      </div>
+   
     
     </div>
     </>

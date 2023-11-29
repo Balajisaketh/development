@@ -24,10 +24,11 @@ function Cartdata() {
     console.log("Form data submitted:", data);
   };
     const cartvalus=useSelector((state)=>state.cart.items)
+
     const navigate=useNavigate();
   const wsaize=useWindowSize();
   console.log(wsaize,"i m hw");
-  console.log(cartvalus,"i m here");
+  console.log(cartvalus,"i m here cart values");
 const [quantityupdated,setquantity]=useState(1)
     const [open,isopen]=useState(false);
     const dispatch=useDispatch()

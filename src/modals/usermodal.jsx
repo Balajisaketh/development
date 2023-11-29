@@ -54,7 +54,7 @@
   const[countryid, setCountryid]=useState('');
   const[state, setState]=useState([]);
   const[stateid, setStateid]= useState('');
-  const [price,setprice]=useState(0)
+  const [price,setprice]=useState()
 
     const handlecounty=(e)=>{
       const getcountryId= e.target.value;
@@ -104,19 +104,26 @@
         ...item,
 
       }));
+      console.log(updatedJsonArr,"i am cheking name of prod");
       
       cartprods?.map((product)=>{
         console.log(product.price*product.quantity,"i m data")
         setprice(product.price*product.quantity);
 
       })
+      const calculateTotalPrice = () => {
+        // Use reduce to sum up the prices in the orderData array
+        const totalPrice = cartprods.reduce((total, order) => total + order.price*order.quantity, 0);
+        return totalPrice;
+      };
+      console.log("i am printed",calculateTotalPrice());
 
   console.log("i am price data",price)
       const fixuid=uuidv4()
       const body={
         fullname:name,
         email:mail,
-        price:price,
+        price:calculateTotalPrice(),
         phonenumber:phno,
         country:countryid,
         state:stateid,
@@ -124,6 +131,7 @@
         address2:add1,
         proddata:updatedJsonArr,
         orderid:fixuid,
+
         
         
       

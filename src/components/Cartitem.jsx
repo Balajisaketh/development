@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useWindowSize from "../hooks/useWindowsize";
 import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faRubleSign, faRupeeSign} from '@fortawesome/free-solid-svg-icons'
 const CartItem = ({ product, decrement,increment, deleteItem }) => {
+  console.log("i am cart cheking prod",product)
   const wsaize=useWindowSize();
 console.log(wsaize,"i m deteted")
     if(wsaize.width<=425)
@@ -82,10 +83,10 @@ else if(wsaize.width>=1024)
   return (
  <div className="grid grid-flow-col col-span-9  my-auto p-1 mx-6 shadow-md rounded-md h-auto">
   <div className="grid col-span-1 ">
-<img src={product?.imageUrl} alt={product.productname} className="h-[80px] mx-auto w-[60px] justify-self-end"/>
+<img src={product?.imageUrl} alt={product.name} className="h-[80px] mx-auto w-[60px] justify-self-end"/>
   </div>
   <div className="col-span-2 grid grid-flow-row w-[200px]">
-<p className="justify-self-start mx-2 text-left">{product?.productname}</p>
+<p className="justify-self-start mx-2 text-left  text-lg font-bold">{product?.productname}</p>
 <p className="justify-self-start mx-2"> 
 <span>  <FontAwesomeIcon icon={faIndianRupeeSign} className="mx-2 mt-4"/>   </span>
 {product?.price*product?.quantity}

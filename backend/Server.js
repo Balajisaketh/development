@@ -344,12 +344,12 @@ const ch={
 app.get("/getordersbyorderid/:orderid",(req,res)=>{
         const orderid=req.params.orderid;
         console.log("i am ordrid",orderid)
-        const quotedOrderid ='"' + orderid +'"';
+        const quotedOrderid ='"'+ orderid+'"';
 
         console.log("i am chek",quotedOrderid)
-        const querydata = {text :`SELECT * FROM orderdetails WHERE orderid = $1`,values:[quotedOrderid]}
+        const querydata = {text :`SELECT * FROM orderdetails WHERE orderid = $1`,values:[orderid.trim()]}
         client.query(querydata).then((data) => {
-          console.log("i am rows",data)
+          console.log("i am rows",data.rows)
           res.send(data.rows)
         }).catch((err) => {
           console.log(err,"i am inside error");

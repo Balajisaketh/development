@@ -37,7 +37,7 @@ console.log(selectedItem,"i am data selected")
         description:selectedItem.description,
         imageUrl:selectedItem.imagepath,
         price:selectedItem.price,
-        productname:selectedItem.productname,
+        productname:selectedItem.name,
         uid:uid,
         quantity:1
         

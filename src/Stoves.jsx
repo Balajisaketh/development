@@ -585,7 +585,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
         <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
         <p className='mt-3 font-medium'>{val?.price}</p>
         </div>
-        <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+        <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-3/4 " onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
           Add to Cart
         </div>
           </div>
@@ -624,7 +624,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
             <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
             <p className='mt-3 font-medium'>{val?.price}</p>
             </div>
-            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white " onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
               Add to Cart
             </div>
               </div>
@@ -648,7 +648,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
             <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
             <p className='mt-3 font-medium'>{val?.price}</p>
             </div>
-            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-3/4 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
               Add to Cart
             </div>
               </div>
@@ -692,9 +692,9 @@ else
         <Navbar/>
          <div className='grid grid-cols-12 grid-flow-col my-[6vh] relative'>
          <div className='grid col-span-3 h-[75vh] w-auto '>
-         <h1 className='text-lg text-black-300 font-medium'>Filter by Brand
-         <span><FontAwesomeIcon icon={faFilter} size='md' className='mx-3 mt-4' color='gray' onClick={()=>SetFilterdrop(!filterdrop)}/></span>
-         </h1>
+         <h1 className='text-lg text-black-300 font-bold'>Filter By Brand
+         
+         </h1>  
         <div className='column'>
 
          {
@@ -719,13 +719,14 @@ data1?.map((val, i)=>{
 })
                }
                 <div className='mt-10 mx-auto  column '>
-          <div className='flex mx-auto'>
+                  <h2 className='font-bold mb-5'>Sort By Price</h2>
+          <div className='flex justify-center'>
         <input type='radio' name="option" onClick={()=>lowtohigh()}/>
-        <p>Low to High</p>
+        <p className='mx-2'>Low to High</p>
           </div>
-          <div className='flex mx-auto'>
+          <div className='flex justify-center my-4'>
         <input type='radio' name="option" onClick={()=>hightolow()}/>
-        <p>High to Low</p>
+        <p className='mx-2'>High to Low</p>
           </div>
        </div>
        </div>
@@ -752,7 +753,7 @@ data1?.map((val, i)=>{
           console.log(val,"ascendin")
           return (
             
-              <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+              <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
             
           )
          })
@@ -768,7 +769,7 @@ data1?.map((val, i)=>{
           console.log(val,"dscnding")
           
             return (
-              <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+              <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
             
           )
          })
@@ -782,7 +783,7 @@ data1?.map((val, i)=>{
        stval?.map((val,index)=>{
         console.log(val,"top load data fro stoe")
         return (
-          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+          <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
         )
        })
 }
@@ -798,7 +799,7 @@ data1?.map((val, i)=>{
               sorteddata?.map((val,index)=>{
                 console.log(val,"ni amma tra")
                 return (
-                  <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+                  <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
                 )
                })
           }
@@ -811,7 +812,7 @@ data1?.map((val, i)=>{
               sorteddata?.map((val,index)=>{
                 console.log(val,"ni amma tra")
                 return (
-                  <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+                  <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
                 )
                })
           }
@@ -821,7 +822,7 @@ data1?.map((val, i)=>{
        alldata?.map((val,index)=>{
         console.log(val,"ni amma tra")
         return (
-          <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+          <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
         )
        })
 }
