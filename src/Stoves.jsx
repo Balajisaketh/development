@@ -165,7 +165,7 @@ console.log("chek bey",branddata)
 
 
   }
-
+console.log("i am checking issue",sorteddata)
   const lowtohigh=()=>{
       setpricefilter("ascending")
       console.log("entered")

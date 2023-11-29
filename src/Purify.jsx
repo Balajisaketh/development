@@ -390,6 +390,7 @@ import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import { faIndianRupeeSign } from '@fortawesome/free-solid-svg-icons';
 import { sidebarreducer } from './redux/Alldata';
+import { logRoles } from '@testing-library/react';
 
 function  Purifiers() {
     const useQuery = () => new URLSearchParams(useLocation().search);
@@ -408,12 +409,11 @@ function  Purifiers() {
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState()
     const [renddata,setrendata]=useState("yes")
-    const [brandDataRendered, setBrandDataRendered] = useState(false);
-    const [rendprods,setrendprods]=useState([])
-    const [filterdrop,SetFilterdrop]=useState(false)
+    
     const cartdata=useSelector((state)=>state.cart.items)
     const [alldata,setdalldata]=useState([])
     const [sorteddata,setsorteddata]=useState();
+    const [filtereddata,setfilterdata]=useState();
     console.log(cartdata,'i m cartdone')    
     const [pricefilter ,setpricefilter]=useState("nofilter")
     console.log(cartdata,'i m cartdone')    
@@ -422,6 +422,15 @@ function  Purifiers() {
     useEffect(()=>{
       dispatch(sidebarreducer(false))
     },[])
+    
+    useEffect(() => {
+      console.log(brand,"i am brand chking useeffect");
+      brand=='initial' ?
+      console.log("do something")
+      :
+      filteredproductsdata(brand);
+       // This will show the updated state
+    }, [brand]);
 useEffect(()=>{
     console.log("i m rend data",renddata)
 
@@ -498,42 +507,62 @@ const apicallbrand=(brandata)=>{
     console.error(err,"i m brand error")
   })
 }
+  // console.log("i am checking issue",sorteddata)
+  const lowtohigh=()=>{
+    setpricefilter("ascending")
+    console.log("entered",brand);
+    console.log([...alldata],"i am datta check all")
+    // const sorted = stval.sort((a, b) => a.price - b.price);
+    // const filteredData = brand === "initial" || brand=="ALL" ? alldata : alldata.filter((product) => product.brand === brand);
+    // console.log("ni abba sorted",filteredData);
+    const sortagain=alldata.sort((a, b) => a.price - b.price);
+    console.log("sorting agai ",sortagain);
+    setsorteddata(sortagain);
+    console.log(sorteddata,"i am data check")
+}
+const hightolow=()=>{
+  setpricefilter("descending")
+  console.log("entered",brand)
+  const sorted = stval.sort((a, b) => b.price - a.price);
+  const filteredData = brand === "initial" || brand=='ALL' ? alldata : alldata.filter((product) => product.brand === brand);
+  console.log("i am checking  error",filteredData);
+  const sortagain=filteredData.sort((a, b) => b.price - a.price);
+  console.log("sorting again  hgih ",sortagain);
+  setsorteddata(sortagain);
+  
+    
+
+}
 const filteredproductsdata=(branddata)=>{
+  console.log("on click calling brand",branddata)
   const pdata=localStorage.getItem('products');
   setbrand(branddata);
   console.log(pdata,"i m pdata");
-console.log("Productbrand",branddata)
-branddata === 'All'
-? setdalldata(JSON.parse(pdata))
-: setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata));
-branddata=="ALL" ? setsorteddata(setdalldata(JSON.parse(pdata)))
+console.log("Productbrand",brand)
+branddata==="ALL" ? setsorteddata(setdalldata(JSON.parse(pdata)))
 : setsorteddata(setdalldata(JSON.parse(pdata).filter((product) => product.brand === branddata)));
-
+  
 console.log("chek bey",branddata)
+// here filter based on brand
+const filteredProducts = JSON.parse(pdata).filter(product => product.brand === branddata);
+console.log(filteredProducts,"i am sorted data by brand");
+branddata==="ALL" ? setsorteddata(setdalldata(JSON.parse(pdata)))
+: setsorteddata(filteredProducts)
+
+pricefilter ==="ascending" ?
+lowtohigh() :
+hightolow()
 // console.log("Productbrand",brand)
 // console.log(count,"i m here")
 // console.log(stval,"i m here data ")
 
 
   }
-  const lowtohigh=()=>{
-    setpricefilter("ascending")
-    console.log("entered")
-    console.log([...alldata],"i am datta check all")
-    const sorted = stval.sort((a, b) => a.price - b.price);
-    console.log("ni abba sorted",sorted);
-    setsorteddata(sorted)
-    console.log(sorteddata,"i am data check")
-}
-const hightolow=()=>{
-  setpricefilter("descending")
-  console.log("entered")
-  const sorted = stval.sort((a, b) => b.price - a.price);
-  setsorteddata(sorted)
-  console.log(sorteddata,"i am data check")
-    
 
-}
+
+console.log(sorteddata,"i am data check")
+console.log(pricefilter,"i am checking price filter");
+console.log(sorteddata,"i am high low")
   if(windowSize.width>=425 && windowSize.width<768)
   {
       return (
@@ -783,7 +812,7 @@ data1?.map((val, i)=>{
   } */}
   
   {/* check here */}
-  {
+  {/* {
     brand=='initial' && pricefilter=="ascending"?
     (
      <>
@@ -798,7 +827,7 @@ data1?.map((val, i)=>{
          })
      }
      </>
-    ) :
+    ):
     brand=='initial' && pricefilter=="descending"?
     (
      <>
@@ -869,7 +898,121 @@ data1?.map((val, i)=>{
 
       </>
     )
-  }
+  } */}
+  {
+    brand ==='All' ?
+    (
+          <>
+          {
+     stval?.map((val,index)=>{
+      console.log(val,"ni amma tra")
+      return (
+        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      )
+     })
+}
+          </>
+    ):
+
+    brand =="initial" ?(
+      <>
+      {
+         stval?.map((val,index)=>{
+          console.log(val,"ni amma tra")
+          return (
+            <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+          )
+         })
+          
+      }
+      </>
+          ):
+  (brand === 'All' || brand === 'initial') && pricefilter === 'ascending' ? (
+    <>
+      {sorteddata?.map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ) : (brand === 'All' || brand === 'initial') && pricefilter === 'descending' ? (
+    <>
+      {sorteddata?.slice().reverse().map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ) : (
+    
+    pricefilter!=="ascending" && pricefilter!=="descending" ?
+    (
+      <>
+      
+    {alldata
+        ?.filter((val) => val?.brand === brand).map((val, index) => (
+          <Productcard
+            key={index}
+            productname={val?.name}
+            imageUrl={val?.imagepath}
+            price={val?.price}
+            description={val?.description}
+            uid={val?.uid}
+          />
+        ))}
+      </>
+    )
+   :
+   pricefilter=="ascending" ?
+  (
+    <>
+    
+    {sorteddata?.map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ):
+  pricefilter=="descending" ?
+  (
+    <>
+    {/* <p>i am higher</p> */}
+    {sorteddata?.map((val, index) => (
+        <Productcard
+          key={index}
+          productname={val?.name}
+          imageUrl={val?.imagepath}
+          price={val?.price}
+          description={val?.description}
+          uid={val?.uid}
+        />
+      ))}
+    </>
+  ):
+  (
+    <>
+    </>
+  )
+  )
+}
+
+  
     </div>
     </div>
     
