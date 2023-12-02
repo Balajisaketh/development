@@ -236,14 +236,55 @@ app.get('/getproducts',(req,res) => {
     const getqury=`SELECT * FROM products`
       
   client.query(getqury).then((data) => {
-    console.log(data,"i m done")
+
     res.json(data)
 
   } ).catch((err) => {
     console.error(err,"i m error")
   });
   
+
   
+})
+app.put('/updateproduct/:prodid',(req,res)=>{
+  console.log("i am updted check me bby")
+     const prodid=req.params.prodid;
+     console.log(prodid,"i am prod id")
+     
+  const { price, name } = req.body;
+  console.log("ia m price body",name,price)
+
+       const qry={
+        text:"Update products  SET name=$1, price=$2 where uid=$3",
+        values:[name,price,prodid]
+       }
+       client.query(qry).then((resp)=>{
+
+        res.json({status:true,message:"updated succesfully"})
+       }).catch((err)=>{
+        console.log(err,"i am failed error")
+          res.json({status:false,message:"update failed"})
+       })
+})
+app.delete('/deleteproduct/:prodid',(req,res)=>{
+  console.log("i am updted check me bby")
+     const prodid=req.params.prodid;
+     console.log(prodid,"i am prod id")
+     
+  const { price, name } = req.body;
+  console.log("ia m price body",name,price)
+
+       const qry={
+        text:"delete from products where uid=$1",
+        values:[prodid]
+       }
+       client.query(qry).then((resp)=>{
+
+        res.json({status:true,message:"deleted succesfully"})
+       }).catch((err)=>{
+        console.log(err,"i am failed error")
+          res.json({status:false,message:"delete failed"})
+       })
 })
 app.post('/getbycategory', (req, res) =>{
 const category =req.body.category.toString().toLowerCase()
@@ -423,7 +464,7 @@ app.post('/getusers', (req, res) => {
 app.post('/searchbyname', (req, res) =>{
   const name =req.body.username;
   console.log(name,"i am a user");
-  const querydata = `SELECT * FROM users u WHERE UPPER(u.username) LIKE UPPER('%${name}%')`
+  const querydata = `SELECT * FROM orderdetails u WHERE UPPER(u.name) LIKE UPPER('%${name}%')`
     console.log(querydata,'hureey')
     client.query(querydata).then((data)=>{ 
      
@@ -456,6 +497,19 @@ app.get('/cusorders/:id/:status',((req,res) => {
   }).catch((error) =>{
     console.log(error,"i am error")
   })
+}))
+app.get('/getallorders',((req,res)=>{
+  console.log("i am entered");
+  const qry={
+    text:'select * from orderdetails'
+  }
+  client.query(qry).then((data)=>{
+    console.log(data,"i m data")
+    res.json(data.rows)
+  }).catch((error) =>{
+    console.log(error,"i am error")
+  })
+
 }))
 app.post('/api/getbrand',(req,res)=>{
   const category=req.body.category
