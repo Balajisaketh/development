@@ -47,7 +47,7 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
     console.log(dataval,routedata,"i m data route")
     router('/'+routedata + "?category=" + dataval)
    }
-   if(wsaize.width>=425 && wsaize.width<768)
+   if(wsaize.width>=375 && wsaize.width<768)
    {
     return(
       <div className='grid grid-cols-10 overflow-x-hidden grid-flow-col shadow-lg   border border-10  border-gray  h-14 relative '>

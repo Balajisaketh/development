@@ -19,7 +19,7 @@ function Layout() {
   const checkside=useSelector((state)=>state.prods.checksidebar);
   console.log("i sm checkside", checkside)
 
-  if(wsaize.width>=425 && wsaize.width<=768)
+  if(wsaize.width>=425 && wsaize.width<768)
   {
     return (
       <>
@@ -56,7 +56,7 @@ function Layout() {
       </>
       )
   }
- else if(wsaize.width<=768 && wsaize.width>425)
+ else if(wsaize.width<=768 && wsaize.width>375)
   {
     return (
       <div className='h-screen'>

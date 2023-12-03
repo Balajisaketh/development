@@ -198,7 +198,7 @@ hightolow()
       return (
         <>
         <div>
-        <Navbar opensidebar={toggle}  />
+        <Sidebarr/>
         {
           checkside==true ? 
           (
