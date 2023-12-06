@@ -3,6 +3,8 @@ const app = express()
 const port = 3001
 const cors = require('cors')
 const pgp = require("pg-promise")();
+require('dotenv').config();
+console.log('SECRET_KEY:', process.env.secretKey);
 app.use(cors())
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -91,14 +93,14 @@ app.post('/register',(req,res)=>{
     
     const data=req.body;
   console.log(data,"i m database");
-     const uid=uuid();
+     
  const passworddata=data.password;
     const email=data.email; 
     console.log(passworddata,email,"w e are here");
    
     const salt =  (Math.random() + 1).toString(36).substring(7);
-    const password =md5(data.passworddata+salt)
-   
+    const password =md5(passworddata+salt)
+    
     const querydata = {
       text:  `SELECT * FROM users	 
      WHERE email =$1`,  
@@ -114,9 +116,9 @@ app.post('/register',(req,res)=>{
              else{
               console.log("entered here")
               const queryData = {
-                text: `INSERT INTO users (uid,email,password_hash,salt)
-                              VALUES($1,$2,$3,$4) RETURNING *`,
-              values: [uid,email,password,salt],
+                text: `INSERT INTO users (email,password_hash,salt)
+                              VALUES($1,$2,$3) RETURNING *`,
+              values: [email,password,salt],
               }
           
               client.query(queryData).then((newdata)=>{ 
@@ -133,10 +135,12 @@ app.post('/register',(req,res)=>{
                   console.log(err,'in outline')
                 });
           }
-    })  
+    })
+    // WI
   })    
   app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
+    console.log("body",req.body)
     const query = {
       text:  `SELECT * FROM users	 
      WHERE email =$1`,
@@ -144,17 +148,22 @@ app.post('/register',(req,res)=>{
 
       client.query(query).then((data)=>{ 
         const userData = data.rows;
-   
-         const salt=userData.salt;
+         console.log("i am chekibg",userData[0].salt);
+         const salt=userData[0].salt;
+         const secretKey = process.env.secretKey;
+         const tokenData ={email: userData[0].email,salt:userData[0].salt};
+         const token = jwt.sign(tokenData,secretKey,{expiresIn:'3h'})
+        
          const passwordh=md5(password+salt)
+         console.log(passwordh,userData[0].password_hash,"we are same hck");
              
-           if (passwordh === userData.password_hash) {
+           if (passwordh === userData[0].password_hash) {
            //    const tokenData:any ={useruid:userData.useruid,username:userData.username,companyname:userData.companyname,companyuid:userData.companyuid,type:userData.type,email: userData.email };
            //  const token = jwt.sign(tokenData,secretkey,{expiresIn:'3h'})
            
              
              // res.send({token:token,status:"success",message:"login successful",type:userData.type,username:userData.username })
-             res.send({status:"success",message:"login successful",type:userData.type,username:userData.username })
+             res.send({status:"success",message:"login successful",token:token})
 
              console.log({ status:"success",message:"login successful" })
            } else { 
