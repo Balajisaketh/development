@@ -48,7 +48,7 @@ client.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
-const secretkey = "hello";
+
 // app.use((req, res, next)=>{
 
 //   if(req.url ==='/register' || req.url ==='/login'){
@@ -84,28 +84,20 @@ const secretkey = "hello";
 
 //   }
 // }) 
-const adminCredentials = {
-  username: 'balajisakeths@gmail.com',
-  password: 'Srivasista',
-};
-app.post('/register',upload.single('avatar'),(req,res,next)=>{
+
+app.post('/register',(req,res)=>{
   
-  const file = req.file
-  if (!file) {
-    const error = new Error('Please upload a file')
-    error.httpStatusCode = 400
-    return next(error)
-  }
-    console.log(file,"here")
+  
+    
     const data=req.body;
   console.log(data,"i m database");
      const uid=uuid();
- const username=data.username;
+ const passworddata=data.password;
     const email=data.email; 
-    console.log(username,email,"w e are here");
-   const avatar=path.join(file.path);
+    console.log(passworddata,email,"w e are here");
+   
     const salt =  (Math.random() + 1).toString(36).substring(7);
-    const password =md5(data.password+salt)
+    const password =md5(data.passworddata+salt)
    
     const querydata = {
       text:  `SELECT * FROM users	 
@@ -118,25 +110,19 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
             if (data.rows.length>0) {     
               res.json("email already exists")
               
-            } 
+            }   
              else{
               console.log("entered here")
               const queryData = {
-                text: `INSERT INTO users (uid,username,email,password,salt,avatar)
-                              VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
-              values: [uid,username,email,password,salt,avatar],
+                text: `INSERT INTO users (uid,email,password_hash,salt)
+                              VALUES($1,$2,$3,$4) RETURNING *`,
+              values: [uid,email,password,salt],
               }
           
               client.query(queryData).then((newdata)=>{ 
               console.log(newdata,'li mq ');
-              const sendres={
-                fieldname:file.fieldname,
-                filename:file.filename,
-                path:file.path,
-                status:"success",
-
-              }
-              res.json(sendres)
+             
+              res.json({success:true,message:"insert successful"})
 
          
 
@@ -151,13 +137,37 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
   })    
   app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
+    const query = {
+      text:  `SELECT * FROM users	 
+     WHERE email =$1`,
+      values : [username] }
+
+      client.query(query).then((data)=>{ 
+        const userData = data.rows;
+   
+         const salt=userData.salt;
+         const passwordh=md5(password+salt)
+             
+           if (passwordh === userData.password_hash) {
+           //    const tokenData:any ={useruid:userData.useruid,username:userData.username,companyname:userData.companyname,companyuid:userData.companyuid,type:userData.type,email: userData.email };
+           //  const token = jwt.sign(tokenData,secretkey,{expiresIn:'3h'})
+           
+             
+             // res.send({token:token,status:"success",message:"login successful",type:userData.type,username:userData.username })
+             res.send({status:"success",message:"login successful",type:userData.type,username:userData.username })
+
+             console.log({ status:"success",message:"login successful" })
+           } else { 
+             res.send({status:"Incorrect",message:"failed"})
+             console.log({status: "Incorrect",message:"failed"}) 
+           }
+             
+    }).catch((error) =>{ 
+     res.send({status: "notfound",message:"failed"})
+     console.log({status: "notfound",message:error.message})
+    }) 
+   
   
-    // Check if provided credentials match admin credentials
-    if (username === adminCredentials.username && password === adminCredentials.password) {
-      res.json({ success: true, message: 'Login successful' });
-    } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
-    }
   })
 app.post('/addproduct', (req,res) => {
   
