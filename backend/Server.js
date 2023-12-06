@@ -84,6 +84,10 @@ const secretkey = "hello";
 
 //   }
 // }) 
+const adminCredentials = {
+  username: 'balajisakeths@gmail.com',
+  password: 'Srivasista',
+};
 app.post('/register',upload.single('avatar'),(req,res,next)=>{
   
   const file = req.file
@@ -143,44 +147,18 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
                   console.log(err,'in outline')
                 });
           }
-    })
+    })  
   })    
-app.post("/login",(req,res) => {
-
-  const email =req.body.email;
-  const password = req.body.password;
-  console.log(email,password,"in bakcend");
-  const querydataa= {
-    text:  `SELECT * FROM users	 
-   WHERE email =$1`,
-    values : [email] 
-  }
-client.query(querydataa).then((data)=>
-{
-    
-    console.log(data,"i m here");
-     const email= data.rows[0].email;
-     const passworddata = data.rows[0].password;
-     const salt = data.rows[0].salt;
-     const uiddata = data.rows[0].uid;
-     console.log(salt,"i m salt")
-     console.log(passworddata,"password")
-     const verfypwd=md5(password+salt);
-     console.log(verfypwd,"i m verfypwd");
-     if(verfypwd==passworddata)
-     {
-      const tokenData = {email:data.email,password:data.password};
-      const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })    
-      res.send({ token: token, status: "success", message: "login successful" })
+  app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+  
+    // Check if provided credentials match admin credentials
+    if (username === adminCredentials.username && password === adminCredentials.password) {
+      res.json({ success: true, message: 'Login successful' });
     } else {
-      res.send({ status: "Incorrect", message: "failed" })
-      console.log({ status: "Incorrect", message: "failed" })
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
-}).catch((err)=>
-{
-  console.log("error", err)
-})
-})
+  })
 app.post('/addproduct', (req,res) => {
   
     const productname=req.body.productname
