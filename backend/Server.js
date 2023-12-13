@@ -3,6 +3,8 @@ const app = express()
 const port = 3001
 const cors = require('cors')
 const pgp = require("pg-promise")();
+require('dotenv').config();
+console.log('SECRET_KEY:', process.env.secretKey);
 app.use(cors())
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -48,7 +50,7 @@ client.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
-const secretkey = "hello";
+
 // app.use((req, res, next)=>{
 
 //   if(req.url ==='/register' || req.url ==='/login'){
@@ -84,25 +86,21 @@ const secretkey = "hello";
 
 //   }
 // }) 
-app.post('/register',upload.single('avatar'),(req,res,next)=>{
+
+app.post('/register',(req,res)=>{
   
-  const file = req.file
-  if (!file) {
-    const error = new Error('Please upload a file')
-    error.httpStatusCode = 400
-    return next(error)
-  }
-    console.log(file,"here")
+  
+    
     const data=req.body;
   console.log(data,"i m database");
-     const uid=uuid();
- const username=data.username;
+     
+ const passworddata=data.password;
     const email=data.email; 
-    console.log(username,email,"w e are here");
-   const avatar=path.join(file.path);
-    const salt =  (Math.random() + 1).toString(36).substring(7);
-    const password =md5(data.password+salt)
+    console.log(passworddata,email,"w e are here");
    
+    const salt =  (Math.random() + 1).toString(36).substring(7);
+    const password =md5(passworddata+salt)
+    
     const querydata = {
       text:  `SELECT * FROM users	 
      WHERE email =$1`,  
@@ -114,25 +112,19 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
             if (data.rows.length>0) {     
               res.json("email already exists")
               
-            } 
+            }   
              else{
               console.log("entered here")
               const queryData = {
-                text: `INSERT INTO users (uid,username,email,password,salt,avatar)
-                              VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
-              values: [uid,username,email,password,salt,avatar],
+                text: `INSERT INTO users (email,password_hash,salt)
+                              VALUES($1,$2,$3) RETURNING *`,
+              values: [email,password,salt],
               }
           
               client.query(queryData).then((newdata)=>{ 
               console.log(newdata,'li mq ');
-              const sendres={
-                fieldname:file.fieldname,
-                filename:file.filename,
-                path:file.path,
-                status:"success",
-
-              }
-              res.json(sendres)
+             
+              res.json({success:true,message:"insert successful"})
 
          
 
@@ -144,43 +136,48 @@ app.post('/register',upload.single('avatar'),(req,res,next)=>{
                 });
           }
     })
+    // WIth
   })    
-app.post("/login",(req,res) => {
+  app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+    console.log("body",req.body)
+    const query = {
+      text:  `SELECT * FROM users	 
+     WHERE email =$1`,
+      values : [username] }
 
-  const email =req.body.email;
-  const password = req.body.password;
-  console.log(email,password,"in bakcend");
-  const querydataa= {
-    text:  `SELECT * FROM users	 
-   WHERE email =$1`,
-    values : [email] 
-  }
-client.query(querydataa).then((data)=>
-{
-    
-    console.log(data,"i m here");
-     const email= data.rows[0].email;
-     const passworddata = data.rows[0].password;
-     const salt = data.rows[0].salt;
-     const uiddata = data.rows[0].uid;
-     console.log(salt,"i m salt")
-     console.log(passworddata,"password")
-     const verfypwd=md5(password+salt);
-     console.log(verfypwd,"i m verfypwd");
-     if(verfypwd==passworddata)
-     {
-      const tokenData = {email:data.email,password:data.password};
-      const token = jwt.sign(tokenData, secretkey, { expiresIn: '3h' })    
-      res.send({ token: token, status: "success", message: "login successful" })
-    } else {
-      res.send({ status: "Incorrect", message: "failed" })
-      console.log({ status: "Incorrect", message: "failed" })
-    }
-}).catch((err)=>
-{
-  console.log("error", err)
-})
-})
+      client.query(query).then((data)=>{ 
+        const userData = data.rows;
+         console.log("i am chekibg",userData[0].salt);
+         const salt=userData[0].salt;
+         const secretKey = process.env.secretKey;
+         const tokenData ={email: userData[0].email,salt:userData[0].salt};
+         const token = jwt.sign(tokenData,secretKey,{expiresIn:'3h'})
+        
+         const passwordh=md5(password+salt)
+         console.log(passwordh,userData[0].password_hash,"we are same hck");
+             
+           if (passwordh === userData[0].password_hash) {
+           //    const tokenData:any ={useruid:userData.useruid,username:userData.username,companyname:userData.companyname,companyuid:userData.companyuid,type:userData.type,email: userData.email };
+           //  const token = jwt.sign(tokenData,secretkey,{expiresIn:'3h'})
+           
+             
+             // res.send({token:token,status:"success",message:"login successful",type:userData.type,username:userData.username })
+             res.send({status:"success",message:"login successful",token:token})
+
+             console.log({ status:"success",message:"login successful" })
+           } else { 
+             res.send({status:"Incorrect",message:"failed"})
+             console.log({status: "Incorrect",message:"failed"}) 
+           }
+             
+    }).catch((error) =>{ 
+     res.send({status: "notfound",message:"failed"})
+     console.log({status: "notfound",message:error.message})
+    }) 
+   
+  
+  })
 app.post('/addproduct', (req,res) => {
   
     const productname=req.body.productname
