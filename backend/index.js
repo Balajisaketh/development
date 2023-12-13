@@ -4,7 +4,6 @@ const port = 3001
 const cors = require('cors')
 const pgp = require("pg-promise")();
 require('dotenv').config();
-console.log('SECRET_KEY:', process.env.secretKey);
 app.use(cors())
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
