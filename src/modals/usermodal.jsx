@@ -120,7 +120,7 @@
       console.log("i am printed",calculateTotalPrice());
 
   console.log("i am price data",price)
-      const fixuid=uuidv4()
+      
       const body={
         fullname:name,
         email:mail,
@@ -131,12 +131,10 @@
         addres1:add,
         address2:add1,
         proddata:updatedJsonArr,
-        orderid:fixuid,
 
         
-        
       
-  }
+  } 
   const config = {     
     headers: { 'content-type': 'multipart/form-data' }
   }

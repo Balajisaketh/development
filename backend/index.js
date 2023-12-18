@@ -224,10 +224,75 @@ app.post("/insertusers",(req,res)=>{
 
   } ).catch((err) => {
     console.error(err,"i m error")
+    res.send({status:true, message:err});
   });
 })
 
+app.post("/returns",(req,res)=>{
+  const productname=req.body.productname
+    const price= req.body.price
+    const imgpath=req.body.imgpath
+    const date=new Date();
+    const qua=req.body.quantity
+    console.log(productname,price,date,qua,imgpath,"i am data here in returns");
+    const insertquery= {
+      text: `INSERT INTO return_table (product_name,quantity,price,return_date,product_url) 
+                        VALUES($1, $2,$3,$4,$5,$6) RETURNING *`,
+      values : [productname,qua,price,date,imgpath]
+    }
+    client.query(insertquery).then((data) => {
+      console.log(data,"i m done")
+      res.send({status:true, message:"return placed"});
+  
+    } ).catch((err) => {
+      
+      res.send({status:true, message:err});
+    });
 
+
+
+})
+app.get("/getreturns",(req,res)=>{
+  console.log("i am request",req.body)
+  const qry={
+    text:"SELECT * from return_table"
+  }
+  client.query(qry).then((data) => {
+    console.log(data,"i m done")
+    res.send({message:data});
+
+  } ).catch((err) => {
+    
+    res.send({status:true, message:err});
+  });
+
+})
+app.delete('/api/orders/:uid/:orderid', async (req, res) => {
+  const { uid, orderid } = req.params;
+console.log("i am retuns delete",uid,orderid);
+
+    // const insertquery= {
+    //   text: `DELETE FROM ordersdetails (uid,orderid) 
+    //                     VALUES($1, $2) RETURNING *`,
+    //   values : [uid,orderid]
+    // }
+    const insertquery = {
+      text: 'UPDATE orders SET return_table = array_remove(your_json_array_column, jsonb_build_object(\'orderid\', $1)) WHERE uid = $2 RETURNING *',
+      values: [orderid,uid],
+    };
+    
+    client.query(insertquery).then((data) => {
+      console.log(data,"i m done")
+      res.send({status:true, message:"removed sucessfully"});
+  
+    } ).catch((err) => {
+      
+      res.send({status:true, message:err});
+    });
+
+
+   
+});
 app.get('/getproducts',(req,res) => {
     const getqury=`SELECT * FROM products`
       
@@ -237,6 +302,7 @@ app.get('/getproducts',(req,res) => {
 
   } ).catch((err) => {
     console.error(err,"i m error")
+    res.send({status:true, message:err});
   });
   
 
