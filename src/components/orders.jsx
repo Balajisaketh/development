@@ -1,18 +1,36 @@
 import axios from "axios"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useWindowSize from "../hooks/useWindowsize"
 import animationdata from '../../src/images/Lottie/tick.json';
 import Lottie from 'react-lottie';
 import { useDispatch, useSelector} from 'react-redux';
-import { removeOrder } from "../redux/Alldata";
+import { ordersslice, removeOrder } from "../redux/Alldata";
 function OrderData({price,imageurl,quantity,productname,uid,orderidata}){
     console.log("i am entered orders comp",price,imageurl,quantity,productname,uid,orderidata)
-    const overallorders=useSelector((state)=>state.prods.orders);  
-    console.log("i am ordrdata",overallorders);
+    const allord=useSelector((state)=>state.prods.orders)
+    console.log("i am order data",allord);
+const dispatch=useDispatch()
+    const [prods,setprods]=useState()
+    const handlereturns = (uiddata) => {
+      console.log("i am im handle returns");
+      const newCartvalus = allord.your_json_array_column.filter( function(item) {
+        return item.uid != uiddata
+      });
+      dispatch(removeOrder(newCartvalus));
+      console.log("i am check new",newCartvalus);
+      setProducts(newCartvalus);
+    }
+    
     const wsize=useWindowSize()
     const [products,setProducts]=useState([]);
     const [animationVisible, setAnimationVisible] = useState(false);
-    const dispatch=useDispatch();
+    
+
+    // const changedid=()=>{
+      
+    //    
+    //   console.log("i am ordrdata",overallorders);
+    //   }
     const defaultOptions = {
       loop: true,
       autoplay: true,
@@ -22,25 +40,27 @@ function OrderData({price,imageurl,quantity,productname,uid,orderidata}){
       }
     };
     const deleteprod=(uidddata)=>{
+      console.log(uidddata,"i am unique prod id");
+      
        axios.delete( `http://localhost:3001/api/orders/${uidddata}/${orderidata}`).then((res)=>{
         if(res.data.message="removed sucessfully")
         {
+          console.log("called done")
           setAnimationVisible(true);
-          dispatch(removeOrder(uidddata));
+          handlereturns(uidddata);
           
-          
-          const updatedProducts =  overallorders.map(product => {
-            return product.your_json_array_column
-            // console.log('ni abba ra', uid);
-            // console.log('ni abba re', product.uid);
-            // Add any additional information you want to print
-            // ...
+          // const updatedProducts =  overallorders.map(product => {
+          //   return product.your_json_array_column
+          //   // console.log('ni abba ra', uid);
+          //   // console.log('ni abba re', product.uid);
+          //   // Add any additional information you want to print
+          //   // ...
           
             
-          });
-          console.log(updatedProducts," hamaya check here");
+          // });
+          // console.log(updatedProducts," hamaya check here");
           
-          setProducts(updatedProducts);
+          // setProducts(updatedProducts);
           
         
           
@@ -62,7 +82,7 @@ function OrderData({price,imageurl,quantity,productname,uid,orderidata}){
         console.log(res.data,"i am return data print");
         if(res.data.message="return placed")
         {
-
+             console.log("i am calling inside")
           deleteprod(uiddata)
           
         }
@@ -105,8 +125,8 @@ function OrderData({price,imageurl,quantity,productname,uid,orderidata}){
       <div>
       
           {/* <div className="grid grid-flow-col gap-2 grid-cols-12 mx-auto my-10"> */}
-            {overallorders.length > 0 ? (
-              overallorders?.map((val, indx) => {
+            {allord.length > 0 ? (
+              allord?.map((val, indx) => {
                   
                   
                  return val.your_json_array_column?.map((value,index)=>

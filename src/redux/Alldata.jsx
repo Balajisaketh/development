@@ -20,9 +20,9 @@
    state.alertdata=action.payload;
     },
     allprods:(state,action)=>{
-      console.log("i am n store",action.payload)
+      // console.log("i am n store",action.payload)
       state.allproductsdata.push(action.payload)
-      console.log("i am cheking ruko",state.allproductsdata);
+      // console.log("i am cheking ruko",state.allproductsdata);
     },
     sidebarreducer:(state,action)=>{
       state.checksidebar=action.payload;
@@ -38,8 +38,11 @@
     },
     removeOrder: (state, action) => {
       // Remove the order from the state based on the uid
-      state.orders = state.orders.filter(order => order.uid !== action.payload);
+      state.orders = state.orders.filter(order => order.uid  !== action.payload);
+      console.log(state.orders,"i am ordrs check me");
+
     },
+
     },
   })
 

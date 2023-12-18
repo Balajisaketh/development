@@ -252,6 +252,21 @@ app.post("/returns",(req,res)=>{
 
 
 })
+app.get("/getreturns",(req,res)=>{
+  console.log("i am request",req.body)
+  const qry={
+    text:"SELECT * from return_table"
+  }
+  client.query(qry).then((data) => {
+    console.log(data,"i m done")
+    res.send({message:data});
+
+  } ).catch((err) => {
+    
+    res.send({status:true, message:err});
+  });
+
+})
 app.delete('/api/orders/:uid/:orderid', async (req, res) => {
   const { uid, orderid } = req.params;
 console.log("i am retuns delete",uid,orderid);
@@ -262,8 +277,8 @@ console.log("i am retuns delete",uid,orderid);
     //   values : [uid,orderid]
     // }
     const insertquery = {
-      text: 'UPDATE orders SET products = array_remove(products, jsonb_build_object(\'uid\', $1)) WHERE orderid = $2 RETURNING *',
-      values: [uid, orderid],
+      text: 'UPDATE orders SET return_table = array_remove(your_json_array_column, jsonb_build_object(\'orderid\', $1)) WHERE uid = $2 RETURNING *',
+      values: [orderid,uid],
     };
     
     client.query(insertquery).then((data) => {
@@ -391,6 +406,8 @@ app.post('/deleteusers', (req,res)=>{
 // })
 app.post("/addorders", async (req, res) => {
   console.log(req.body,"i am check me now")
+  const uniqueId = Math.floor(100000 + Math.random() * 900000);
+
   try {
     const proddata =req.body.proddata; 
     const name=req.body.fullname;
@@ -399,7 +416,7 @@ app.post("/addorders", async (req, res) => {
     const phno=req.body.phonenumber;
     const address=req.body.address1;
     const address2=req.body.address2;
-    const orderid=req.body.orderid;
+    const orderid= uniqueId.toString();
     const fulladdress=address+address2;
     
      // Assuming the request body contains a single product object
