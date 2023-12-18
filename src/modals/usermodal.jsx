@@ -102,6 +102,7 @@
 
       const updatedJsonArr = cartprods.map((item) => ({
         ...item,
+        "status":"orderplaced",
 
       }));
       console.log(updatedJsonArr,"i am cheking name of prod");
