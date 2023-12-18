@@ -404,65 +404,9 @@ app.post('/deleteusers', (req,res)=>{
 //       res.send({status: false,message:"failed"}) 
 //     }) 
 // })
-async function generateUniqueOrderId() {
-  let isUnique = false;
-  let uniqueId;
 
-  while (!isUnique) {
-    // Generate a new order ID
-    uniqueId = Math.floor(100000 + Math.random() * 900000);
 
-    // Check if the order ID already exists in the database
-    const result = await client.query('SELECT COUNT(*) FROM orderdetails WHERE orderid = $1', [uniqueId]);
 
-    isUnique = result.rows[0].count === 0;
-  }
-
-  return uniqueId;
-}
-
-app.post("/addorders", async (req, res) => {
-  console.log(req.body,"i am check me now")
-  // const uniqueId = Math.floor(100000 + Math.random() * 900000);
-  const uniqueId=await generateUniqueOrderId();
-  console.log("i am here",uniqueId);   
-  try {
-    const proddata =req.body.proddata; 
-    const name=req.body.fullname;
-    const price=req.body.price;
-    const email=req.body.email;
-    const phno=req.body.phonenumber;
-    const address=req.body.address1;
-    const address2=req.body.address2;
-    
-    const fulladdress=address+address2;
-    
-     // Assuming the request body contains a single product object
-console.log(name,email,"i am req body")
-const ch={
-  text:"INSERT INTO orderdetails (orderid,your_json_array_column,email,name,phonenumber,address,price,date) VALUES ($1,($2::jsonb),$3,$4,$5,$6,$7,$8)",
-  values: [uniqueId,JSON.stringify(proddata),email,name,phno,fulladdress,price,new Date()]
-}
-
-   client.query(ch).then((respp)=>{
-
-    console.log("i am inserted",respp)
-        
-    // make your payment here after inserting
-    // and send mail of the order id to customer 
-    sendmail(email,uniqueId)
-    res.send({status:true,message:"order placed sucessfully"})
-   }).catch((er)=>{
-    console.log("a mfai;ed",er)
-    res.send({status:true,message:"order unsuccess"})
-   })
-  
-    
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "An error occurred while inserting the product" });
-  }
-});
 // get order based on orderid working
 app.get("/getordersbyorderid/:orderid",(req,res)=>{
         const orderid=req.params.orderid;

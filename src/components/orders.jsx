@@ -14,35 +14,35 @@ function OrderData({price,imageurl,quantity,productname,status}){
     //   console.log("i am ordrdata",overallorders);
     //   }
     
-    const deleteprod=(uidddata)=>{
-      console.log(uidddata,"i am unique prod id");
+    // const deleteprod=(uidddata)=>{
+    //   console.log(uidddata,"i am unique prod id");
       
-       axios.delete( `http://localhost:3001/api/orders/${uidddata}/${orderidata}`).then((res)=>{
-        if(res.data.message="removed sucessfully")
-        {
-          console.log("called done")
+    //    axios.delete( `http://localhost:3001/api/orders/${uidddata}/${orderidata}`).then((res)=>{
+    //     if(res.data.message="removed sucessfully")
+    //     {
+    //       console.log("called done")
           
           
-          // const updatedProducts =  overallorders.map(product => {
-          //   return product.your_json_array_column
-          //   // console.log('ni abba ra', uid);
-          //   // console.log('ni abba re', product.uid);
-          //   // Add any additional information you want to print
-          //   // ...
+    //       // const updatedProducts =  overallorders.map(product => {
+    //       //   return product.your_json_array_column
+    //       //   // console.log('ni abba ra', uid);
+    //       //   // console.log('ni abba re', product.uid);
+    //       //   // Add any additional information you want to print
+    //       //   // ...
           
             
-          // });
-          // console.log(updatedProducts," hamaya check here");
+    //       // });
+    //       // console.log(updatedProducts," hamaya check here");
           
-          // setProducts(updatedProducts);
+    //       // setProducts(updatedProducts);
           
         
           
-        }
+    //     }
           
-       })
+    //    })
        
-    }
+    // }
     const returnapicall=(uiddata)=>{
       const body={
         productname:productname,

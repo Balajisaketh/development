@@ -118,6 +118,10 @@
         return totalPrice;
       };
       console.log("i am printed",calculateTotalPrice());
+      function generateUniqueOrderId() {
+        const uniqueId = Math.floor(100000 + Math.random() * 900000).toString();
+        return uniqueId;
+      }
 
   console.log("i am price data",price)
       
@@ -131,6 +135,7 @@
         addres1:add,
         address2:add1,
         proddata:updatedJsonArr,
+        orderid:generateUniqueOrderId()
 
         
       
