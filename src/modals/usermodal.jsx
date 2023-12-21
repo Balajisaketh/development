@@ -5,11 +5,15 @@
   import useWindowSize from "../hooks/useWindowsize";
   import countrydata from '../jsondata/Country.json'
   import { useSelector } from "react-redux";
+  import { Alert } from 'flowbite-react';
   import axios from "axios";
   import { v4 as uuidv4 } from 'uuid';
+import { validate } from "uuid";
+import { useDispatch } from "react-redux";
+import { validationreducer } from "../redux/Alldata";
   const Usermodal = ({ onClose, onSubmit }) => {
     const cartprods=useSelector((state)=>state.cart.items)
-    
+    const dispatch=useDispatch();
     console.log("i am cart data",cartprods)
     
       console.log("inside modal")
@@ -24,38 +28,33 @@
     const handlename = (e) => {
       console.log("emetre",e.target.value)
       setname(e.target.value)
-
-
     };
     const handlemail = (e) => {
       console.log("emetre",e.target.value)
       setmail(e.target.value)
-
-
     };
     const handleaddress = (e) => {
       console.log("emetre",e.target.value)
       setadd(e.target.value)
 
-
     };
     const handleaddress1 = (e) => {
       console.log("emetre",e.target.value)
       setadd1(e.target.value)
-
-
     };
     const handlephone= (e) => {
-      console.log("emetre",e.target.value)
-      setphno(e.target.value)
-
+      console.log(e,"i am edata")
+      console.log("emetre",e)
+      setphno(e)
+console.log("i am enterd in to phone")
 
     };
+    
   const[countryid, setCountryid]=useState('');
   const[state, setState]=useState([]);
   const[stateid, setStateid]= useState('');
   const [price,setprice]=useState()
-
+  const [alertStatus,setAlertStatus]=useState({status: "idle", message: 'data not saved'})
     const handlecounty=(e)=>{
       const getcountryId= e.target.value;
       const getStatedata= countrydata.find(country=>country.country_id===getcountryId).states;
@@ -70,10 +69,32 @@
       setStateid(stateid);
       
     }
+    const Validate=()=>{
+      console.log("entered to bvaliate");
+      
+      const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+      
+    if(mail.length ===0 || phno.length ===0 || add.length ===0 || add1.length===0 ||countryid.length==0 || stateid.length==0){
+      
+      dispatch(validationreducer("empty"))
+    }else if(!mail.test(emailRegex)){
+     
+      
+      dispatch(validationreducer("Invalidmail"))
+    }else if(phno.length!==10){
+      dispatch(validationreducer("invalidphonenumber"))
+
+
+    }
+   else{
+    userinfo()
+   }
+
+    }
     
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const userinfo=(e)=>{
-      e.preventDefault()
+    const userinfo=()=>{
+
+      
       // formData.name==""|| formData.name==null ||formData.email==""|| formData.email==null || countryid==null || formData.address1=="" || formData.address1==null || formData.address2=="" || formData.address2==null
       // ?(
       //   <>
@@ -99,10 +120,10 @@
       //   }
       //   </>
       // )
-
+          
       const updatedJsonArr = cartprods.map((item) => ({
         ...item,
-        "status":"orderplaced",
+        "status":"orderplaced"
 
       }));
       console.log(updatedJsonArr,"i am cheking name of prod");
@@ -118,13 +139,9 @@
         return totalPrice;
       };
       console.log("i am printed",calculateTotalPrice());
-      function generateUniqueOrderId() {
-        const uniqueId = Math.floor(100000 + Math.random() * 900000).toString();
-        return uniqueId;
-      }
 
   console.log("i am price data",price)
-      
+      const fixuid=uuidv4()
       const body={
         fullname:name,
         email:mail,
@@ -135,11 +152,8 @@
         addres1:add,
         address2:add1,
         proddata:updatedJsonArr,
-        orderid:generateUniqueOrderId()
-
-        
-      
-  } 
+        orderid:fixuid,   
+  }
   const config = {     
     headers: { 'content-type': 'multipart/form-data' }
   }
@@ -151,11 +165,6 @@
         if(res.status==true){
                       console.log("order placed succesfully")
                     }
-
-
-
-
-
       }).catch((err)=>{
         console.log("i am error in inserting order data",err)
 
@@ -167,9 +176,13 @@
   {
     return (
         <>
-        <div className="popup shadow-lg w-auto m-2 z-10    overflow-x-hidden my-40">
-        <div className="popup-inner">
         
+        <div className="popup shadow-lg w-auto m-2 z-10    overflow-x-hidden my-40">
+          
+        <div className='w-full  px-4 h-[70vh] overflow-y-auto 2xl:px-4 pt-4'  >
+                   
+                    </div>
+        <div className="popup-inner">
         <form className="flex  border   rounded h-auto flex-col gap-4 w-auto max-w-md ">
       
       <div className="row mx-auto m-10 rounded-md w-auto ">
@@ -180,11 +193,11 @@
                       country={'In'}
                       className="mt-4 mx-12 text-left w-3/4"
                       placeholder="enter your phone number"
-                      
                       onChange={(e)=>handlephone(e)}
                       
                   />
           <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto"  placeholder="Address Lane 1" name="address" onChange={(e)=>handleaddress(e)}/>
+          <p>address:{add}</p>
           <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto"  placeholder="Address Lane 2" name="address1" onChange={(e)=>handleaddress1(e)}/>
           <div className="content">
           <div className="row">
@@ -232,7 +245,7 @@
           </div>
           </div>
           <div className="flex">
-          <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={(e)=>userinfo(e)}>
+          <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={()=>userinfo()}>
           Proceed to Pay
         </Button>
         <Button type="submit" className="w-1/4 mx-auto bg-red-900 mt-6" onClick={onclose}>
@@ -250,6 +263,27 @@
   else{
     return (
       <div className="popup shadow-sm w-1/2 z-10 mx-auto my-40">
+        {
+          alertStatus && alertStatus.status==="empty" ?
+          <>
+                     <div className='bg-green-400 w-[30vw] mx-auto p-3 rounded-md text-white '>
+           <Alert  color="danger">
+  <span>
+    <p>
+      <span className="font-medium text-center">
+     Please Enter your credentials
+      </span>
+
+    </p>
+  </span>
+</Alert>
+</div>
+
+          </>:
+          <>
+          </>
+
+        }
         <div className="popup-inner">
         
         <form className="flex  border   rounded h-auto flex-col gap-4 w-auto max-w-md ">
@@ -264,11 +298,13 @@
                       className="mt-4 mx-12 text-left w-3/4"
                       placeholder="enter your phone number"
                       value={phno}
-                      onChange={phone => setphno(phone )}
+                      onChange={(e)=>handlephone(e)}
                   />
-                  <p>Entered Phone Number: {phno}</p>
+                  
           <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto"   placeholder="Address Lane 1" onChange={(e)=>handleaddress(e)}/>
+          
           <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto"   placeholder="Address Lane 2" onChange={(e)=>handleaddress1(e)}/>
+          
           <div className="content">
           <div className="row">
             <div className="col-sm-12">
@@ -315,7 +351,7 @@
           </div>
           </div>
           <div className="flex">
-          <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={(e)=>userinfo(e)}>
+          <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={()=>userinfo()}>
           Proceed to Pay
         </Button>
         <Button type="submit" className="w-1/4 mx-auto bg-red-900 mt-6" onClick={onclose}>

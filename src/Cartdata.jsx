@@ -9,9 +9,11 @@ import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faCircleLeft} fr
 import { useNavigate } from 'react-router-dom'
 import CartItem from './components/Cartitem'
 import Usermodal from './modals/usermodal'
+import { Alert } from 'flowbite-react';
 function Cartdata() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+const checkstatus=useSelector((state)=>state.prods.check)
+console.log("i am check status",checkstatus);
   const openPopup = () => {
     setIsPopupOpen(true);
   };
@@ -96,7 +98,48 @@ const handleIncrement = (uiddata) => {
 
 return(
   <>
-  
+  {
+    checkstatus=="empty"
+    ?
+    <>
+               <Alert color="info">
+  <span>
+    <p>
+      <span className="font-medium text-center text-white">
+        Enter your details      
+      </span>
+
+    </p>
+  </span>
+</Alert>
+    </> :
+    checkstatus=="invalidmail" ?
+    <>
+                   <Alert color="info">
+  <span>
+    <p>
+      <span className="font-medium text-center text-white">
+        Invalid Mail   
+      </span>
+
+    </p>
+  </span>
+</Alert>
+    </>:
+    checkstatus=="invalidphonenumber"?
+    <>
+               <Alert color="info">
+  <span>
+    <p>
+      <span className="font-medium text-center text-white">
+        Inavlid PhoneNumber    
+      </span>
+
+    </p>
+  </span>
+</Alert>
+    </>:<></>
+  }
   {isPopupOpen && (
     <Usermodal onClose={closePopup} onSubmit={submitForm} />
   )}
@@ -149,6 +192,7 @@ else if(wsaize.width>768 && wsaize.width<=2560)
 
 return(
   <>
+     
     {isPopupOpen && (
     <Usermodal onClose={closePopup} onSubmit={submitForm} />
   )}
