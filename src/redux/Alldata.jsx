@@ -31,6 +31,7 @@
     },
     validationreducer:((state,action)=>{
       state.check=action.payload;
+      console.log(state.check,"i m chking valid");
 
     })
     },

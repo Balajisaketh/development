@@ -263,6 +263,10 @@ console.log("i am enterd in to phone")
   else{
     return (
       <div className="popup shadow-sm w-1/2 z-10 mx-auto my-40">
+        
+        <div className="popup-inner">
+        
+        <form className="flex  border   rounded h-auto flex-col gap-4 w-auto max-w-md ">
         {
           alertStatus && alertStatus.status==="empty" ?
           <>
@@ -284,10 +288,6 @@ console.log("i am enterd in to phone")
           </>
 
         }
-        <div className="popup-inner">
-        
-        <form className="flex  border   rounded h-auto flex-col gap-4 w-auto max-w-md ">
-      
       <div className="row mx-auto m-10 rounded-md w-auto ">
           <h2>Enter Your Delivery Details</h2>
           <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto" name="namedata"  
