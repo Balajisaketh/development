@@ -393,7 +393,40 @@ app.get("/getordersbyorderid/:orderid",(req,res)=>{
           console.log(err,"i am inside error");
         });
 })
-
+app.post("/returnorders",(req,res)=>{
+      const orderid=req.body.orderid;
+      console.log(orderid,"check me prderid");
+      const uid=req.body.uid;
+      const productname=req.body.productname;
+      const price=req.body.price;
+      const qty=req.body.quantity;
+      const imageofprod=req.body.image
+      const date=new Date();
+      
+      const qrydta= {
+        text: `INSERT INTO return_table (id,product_name,price,product_url,return_date,quantity) 
+                          VALUES($1, $2,$3,$4,$5,$6) RETURNING *`,
+        values : [uid,productname,price,imageofprod,date,qty]
+      }
+      
+      client.query(qrydta).then((data) => {
+        console.log("i m resp",data)
+        res.json({status:true,message:"return placed"})
+  }).catch((err)=>{
+    console.log("i m resp",err)
+    res.json({status:false,message:err})
+  })
+  })
+  app.get("/getreturns",(req,res)=>{
+    const qry={
+      text:"select * from return_table"
+    }
+    client.query(qry).then((data)=>{
+      res.send(data.rows)
+    }).catch((err)=>{
+      res.json({status:false,message:err})
+    })
+  })
 app.post('/updateprice',(req,res) => {
   let uuid = req.body.uid
   console.log(uuid,"i m uid")

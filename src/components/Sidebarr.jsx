@@ -37,7 +37,7 @@ function Sidebarr() {
                    <hr className='bg-gray-100 h-1'></hr>
                    <li className='m-3' onClick={()=>getfilteredprods("stove","stove")}>Stoves </li>
                    <hr className='bg-gray-100 h-1'></hr>
-                   
+                   <li className='m-3' onClick={()=>router("/orders")}>Your Orders</li>
 
                     
                    

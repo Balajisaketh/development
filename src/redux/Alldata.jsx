@@ -6,6 +6,7 @@
     alertdata:true,
     checksidebar:false,
     allproductsdata:[],
+    check:'check'
     
   }
 
@@ -27,11 +28,15 @@
     sidebarreducer:(state,action)=>{
       state.checksidebar=action.payload;
       console.log(state.checksidebar);
-    }
+    },
+    validationreducer:((state,action)=>{
+      state.check=action.payload;
+
+    })
     },
   })
 
   // Action creators are generated for each case reducer function
-  export const { filterreducer,allprods,alertreducer,sidebarreducer,checksidebar,allproductsdata} = ProductSlice.actions
+  export const { filterreducer,allprods,alertreducer,sidebarreducer,checksidebar,allproductsdata,validationreducer} = ProductSlice.actions
 
   export default ProductSlice.reducer
