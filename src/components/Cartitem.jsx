@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useWindowSize from "../hooks/useWindowsize";
 import { faMinus ,faPlus,faTrash,faArrowLeft,faIndianRupeeSign, faRubleSign, faRupeeSign} from '@fortawesome/free-solid-svg-icons'
 const CartItem = ({ product, decrement,increment, deleteItem }) => {
-  console.log("i am cart cheking prod",product)
+  console.log("i am cart cheking prod",product?.imageUrl)
   const wsaize=useWindowSize();
 console.log(wsaize,"i m deteted")
-    if(wsaize.width<=425)
+    if(wsaize.width<=425 && wsaize.width<768)
 {
     return (
    <>

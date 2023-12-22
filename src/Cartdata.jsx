@@ -98,48 +98,7 @@ const handleIncrement = (uiddata) => {
 
 return(
   <>
-  {
-    checkstatus=="empty"
-    ?
-    <>
-               <Alert color="info">
-  <span>
-    <p>
-      <span className="font-medium text-center text-white">
-        Enter your details      
-      </span>
-
-    </p>
-  </span>
-</Alert>
-    </> :
-    checkstatus=="invalidmail" ?
-    <>
-                   <Alert color="info">
-  <span>
-    <p>
-      <span className="font-medium text-center text-white">
-        Invalid Mail   
-      </span>
-
-    </p>
-  </span>
-</Alert>
-    </>:
-    checkstatus=="invalidphonenumber"?
-    <>
-               <Alert color="info">
-  <span>
-    <p>
-      <span className="font-medium text-center text-white">
-        Inavlid PhoneNumber    
-      </span>
-
-    </p>
-  </span>
-</Alert>
-    </>:<></>
-  }
+  
   {isPopupOpen && (
     <Usermodal onClose={closePopup} onSubmit={submitForm} />
   )}
