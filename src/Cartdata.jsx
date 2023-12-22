@@ -26,6 +26,7 @@ console.log("i am check status",checkstatus);
     console.log("Form data submitted:", data);
   };
     const cartvalus=useSelector((state)=>state.cart.items)
+    console.log("cart data",cartvalus);
 
     const navigate=useNavigate();
   const wsaize=useWindowSize();
@@ -195,55 +196,57 @@ return(
   </>
 )
 }
-else if(wsaize.width>=425 && wsaize.width<=768)
+else if(wsaize.width>=425 && wsaize.width<768)
 {
   return(
-    <>
-      {isPopupOpen && (
-    <Usermodal onClose={closePopup} onSubmit={submitForm} />
-  )}
-     <div className='grid grid-flow-row col-span-12 h-auto shadow-lg h-auto'>
+  //   <>
+  //     {isPopupOpen && (
+  //   <Usermodal onClose={closePopup} onSubmit={submitForm} />
+  // )}
+  //    <div className='grid grid-flow-row col-span-12 h-auto shadow-lg h-auto'>
     
-    <div className='absolute left-10 top-10'>
-  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/")} />
-  </div>
-  <div className='rounded w-30 absolute right-[10%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
-    Reset cart
-  </div>
-    <div className='col-span-8  grid-flow-row relative mt-20'>
+  //   <div className='absolute left-10 top-10'>
+  // <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/")} />
+  // </div>
+  // <div className='rounded w-30 absolute right-[10%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
+  //   Reset cart
+  // </div>
+  //   <div className='col-span-8  grid-flow-row relative mt-20'>
 
-     <div className='grid grid-flow-row col-span-12  h-auto space-y-8 my-10'>
-      {
-        cartvalus.length>0 ?cartvalus.map((val,index)=>(
+  //    <div className='grid grid-flow-row col-span-12  h-auto space-y-8 my-10'>
+  //     {
+  //       cartvalus.length>0 ?cartvalus.map((val,index)=>(
 
-    <>
-           <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
-    </>
-        )):(
-          <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
-        )
-      }
-     </div>
-   </div>
+  //   <>
+  //          <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
+  //   </>
+  //       )):(
+  //         <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
+  //       )
+  //     }
+  //    </div>
+  //  </div>
 
-   <div className='col-span-8 '>
-     <div className='card shadow-lg bg-white h-[50vh] ml-4 mr-4  mt-10'>
-           {
-            totalCartPrice ==0 ?
-            <p>{"0.00"}</p>:
-            <div className='column space-y-2 my-10w-1/2 absolute right-6'>
-              <div className='flex  w-40 t-2 mx-auto'>
-                <p>Total Bill :</p>
-                  <p>&#8377;  {totalCartPrice}</p>
-                  </div>
+  //  <div className='col-span-8 '>
+  //    <div className='card shadow-lg bg-white h-[50vh] ml-4 mr-4  mt-10'>
+  //          {
+  //           totalCartPrice ==0 ?
+  //           <p>{"0.00"}</p>:
+  //           <div className='column space-y-2 my-10w-1/2 absolute right-6'>
+  //             <div className='flex  w-40 t-2 mx-auto'>
+  //               <p>Total Bill :</p>
+  //                 <p>&#8377;  {totalCartPrice}</p>
+  //                 </div>
 
-                  <button className='w-auto bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg' onClick={()=>openPopup()} onSubmit={()=>submitForm()}>Proceed to checkout</button>
-              </div>
-           }
-     </div>
-    </div>
-  </div>
-    </>
+  //                 <button className='w-auto bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg' onClick={()=>openPopup()} onSubmit={()=>submitForm()}>Proceed to checkout</button>
+  //             </div>
+  //          }
+  //    </div>
+  //   </div>
+  // </div>
+  //   </>
+  <h1>lnlnkln</h1>
+
   )
 }
 }

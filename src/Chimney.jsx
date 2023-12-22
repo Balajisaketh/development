@@ -21,6 +21,7 @@ import Navbar from './components/Navbar';
 import Tabproductcard from './components/Tabproductcard';
 import Sidebarr from './components/Sidebarr';
 import { sidebarreducer } from './redux/Alldata';
+import Mobilecard from './components/Mobilecard';
 function  Chimneys() {
     const useQuery = () => new URLSearchParams(useLocation().search);
     const [sorteddata,setsorteddata]=useState();
@@ -314,17 +315,9 @@ hightolow()
              alldata?.map((val,index)=>{
               console.log(val,"ni amma tra")
               return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-               <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-               <div className='flex mx-4 space-x-3'>
-            <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-            <p className='mt-3 font-medium'>{val?.price}</p>
-            </div>
-            <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-              Add to Cart
-            </div>
-              </div>
+                
+                  <Mobilecard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+                
               )
              })
       }
