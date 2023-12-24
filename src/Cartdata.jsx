@@ -93,7 +93,7 @@ const handleIncrement = (uiddata) => {
   
   const windowsize=useWindowSize()
 
-  if(wsaize.width<=768 && wsaize.width>425)
+  if(windowsize.width>=375 && windowsize.width<768)
 {
   
 
@@ -115,12 +115,15 @@ return(
 
      <div className='grid grid-flow-row col-span-12  h-auto space-y-8 my-10'>
       {
-        cartvalus.length>0 ?cartvalus.map((val,index)=>(
+        cartvalus.length>0 ?cartvalus.map((val,index)=>
+        {
+          console.log("i am stunnded",val)
+        return(
 
     <>
            <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
     </>
-        )):(
+        )}):(
           <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
         )
       }
@@ -147,7 +150,7 @@ return(
   </>
 )
 }
-else if(wsaize.width>768 && wsaize.width<=2560)
+else if(wsaize.width>=768 && wsaize.width<=2560)
 {
 
 return(
@@ -199,53 +202,56 @@ return(
 else if(wsaize.width>=425 && wsaize.width<768)
 {
   return(
-  //   <>
-  //     {isPopupOpen && (
-  //   <Usermodal onClose={closePopup} onSubmit={submitForm} />
-  // )}
-  //    <div className='grid grid-flow-row col-span-12 h-auto shadow-lg h-auto'>
+    <>
+      {isPopupOpen && (
+    <Usermodal onClose={closePopup} onSubmit={submitForm} />
+  )}
+     <div className='grid grid-flow-row col-span-12 h-auto shadow-lg h-auto'>
     
-  //   <div className='absolute left-10 top-10'>
-  // <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/")} />
-  // </div>
-  // <div className='rounded w-30 absolute right-[10%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
-  //   Reset cart
-  // </div>
-  //   <div className='col-span-8  grid-flow-row relative mt-20'>
+    <div className='absolute left-10 top-10'>
+  <FontAwesomeIcon icon={faCircleLeft} className='justify-self-start' color='grey' size='xl' onClick={()=>navigate("/")} />
+  </div>
+  <div className='rounded w-30 absolute right-[10%] p-3 top-7 border border-2 border-gray rounded-md  bg-red-500 text-white' onClick={()=>removecartdata()}>
+    Reset cart
+  </div>
+    <div className='col-span-8  grid-flow-row relative mt-20'>
 
-  //    <div className='grid grid-flow-row col-span-12  h-auto space-y-8 my-10'>
-  //     {
-  //       cartvalus.length>0 ?cartvalus.map((val,index)=>(
+     <div className='grid grid-flow-row col-span-12  h-auto space-y-8 my-10'>
+      {
+        cartvalus.length>0 ?cartvalus.map((val,index)=>
+        {
+          console.log("i am mobile check here",val)
+          return(
 
-  //   <>
-  //          <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
-  //   </>
-  //       )):(
-  //         <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
-  //       )
-  //     }
-  //    </div>
-  //  </div>
+    <>
+           <CartItem key={index} product={val} decrement={handleDecrement} increment={handleIncrement} deleteItem = {handleDeleteItem}/>
+    </>
+        )}):(
+          <><p className='text-2xl text-black m-auto'>Cart Empty</p></>
+        )
+      }
+     </div>
+   </div>
 
-  //  <div className='col-span-8 '>
-  //    <div className='card shadow-lg bg-white h-[50vh] ml-4 mr-4  mt-10'>
-  //          {
-  //           totalCartPrice ==0 ?
-  //           <p>{"0.00"}</p>:
-  //           <div className='column space-y-2 my-10w-1/2 absolute right-6'>
-  //             <div className='flex  w-40 t-2 mx-auto'>
-  //               <p>Total Bill :</p>
-  //                 <p>&#8377;  {totalCartPrice}</p>
-  //                 </div>
+   <div className='col-span-8 '>
+     <div className='card shadow-lg bg-white h-[50vh] ml-4 mr-4  mt-10'>
+           {
+            totalCartPrice ==0 ?
+            <p>{"0.00"}</p>:
+            <div className='column space-y-2 my-10w-1/2 absolute right-6'>
+              <div className='flex  w-40 t-2 mx-auto'>
+                <p>Total Bill :</p>
+                  <p>&#8377;  {totalCartPrice}</p>
+                  </div>
 
-  //                 <button className='w-auto bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg' onClick={()=>openPopup()} onSubmit={()=>submitForm()}>Proceed to checkout</button>
-  //             </div>
-  //          }
-  //    </div>
-  //   </div>
-  // </div>
-  //   </>
-  <h1>lnlnkln</h1>
+                  <button className='w-auto bg-yellow-900 whitespace-nowrap text-white py-3 px-3 rounded-lg' onClick={()=>openPopup()} onSubmit={()=>submitForm()}>Proceed to checkout</button>
+              </div>
+           }
+     </div>
+    </div>
+  </div>
+    </>
+  
 
   )
 }

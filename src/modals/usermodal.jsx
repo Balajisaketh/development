@@ -95,32 +95,7 @@ console.log("i am enterd in to phone")
     const userinfo=()=>{
 
       
-      // formData.name==""|| formData.name==null ||formData.email==""|| formData.email==null || countryid==null || formData.address1=="" || formData.address1==null || formData.address2=="" || formData.address2==null
-      // ?(
-      //   <>
-            
-      //   </>
-      // ) :(
-      //   <>
-      //   {
-
-      //     formData.email.test(emailRegex)!=true && formData.phone.length!=10 ?
-      //    {
-              
-      //    }
-      //     :
-      //     (
-      //       <>
-      //         {
-                
-      //         }
-      //       </>
-      //     )
-          
-      //   }
-      //   </>
-      // )
-          
+      
       const updatedJsonArr = cartprods.map((item) => ({
         ...item,
         "status":"orderplaced"
@@ -197,7 +172,7 @@ console.log("i am enterd in to phone")
                       
                   />
           <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto"  placeholder="Address Lane 1" name="address" onChange={(e)=>handleaddress(e)}/>
-          <p>address:{add}</p>
+          
           <input type="text" className="border border-2  p-2 rounded-md border-grey w-3/4 mt-3 mx-auto"  placeholder="Address Lane 2" name="address1" onChange={(e)=>handleaddress1(e)}/>
           <div className="content">
           <div className="row">

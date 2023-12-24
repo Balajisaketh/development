@@ -7,6 +7,7 @@
 import React from 'react'
 import Fade from "react-reveal";
 function footer() {
+  
 //   return (
 //     <Fade up>
 //     <div className='bg-[#2F80ED] '>

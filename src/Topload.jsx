@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import useWindowSize from './hooks/useWindowsize';
 import { Carousel, Sidebar } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faFilter ,faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { useSelector} from 'react-redux';
 import { useEffect } from 'react';
@@ -18,7 +18,9 @@ import Footer from './components/Footer';
 import { alertreducer } from './redux/Alldata';
 import { addToCart } from './redux/CartSlice';
 import Navbar from './components/Navbar';
+import Mobilecard from './components/Mobilecard';
 import Sidebarr from './components/Sidebarr';
+import Fade from 'react-reveal/Fade';
 import { sidebarreducer } from './redux/Alldata';
 function Topload() {
     const useQuery = () => new URLSearchParams(useLocation().search);
@@ -27,6 +29,7 @@ function Topload() {
     const productcategory = query.get('category');
     // console.log(productcategory + " product category");
     const windowSize = useWindowSize();
+    
     const [data1,setdata]=useState([])
     const [sorteddata,setsorteddata]=useState();
     const dispatch=useDispatch()
@@ -38,11 +41,13 @@ function Topload() {
     // console.log(filtrrproddata,"i m data from store filter")
     const [brand,setbrand]=useState("initial")
     const [stval,setvalue]=useState()
+    const [filterdrop,setdropfilter]=useState(false)
     const[toggle,settoggle]=useState(true);
     const [renddata,setrendata]=useState("yes")
+    const [drop,setdrop]=useState()
     const [brandDataRendered, setBrandDataRendered] = useState(false);
     const [rendprods,setrendprods]=useState([])
-    const [filterdrop,SetFilterdrop]=useState(false)
+    
     const [pricefilter ,setpricefilter]=useState("nofilter")
     const cartdata=useSelector((state)=>state.cart.items)
     const [alldata,setdalldata]=useState([])
@@ -206,146 +211,360 @@ const apicallbrand=(brandata)=>{
 }
 
 
-  if(windowSize.width>=425 && windowSize.width<768)
-  {
-      return (
+if(windowSize.width>=375 && windowSize.width<768)
+{
+    return (
+      <>
+      <div>
+      <Navbar opensidebar={toggle}  />
+      {
+        checkside==true ? 
+        (
+          <>
+            
+          <div className='column '>
+          <div className="col-span-auto h-50 bg-black z-10">
+<Sidebarr/>
+
+  </div>
+  <div className='flex flex-row justify-between'>
+            <div className='flex mx-10 my-3'>
+         <p className='text-normal text-sm'>Brands</p>
+         <FontAwesomeIcon icon={faChevronDown} className='m-1' onClick={()=>setdrop(!drop)}/>
+            </div>
+            <div className='column'>
+            <div className='flex mx-10 my-3'>
+
+         <p className='text-normal text-sm'>Sort price</p>
+         <FontAwesomeIcon icon={faChevronDown} className='m-1' onClick={()=>setdropfilter(!filterdrop)}/>
+            </div>
+            {
+      filterdrop==true ?
+      (
+<div className='z-10 shadow-md m-3 p-3 grid grid-cols-4  h-auto'>
+
+<div className='column'>
+  <div onClick={()=>lowtohigh()}>
+      <p className='m-1 whitespace-nowrap'>Low to High</p>
+      </div>
+      <div onClick={()=>hightolow()}>
+      <p className='m-1 whitespace-nowrap'>High to Low </p>
+      </div>
+</div>
+</div>
+      ) :(
+<></>
+      )
+}
+
+            </div>
+            </div>
+          
+            {
+              drop ==true ?
+              (
+                <>
+                {
+        
+        data1?.map((val, i)=>{
+            console.log(val,"i m object in brand mobile")
+            return (
+               <>
+                        <>
+       <div className=' z-10 shadow-md  grid grid-cols-4 w-1/2 h-auto m-3 px-3'>
+         
+    <p className='flex text-center' onClick={()=>{
+                             filteredproductsdata(val?.brand)
+                             }}>{val?.brand}</p>
+       </div>
+       </>
+               </>
+            )
+        })
+                       }
+                </>
+              ):(
+                <>
+                </>
+              )
+            }
+
+       <div className='column bg-white'>
+       
+
+       <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
+     
+       {
+  brand ==='All' ?
+  (
         <>
-        <div>
-        <Navbar opensidebar={toggle}  />
         {
-          checkside==true ? 
-          (
-            <>
-              
-            <div className='column '>
-            <div className="col-span-auto h-50 bg-black z-10">
-  <Sidebarr/>
-    </div>
-         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
-          <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
-          <p>Filter</p>
-           
-         </div>
-         <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
-       
-        {
-          brand =="initial" ?(
-      <>
-      {
-             stval?.map((val,index)=>{
-              console.log(val,"ni amma tra")
-              return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-                 <div className='flex mx-4 space-x-3'>
-              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-              <p className='mt-3 font-medium'>{val?.price}</p>
-              </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-                Add to Cart
-              </div>
-                </div>
-              )
-             })
-      }
-      </>
-          ):(
-            <>
-            {
-             alldata?.map((val,index)=>{
-              console.log(val,"ni amma tra")
-              return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-                 <div className='flex mx-4 space-x-3'>
-              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-              <p className='mt-3 font-medium'>{val?.price}</p>
-              </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-                Add to Cart
-              </div>
-                </div>
-              )
-             })
-      }
-            </>
+   stval?.map((val,index)=>{
+    console.log(val,"ni amma tra")
+    return (
+      <Fade bottom>
+      <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      </Fade>
+    )
+   })
+}
+        </>
+  ):
+
+  brand =="initial" ?(
+    <>
+    {
+       stval?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Fade bottom>
+          <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+          </Fade>
           )
-        }
-          </div>
-       </div>
-            </>
-          ) :
-          (
-            <>
-            <div className='column bg-white'>
-         <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
-          <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
-          <p>Filter</p>
-           
-         </div>
-         <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
-       
-        {
-          brand =="initial" ?(
-      <>
-      {
-             stval?.map((val,index)=>{
-              console.log(val,"ni amma tra")
-              return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-                 <div className='flex mx-4 space-x-3'>
-              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-              <p className='mt-3 font-medium'>{val?.price}</p>
-              </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-                Add to Cart
-              </div>
-                </div>
-              )
-             })
-      }
-      </>
-          ):(
-            <>
-            {
-             alldata?.map((val,index)=>{
-              console.log(val,"ni amma tra")
-              return (
-                <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
-                  <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-                 <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
-                 <div className='flex mx-4 space-x-3'>
-              <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
-              <p className='mt-3 font-medium'>{val?.price}</p>
-              </div>
-              <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
-                Add to Cart
-              </div>
-                </div>
-              )
-             })
-      }
-            </>
-          )
-        }
-          </div>
-       </div>
-            </>
-          )
-        }
+       })
+        
+    }
+    </>
+        ):
+(brand === 'All' || brand === 'initial') && pricefilter === 'ascending' ? (
+  <>
+    {sorteddata?.map((val, index) => (
+       <Fade bottom>
+       <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+       </Fade>
+    ))}
+  </>
+) : (brand === 'All' || brand === 'initial') && pricefilter === 'descending' ? (
+  <>
+    {sorteddata?.slice().reverse().map((val, index) => (
+       <Fade bottom>
+       <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+       </Fade>
+    ))}
+  </>
+) : (
+  
+  pricefilter!=="ascending" && pricefilter!=="descending" ?
+  (
+    <>
+    
+  {alldata
+      ?.filter((val) => val?.brand === brand).map((val, index) => (
+        <Fade bottom>
+        <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        </Fade>
+      ))}
+    </>
+  )
+ :
+ pricefilter=="ascending" ?
+(
+  <>
+  
+  {sorteddata?.map((val, index) => (
+ <Fade bottom>
+ <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+ </Fade>
+    ))}
+  </>
+):
+pricefilter=="descending" ?
+(
+  <>
+  {/* <p>i am higher</p> */}
+  {sorteddata?.map((val, index) => (
+       <Fade bottom>
+       <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+       </Fade>
+    ))}
+  </>
+):
+(
+  <>
+  </>
+)
+)
+}
         </div>
-       
-      
-         </>
+     </div>
+     </div>
+          </>
+        ) :
+        (
+          <>
+          <div className='column bg-white'>
+          <div className='col-span-12 h-10'>
+          <div className='flex lfex-row justify-between'>
+            <div className='flex mx-10 my-3'>
+         <p className='text-normal text-sm'>Brands</p>
+         <FontAwesomeIcon icon={faChevronDown} className='m-1' onClick={()=>setdrop(!drop)}/>
+            </div>
+            <div className='flex mx-10 my-3'>
+         <p className='text-normal text-sm'>Sort price</p>
+         <FontAwesomeIcon icon={faChevronDown} className='m-1' onClick={()=>setdropfilter(!filterdrop)}/>
+            </div>
+            
+            </div>
+          
+  </div>
+       {/* <div className='mx-auto w-4/5 h-auto p-3 flex flex-row mx-3 bg-white border border-2 z-20 mt-4 shadow-sm rounded'>
+        <FontAwesomeIcon icon={faFilter} size='lg' className='mx-2'/>
+        <p>Filter</p>
+         
+       </div> */}
+         {
+              drop ==true ?
+              (
+                <>
+                {
+        
+        data1?.map((val, i)=>{
+            console.log(val,"i m object in brand mobile")
+            return (
+               <>
+                        <>
+       <div className=' z-10 shadow-md  grid grid-cols-4 w-1/2 h-10 m-3 px-3'>
+         
+    <p className='flex tex-center' onClick={()=>{
+                             filteredproductsdata(val?.brand)
+                             }}>{val?.brand}</p>
+       </div>
+       </>
+               </>
+            )
+        })
+                       }
+                </>
+              ):(
+                <>
+                </>
+              )
+            }
+          
+          {
+      filterdrop==true ?
+      (
+<div className='absolute top-20  right-4 z-10 shadow-md m-3 p-3'>
+
+<div className='column'>
+  <div onClick={()=>lowtohigh()}>
+      <p className='m-1' >Low to High</p>
+      </div>
+      <div onClick={()=>hightolow()}>
+      <p className='m-1'>High to Low </p>
+      </div>
+</div>
+</div>
+      ) :(
+<></>
+      )
+}
+       <div className="col-span-6 gap-1 m-3 w-3/4  space-y-2 mx-auto">
+     
+       {
+  brand ==='All' ?
+  (
+        <>
+        {
+   stval?.map((val,index)=>{
+    console.log(val,"ni amma tra")
+    return (
+      <Fade bottom>
+      <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      </Fade>
+      )
+   })
+}
+        </>
+  ):
+
+  brand =="initial" ?(
+    <>
+    {
+       stval?.map((val,index)=>{
+        console.log(val,"ni amma tra")
+        return (
+          <Fade bottom>
+          <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+          </Fade>
+      )
+       })
+        
+    }
+    </>
+        ):
+(brand === 'All' || brand === 'initial') && pricefilter === 'ascending' ? (
+  <>
+    {sorteddata?.map((val, index) => (
+       <Fade bottom>
+       <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+       </Fade>
+    ))}
+  </>
+) : (brand === 'All' || brand === 'initial') && pricefilter === 'descending' ? (
+  <>
+    {sorteddata?.slice().reverse().map((val, index) => (
+       <Fade bottom>
+       <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+       </Fade>
+    ))}
+  </>
+) : (
+  
+  pricefilter!=="ascending" && pricefilter!=="descending" ?
+  (
+    <>
+    
+  {alldata
+      ?.filter((val) => val?.brand === brand).map((val, index) => (
+        <Fade bottom>
+        <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        </Fade>
+      ))}
+    </>
+  )
+ :
+ pricefilter=="ascending" ?
+(
+  <>
+  
+  {sorteddata?.map((val, index) => (
+       <Fade bottom>
+      <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      </Fade>
+    ))}
+  </>
+):
+pricefilter=="descending" ?
+(
+  <>
+  {/* <p>i am higher</p> */}
+  {sorteddata?.map((val, index) => (
+       <Fade bottom>
+      <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      </Fade>
+    ))}
+  </>
+):
+(
+  <>
+  </>
+)
+)
+}
+        </div>
+     </div>
+          </>
         )
-  }
+      }
+      </div>
+     
+    
+       </>
+      )
+}
 
-
- else if(windowSize.width>=768 && windowSize.width<=1023){
+  else if(windowSize.width>=768 && windowSize.width<=1023){
     return (
         <>
         <div>
@@ -373,37 +592,134 @@ const apicallbrand=(brandata)=>{
                 )
             })
                            }
-
+                                                                  <div className='mt-10 mx-auto  column '>
+                    <h2 className='font-bold mb-5'>Sort By Price</h2>
+            <div className='flex justify-center'>
+          <input type='radio' name="option" onClick={()=>lowtohigh()}/>
+          <p className='mx-2'>Low to High</p>
+            </div>
+            <div className='flex justify-center my-4'>
+          <input type='radio' name="option" onClick={()=>hightolow()}/>
+          <p className='mx-2'>High to Low</p>
+            </div>
+         </div>
+  
          </div>
          
          
          <div className='grid col-span-8'>
       
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
- 
-  {
-    brand =="initial" ?(
-<>
-{
+    {
+      brand ==='All' ?
+      (
+            <>
+            {
        stval?.map((val,index)=>{
         console.log(val,"ni amma tra")
         return (
           <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
         )
        })
-}
-</>
-    ):(
+  }
+            </>
+      ):
+  
+      brand =="initial" ?(
+        <>
+        {
+           stval?.map((val,index)=>{
+            console.log(val,"ni amma tra")
+            return (
+              <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            )
+           })
+            
+        }
+        </>
+            ):
+    (brand === 'All' || brand === 'initial') && pricefilter === 'ascending' ? (
       <>
-      {
-       alldata?.map((val,index)=>{
-        console.log(val,"ni amma tra")
-        return (
-          <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
-        )
-       })
-}
+        {sorteddata?.map((val, index) => (
+          <Tabproductcard
+            key={index}
+            productname={val?.name}
+            imageUrl={val?.imagepath}
+            price={val?.price}
+            description={val?.description}
+            uid={val?.uid}
+          />
+        ))}
       </>
+    ) : (brand === 'All' || brand === 'initial') && pricefilter === 'descending' ? (
+      <>
+        {sorteddata?.slice().reverse().map((val, index) => (
+          <Tabproductcard
+            key={index}
+            productname={val?.name}
+            imageUrl={val?.imagepath}
+            price={val?.price}
+            description={val?.description}
+            uid={val?.uid}
+          />
+        ))}
+      </>
+    ) : (
+      
+      pricefilter!=="ascending" && pricefilter!=="descending" ?
+      (
+        <>
+        
+      {alldata
+          ?.filter((val) => val?.brand === brand).map((val, index) => (
+            <Tabproductcard
+              key={index}
+              productname={val?.name}
+              imageUrl={val?.imagepath}
+              price={val?.price}
+              description={val?.description}
+              uid={val?.uid}
+            />
+          ))}
+        </>
+      )
+     :
+     pricefilter=="ascending" ?
+    (
+      <>
+      
+      {sorteddata?.map((val, index) => (
+          <Tabproductcard
+            key={index}
+            productname={val?.name}
+            imageUrl={val?.imagepath}
+            price={val?.price}
+            description={val?.description}
+            uid={val?.uid}
+          />
+        ))}
+      </>
+    ):
+    pricefilter=="descending" ?
+    (
+      <>
+      {/* <p>i am higher</p> */}
+      {sorteddata?.map((val, index) => (
+          <Tabproductcard
+            key={index}
+            productname={val?.name}
+            imageUrl={val?.imagepath}
+            price={val?.price}
+            description={val?.description}
+            uid={val?.uid}
+          />
+        ))}
+      </>
+    ):
+    (
+      <>
+      </>
+    )
     )
   }
     </div>
@@ -412,15 +728,13 @@ const apicallbrand=(brandata)=>{
         </div>
          
         </div>
-
-
-
+  
+  
+  
         
         </>
       )
-
-}
-
+  }
 
 else 
 {
