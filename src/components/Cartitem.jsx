@@ -7,7 +7,7 @@ const CartItem = ({ product, decrement,increment, deleteItem }) => {
   console.log("i am cart cheking prod",product)
   const wsaize=useWindowSize();
 console.log(wsaize,"i m deteted")
-    if(wsaize.width<=375 && wsaize.width<768)
+    if(wsaize.width>=375 && wsaize.width<768)
 {
     return (
    <>

@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom"
   const serachbyid=(ordid)=>{
       console.log("i am entering search",ordid)
       setordid(ordid)
-      axios.get(`http://localhost:3001/getordersbyorderid/${ordid}`).then((res)=>{
+      axios.get(`http://13.233.108.132:3001/getordersbyorderid/${ordid}`).then((res)=>{
           const arrayValues = res.data;
           console.log("i am checking rry",res.data)
         arrayValues.length>0?

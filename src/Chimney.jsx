@@ -90,7 +90,7 @@ useEffect(()=>{
            }
            console.log("product category",body)
            // Fetch data from the API if not available in localStorage
-           axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
+           axios.post("http://13.233.108.132:3001/getbycategory",body).then((res)=>{
             console.log(res.data,'i m resdata from loads')
             if(res.data.length>0){           
                 console.log("resdata",res.data.length);
@@ -132,7 +132,8 @@ useEffect(()=>{
   const body={
     "category":productcategory
   }
-  axios.post('http://localhost:3001/api/getbrand',body).then((res)=>{
+  http://13.233.108.132:3001/getproducts
+  axios.post('http://13.233.108.132:3001/api/getbrand',body).then((res)=>{
     setdata(res.data.reverse())
     console.log(res.data,"i m brand data")
   }).catch((err)=>{
@@ -145,7 +146,7 @@ const apicallbrand=(brandata)=>{
     "category":productcategory,
     "brand":brandata.toLowerCase()
   }
-  axios.post('http://localhost:3001/api/getbybrand',body).then((res)=>{
+  axios.post('http://13.233.108.132:3001/api/getbybrand',body).then((res)=>{
     console.log(res.data,"i m get by brand");
     setvalue(res.data);
   }).catch((err)=>{
