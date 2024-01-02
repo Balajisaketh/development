@@ -145,7 +145,7 @@
 //         stval?.map((val,index)=>{
 //             console.log(val?.uid,'i m value');
 //             return (
-//                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//                 <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //             )
 //         })
 //     }
@@ -170,7 +170,7 @@
 //         stval?.map((val,index)=>{
 //             console.log(val?.uid,'i m value');
 //             return (
-//                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//                 <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //             )
 //         })
 //     }
@@ -226,7 +226,7 @@
 //         stval?.map((val,index)=>{
 //             console.log(val?.uid,'i m value');
 //             return (
-//                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//                 <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //             )
 //         })
 //     }
@@ -291,7 +291,7 @@
 //         stval?.map((val,index)=>{
 //             console.log(val?.uid,'i m value');
 //             return (
-//                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//                 <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //             )
 //         })
 //     }
@@ -308,7 +308,7 @@
 //             return (
 //                 <>
                 
-//                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//                 <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //                 </>
 //             )
 //         })
@@ -344,7 +344,7 @@
 //             return (
 //                 <>
                 
-//                 <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//                 <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //                 </>
 //             )
 //         })
@@ -864,7 +864,7 @@ pricefilter=="descending" ?
   {/* <p>i am higher</p> */}
   {sorteddata?.map((val, index) => (
       <Fade bottom>
-      <Mobilecard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+      <Mobilecard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       </Fade>
     ))}
   </>
@@ -942,7 +942,7 @@ pricefilter=="descending" ?
        stval?.map((val,index)=>{
         console.log(val,"ni amma tra")
         return (
-          <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+          <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
         )
        })
   }
@@ -955,7 +955,7 @@ pricefilter=="descending" ?
            stval?.map((val,index)=>{
             console.log(val,"ni amma tra")
             return (
-              <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+              <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
             )
            })
             
@@ -1110,7 +1110,7 @@ data1?.map((val, i)=>{
      alldata?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
-        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
   } */}
@@ -1211,7 +1211,7 @@ data1?.map((val, i)=>{
      stval?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
-        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
 }
@@ -1224,7 +1224,7 @@ data1?.map((val, i)=>{
          stval?.map((val,index)=>{
           console.log(val,"ni amma tra")
           return (
-            <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
           )
          })
           
