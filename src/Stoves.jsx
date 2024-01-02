@@ -97,7 +97,7 @@ useEffect(()=>{
            }
            console.log("product category",body)
            // Fetch data from the API if not available in localStorage
-           axios.post("http://13.233.108.132:3001/getbycategory",body).then((res)=>{
+           axios.post("http://localhost:3001/getbycategory",body).then((res)=>{
             console.log(res.data,'i m resdata from loads')
             if(res.data.length>0){           
                 console.log("resdata",res.data.length);
@@ -139,7 +139,7 @@ useEffect(()=>{
   const body={
     "category":productcategory
   }
-  axios.post('http://13.233.108.132:3001/api/getbrand',body).then((res)=>{
+  axios.post('http://localhost:3001/api/getbrand',body).then((res)=>{
     setdata(res.data.reverse())
     console.log(res.data,"i m brand data")
   }).catch((err)=>{
@@ -790,7 +790,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
      stval?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
-        <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
 }
@@ -803,7 +803,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
          stval?.map((val,index)=>{
           console.log(val,"ni amma tra")
           return (
-            <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
           )
          })
           
@@ -1062,7 +1062,7 @@ data1?.map((val, i)=>{
      stval?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
-        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
 }
@@ -1075,7 +1075,7 @@ data1?.map((val, i)=>{
          stval?.map((val,index)=>{
           console.log(val,"ni amma tra")
           return (
-            <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
           )
          })
           

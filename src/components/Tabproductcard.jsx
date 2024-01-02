@@ -39,8 +39,8 @@ function Tabproductcard({imageUrl, description,price,productname,uid}) {
           alt={productname}
           className="w-full h-[50vh] object-contain rounded-md mt-4"
         />
-         <div className="mb-5 mt-10 p-2 text-left">
-        <h3 className="text-xl font-bold">{productname}</h3>
+         <div className="mb-5 mt-10 p-2 ">
+        <h3 className="text-xl font-bold text-center">{productname}</h3>
         
       </div>
       

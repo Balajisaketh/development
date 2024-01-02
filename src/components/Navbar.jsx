@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import logo from '../images/logo.jpg'
   import { faCoffee,faCircleArrowRight, faShoppingCart, faUserCircle, faArrowDown, faChevronDown, faHamburger, faBars, faBarsStaggered } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 import { ToggleSwitch } from 'flowbite-react'
@@ -77,13 +77,13 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
       <div className='grid grid-cols-12 grid-flow-col space-x-2 shadow-xl py-10 relative'>
       <div className='col-span-2 font-bold text-cyan-500 text-2xl'>
       
-                  <p className='mx-2 whitespace-nowrap'>Sri Vashista</p>      
+      <img src={logo} className='w-20 h-20 mx-10' onClick={()=>router("/")}/>     
                    </div>  
       <div className='col-span-6 grid grid-flow-col'>
       <div className='col-span-3 column relative'>
       <div className='flex space-x-6 justify-center'>
-      <p className='text-xl py-1'>Products</p>
-      <FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch()} size='xl' className='py-2'/>
+      <p className='text-xl py-1 mt-4'>Products</p>
+      <FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch()} size='xl' className='py-5'/>
       </div>
       {
         
@@ -110,17 +110,17 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
       </li>
       <li className='text-left m-3'>
       
-      <a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>
+      <a href="#" className="block  whitespace-nowrap   hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>
       
       </li>
       <li className='text-left m-3'>
       
-      <a href="#" className="block   whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("topload","toploadliquids")}>Top Load liquids</a>
+      <a href="#" className="block   whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("topload","toploadliquids")}>Top Load liquids</a>
       
       </li>
       <li className='text-left m-3'>
       
-      <a href="#" className="block whitespace-nowrap mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("washingpowders","washingpowders")}>Washing machine powders</a>
+      <a href="#" className="block whitespace-nowrap hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("washingpowders","washingpowders")}>Washing powders</a>
       
       </li>
       </ul>
@@ -134,10 +134,12 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
       } 
       </div>
       <div className='col-span-3 column relative'>
-      <div className='flex space-x-6 justify-center'>
+      <p className='text-lg font-bold my-3 text-cyan-500'>Sri Vashista Enterprises</p>
+      {/* <div className='flex space-x-6 justify-center'>
       <p className='text-xl py-1'>Services</p>
       <FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch1()} size='xl' className='py-2'/>
-      </div>
+      </div> */}
+
       {
         
         data1 ?(
@@ -194,13 +196,14 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
         <div className='grid grid-cols-12 grid-flow-col space-x-2 shadow-xl py-10 relative'>
         <div className='col-span-2 font-bold text-cyan-500 text-2xl'>
         
-                    <p className='mx-2 whitespace-nowrap'>Sri Vashista</p>      
+                    <img src={logo} className='w-20 h-20 mx-10' onClick={()=>router("/")}/>  
+
                      </div>  
         <div className='col-span-6 grid grid-flow-col'>
         <div className='col-span-3 column relative'>
         <div className='flex space-x-6 justify-center'>
-        <p className='text-xl py-1'>Products</p>
-        <FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch()} size='xl' className='py-2'/>
+        <p className='text-xl py-1 mt-3'>Products</p>
+        <FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch()} size='xl' className='py-5'/>
         </div>
         {
           
@@ -251,10 +254,11 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
         } 
         </div>
         <div className='col-span-3 column relative'>
-        <div className='flex space-x-6 justify-center'>
+          <p className='text-2xl font-bold my-3 text-cyan-500'>Sri Vashista Enterprises</p>
+        {/* <div className='flex space-x-6 justify-center'>
         <p className='text-xl py-1'>Services</p>
         <FontAwesomeIcon icon={faChevronDown} onClick={()=>ToggleSwitch1()} size='xl' className='py-2'/>
-        </div>
+        </div> */}
         {
           
           data1 ?(
