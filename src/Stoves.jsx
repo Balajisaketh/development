@@ -611,12 +611,12 @@ pricefilter=="descending" ?
 //         return (
 //           <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
 //             <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-//            <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+//            <p className='text-left mx-3 font-medium mt-3'>{val?.name}</p>
 //            <div className='flex mx-4 space-x-3'>
 //         <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
 //         <p className='mt-3 font-medium'>{val?.price}</p>
 //         </div>
-//         <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+//         <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-2/3 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.name,val?.uid)}>
 //           Add to Cart
 //         </div>
 //           </div>
@@ -634,12 +634,12 @@ pricefilter=="descending" ?
 //         return (
 //           <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
 //             <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-//            <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+//            <p className='text-left mx-3 font-medium mt-3'>{val?.name}</p>
 //            <div className='flex mx-4 space-x-3'>
 //         <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
 //         <p className='mt-3 font-medium'>{val?.price}</p>
 //         </div>
-//         <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-3/4 " onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+//         <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-3/4 " onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.name,val?.uid)}>
 //           Add to Cart
 //         </div>
 //           </div>
@@ -656,7 +656,7 @@ pricefilter=="descending" ?
 //      stval?.map((val,index)=>{
 //       console.log(val,"ni amma tra")
 //       return (
-//         <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//         <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //       )
 //      })
 // }
@@ -673,12 +673,12 @@ pricefilter=="descending" ?
 //             return (
 //               <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
 //                 <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-//                <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+//                <p className='text-left mx-3 font-medium mt-3'>{val?.name}</p>
 //                <div className='flex mx-4 space-x-3'>
 //             <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
 //             <p className='mt-3 font-medium'>{val?.price}</p>
 //             </div>
-//             <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white " onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+//             <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white " onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.name,val?.uid)}>
 //               Add to Cart
 //             </div>
 //               </div>
@@ -697,12 +697,12 @@ pricefilter=="descending" ?
 //             return (
 //               <div className='column  mt-3 mx-auto border border-2 rounded   border-gray-100  h-auto shadow-md '>
 //                 <img src={val?.imagepath} className='h-40 w-auto mx-auto mt-5'/>
-//                <p className='text-left mx-3 font-medium mt-3'>{val?.productname}</p>
+//                <p className='text-left mx-3 font-medium mt-3'>{val?.name}</p>
 //                <div className='flex mx-4 space-x-3'>
 //             <FontAwesomeIcon icon={faIndianRupeeSign} className=" mt-4"/>
 //             <p className='mt-3 font-medium'>{val?.price}</p>
 //             </div>
-//             <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-3/4 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.productname,val?.uid)}>
+//             <div className="rounded-md  py-3 px-2  bg-orange-400 whitespace-nowrap text-white w-3/4 mx-auto m-4" onClick={()=>dispatching(val?.imagepath,val?.price,val?.description,val?.name,val?.uid)}>
 //               Add to Cart
 //             </div>
 //               </div>
@@ -716,7 +716,7 @@ pricefilter=="descending" ?
 //      alldata?.map((val,index)=>{
 //       console.log(val,"ni amma tra")
 //       return (
-//         <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+//         <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
 //       )
 //      })
 // }
@@ -790,7 +790,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
      stval?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
-        <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
 }
@@ -803,7 +803,7 @@ else if(windowSize.width>=768 && windowSize.width<=1023){
          stval?.map((val,index)=>{
           console.log(val,"ni amma tra")
           return (
-            <Tabproductcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            <Tabproductcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
           )
          })
           
@@ -964,7 +964,7 @@ data1?.map((val, i)=>{
      alldata?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
-        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
   } */}
@@ -1062,7 +1062,7 @@ data1?.map((val, i)=>{
      stval?.map((val,index)=>{
       console.log(val,"ni amma tra")
       return (
-        <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+        <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
       )
      })
 }
@@ -1075,7 +1075,7 @@ data1?.map((val, i)=>{
          stval?.map((val,index)=>{
           console.log(val,"ni amma tra")
           return (
-            <Productcard key={index} productname={val?.productname} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
+            <Productcard key={index} productname={val?.name} imageUrl={val?.imagepath} price={val?.price} description={val?.description} uid={val?.uid}/>
           )
          })
           
