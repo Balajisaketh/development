@@ -110,6 +110,11 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
       </li>
       <li className='text-left m-3'>
       
+      <a href="#" className="block  whitespace-nowrap   hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("geysers", "geysers")}>Geysers</a>
+      
+      </li>
+      <li className='text-left m-3'>
+      
       <a href="#" className="block  whitespace-nowrap   hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>
       
       </li>
@@ -228,6 +233,11 @@ const [sidebarstatus,setsidebarstatus]=useState(false)
         <a href="#" className="block  whitespace-nowrap  hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("chimneys", "chimneys")}>Chimneys</a>
         
         </li>
+        <li className='text-left m-3'>
+      
+      <a href="#" className="block  whitespace-nowrap   hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("geysers", "geysers")}>Geysers</a>
+      
+      </li>
         <li className='text-left m-3'>
         
         <a href="#" className="block  whitespace-nowrap  mx-1 hover:text-blue-500 dark:hover:bg-gray-600 dark:hover:text-white hover:text-blue-500" onClick={()=>getfilteredprods("frontload", "frontloadliquids")}>Front Load liquids</a>

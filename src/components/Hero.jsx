@@ -35,7 +35,9 @@ function Hero() {
         {
           url: 'https://d3mquo2i52s67z.cloudfront.net/rename.jpg',
         },
-        
+        {
+          url:"https://d3mquo2i52s67z.cloudfront.net/srivsis.jpg",  
+        }
 
       ];
      

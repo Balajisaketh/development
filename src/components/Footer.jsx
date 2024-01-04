@@ -28,6 +28,7 @@ function Footer() {
               <li><p className="hover:text-blue-500">Washing liquids</p></li>
                 <li><p className="hover:text-blue-500">Stoves</p></li>
                 <li><p className="hover:text-blue-500">Chimneys</p></li>
+                <li><p className="hover:text-blue-500">Geysers</p></li>
                 <li><p className="hover:text-blue-500">Water purifiers</p></li>
                 
               </ul>
@@ -35,12 +36,18 @@ function Footer() {
             <div className="mb-6">
               <h2 className="text-2xl font-semibold text-white mb-4">Our Services</h2>
               <ul className="space-y-2">
+              <li><p className="hover:text-blue-500 text-center">Water filter Servicing</p></li>
+                <li><p className="hover:text-blue-500 text-center">Mineral Water plant</p></li>
+                <li><p className="hover:text-blue-500 text-center">Washing Machine Servicing</p></li>
                 
               </ul>
             </div>
-            <div className="mb-6">
+            <div className="mb-6 ">
               <h2 className="text-2xl font-semibold text-white mb-4">Address</h2>
+              <p className='text-left text-lg text-center'>Cyan Road</p>
+              <p className='text-left text-lg text-center'>VengalraoNagar,Ratnam School Street,Nellore,524004</p>
               
+             
              
             </div>
           </div>
@@ -71,6 +78,7 @@ function Footer() {
               <li><p className="hover:text-blue-500 text-left">Washing liquids</p></li>
                 <li><p className="hover:text-blue-500 text-left">Stoves</p></li>
                 <li><p className="hover:text-blue-500 text-left">Chimneys</p></li>
+                <li><p className="hover:text-blue-500 text-left">Geysers</p></li>
                 <li><p className="hover:text-blue-500 text-left">Water purifiers</p></li>
                 
               </ul>
@@ -153,6 +161,7 @@ else{
             <ul className="space-y-2 justify-start">
               <li><p className="hover:text-blue-500 text-left">Stoves</p></li>
               <li><p className="hover:text-blue-500 text-left">Chimneys</p></li>
+              <li><p className="hover:text-blue-500 text-left">Geysers</p></li>
               <li><p className="hover:text-blue-500 text-left">Frontload Liquids</p></li>
               <li><p className="hover:text-blue-500 text-left">Washing liquids</p></li>
               <li><p className="hover:text-blue-500 text-left">Topload liquids</p></li>
