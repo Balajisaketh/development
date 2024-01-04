@@ -221,7 +221,7 @@ console.log("i am enterd in to phone")
           </div>
           <div className="flex">
           <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={()=>userinfo()}>
-          Proceed to Pay
+          Proceed to Order
         </Button>
         <Button type="submit" className="w-1/4 mx-auto bg-red-900 mt-6" onClick={onclose}>
           Close
@@ -327,7 +327,7 @@ console.log("i am enterd in to phone")
           </div>
           <div className="flex">
           <Button type="submit" className="w-1/4 mx-auto bg-black  mt-6" onClick={()=>userinfo()}>
-          Proceed to Pay
+          Proceed to Order
         </Button>
         <Button type="submit" className="w-1/4 mx-auto bg-red-900 mt-6" onClick={onclose}>
           Close
