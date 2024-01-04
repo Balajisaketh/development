@@ -50,41 +50,6 @@ client.connect(function(err) {
   console.log("Connected!");
 });
 
-// app.use((req, res, next)=>{
-
-//   if(req.url ==='/register' || req.url ==='/login'){
-//       next();
-//   }else{
-//      const authHeader = req.headers["authorization"];
-    
-//      if(authHeader){
-//           const token = authHeader.split(' ')[1];
-
-//           if(token){
-//               jwt.verify(token,secretkey,(err, decoded)=>{
-//                   if(err){
-//                       if(err&&err.message && err.message === "jwt expired"){
-//                           res.status(401).json({error:"conflict",errorDescription:"token expired"})
-//                       }else{
-//                           res.status(403).json({errorDescription:"invalid token"})
-//                       }
-                   
-//                   }else{
-//                       req.user= decoded;
-                      
-//                       next(); /// must 
-//                   }
-//               }) 
-//           }else{
-//               res.status(401).json({errorDescription:" no token"})
-//           }
-//      }else{
-//       res.status(401).json({errorDescription:"no authHeader"})
-//      }
-          
-
-//   }
-// }) 
 
 app.post('/register',(req,res)=>{
   
@@ -271,11 +236,7 @@ app.delete('/api/orders/:uid/:orderid', async (req, res) => {
   const { uid, orderid } = req.params;
 console.log("i am retuns delete",uid,orderid);
 
-    // const insertquery= {
-    //   text: `DELETE FROM ordersdetails (uid,orderid) 
-    //                     VALUES($1, $2) RETURNING *`,
-    //   values : [uid,orderid]
-    // }
+    
     const insertquery = {
       text: 'UPDATE orders SET return_table = array_remove(your_json_array_column, jsonb_build_object(\'orderid\', $1)) WHERE uid = $2 RETURNING *',
       values: [orderid,uid],
@@ -374,37 +335,10 @@ app.post('/deleteusers', (req,res)=>{
 
         
         }).catch((error) =>{
-       console.log(error,"i m err")
-          console.log("failed",error)
         res.send({status: false,message:"failed"}) 
         }) 
                 
 })           
-// app.post('/addorders', (req, res) => {
-
-
-//   let orderid=req.body.uid  
-//   let orderamount=req.body.orderamount
-//   let quantity=req.body.quantity
-//   let orderstatus=req.body.orderstatus
-//   let productid=req.body.productid
-//   let customerid=req.body.customerid
-//   const insertquery= {
-//     text: `INSERT INTO orders (orderid,orderamount,orderstatus,productid,customerid,quantity)  
-//                       VALUES($1, $2, $3,$4,$5,$6) RETURNING *`,
-//     values : [orderid,orderamount,orderstatus,productid,customerid,quantity]
-//   }
-//       client.query(insertquery).then((data)=>{ 
-//       console.log({status:true, message:" data inserted successfully"})
-      
-//       res.send('success')
-//     }).catch((error) =>{ 
-//       console.log(error,"i am error")
-//       // console.log({status: false,message:error.message})
-//       res.send({status: false,message:"failed"}) 
-//     }) 
-// })
-
 
 
 // get order based on orderid working
