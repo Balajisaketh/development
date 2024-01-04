@@ -13,6 +13,7 @@ import Proddescription from './components/proddescription';
 import Stoves from './Stoves';
 import Washingmachinepowders from './Washingpowders'
 import Orders from './Orders';
+import Geysers from  './Geysers'
 
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
           <Route path='/washingpowders' element={<Washingmachinepowders/>}/>
           <Route path="/product/:uid" element={<Proddescription/>} />
           <Route path="/orders" element={<Orders/>} />
-
+          <Route path="/geysers" element={<Geysers/>} />
           
       </Routes>
     </BrowserRouter>
