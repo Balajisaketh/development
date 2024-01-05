@@ -34,7 +34,7 @@
 // const upload = multer({storage: storage});
 // const client = new Client({
 //   user: 'postgres',
-//   host: '15.206.170.21',
+//   host: 'localhost',
 //   database: 'shopping',
 //   password: '1234',
 //   port: 5432, 
@@ -151,7 +151,7 @@
 //     const brand=req.body.brand
 //     let description=req.body.description
 //     console.log("brand",brand)
-//     const cloudFrontUrl = 'httpss://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
+//     const cloudFrontUrl = 'https://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
 //     console.log(cloudFrontUrl,"i m url")
 //     const insertquery= {
 //       text: `INSERT INTO products (name,description,price,category,brand,imagepath) 
@@ -574,7 +574,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 const client = new Client({
   user: 'postgres',
-  host: '15.206.170.21',
+  host: 'localhost',
   database: 'shopping',
   password: '1234',
   port: 5432, 
@@ -726,7 +726,7 @@ app.post('/addproduct', (req,res) => {
     const brand=req.body.brand
     let description=req.body.description
     console.log("brand",brand)
-    const cloudFrontUrl = 'httpss://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
+    const cloudFrontUrl = 'https://d3mquo2i52s67z.cloudfront.net'+'/'+imgpath.split("/").pop();
     console.log(cloudFrontUrl,"i m url")
     const insertquery= {
       text: `INSERT INTO products (name,description,price,category,brand,imagepath) 

@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom"
   const serachbyid=(ordid)=>{
       console.log("i am entering search",ordid)
       setordid(ordid)
-      axios.get(`https://srivasishtaenterprises.com/getordersbyorderid/${ordid}`).then((res)=>{
+      axios.get(`http://localhost:3001/getordersbyorderid/${ordid}`).then((res)=>{
           const arrayValues = res.data;
           console.log("i am checking rry",res.data)
         arrayValues.length>0?
@@ -74,7 +74,7 @@ import { useNavigate } from "react-router-dom"
                             return (
                               <>
                               
-                              <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.name} orderid={ordid} status={val?.status} uid={val?.uid}/>
+                              <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.productname} orderid={ordid} status={val?.status} uid={val?.uid}/>
                               
                               <hr className="w-[90vw] border-t-2 border-gray mx-auto"></hr>
                               </>
@@ -129,7 +129,7 @@ import { useNavigate } from "react-router-dom"
                           console.log(val?.status,"i am diplayg hamaya")
                           return (
                             <>
-                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.name} orderid={ordid} status={val?.status} uid={val?.uid}/>
+                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.productname} orderid={ordid} status={val?.status} uid={val?.uid}/>
                             <hr className="w-[90vw] border-t-2 border-gray mx-auto"></hr>
                             </>
                           )
@@ -178,7 +178,7 @@ import { useNavigate } from "react-router-dom"
                           console.log(val?.status,"i am diplayg hamaya")
                           return (
                             <>
-                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.name} orderid={ordid} status={val?.status} uid={val?.uid}/>
+                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.productname} orderid={ordid} status={val?.status} uid={val?.uid}/>
                             <hr className="w-[90vw] border-t-2 border-gray mx-auto"></hr>
                             </>
                           )
