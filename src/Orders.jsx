@@ -74,7 +74,7 @@ import { useNavigate } from "react-router-dom"
                             return (
                               <>
                               
-                              <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.name} orderid={ordid} status={val?.status} uid={val?.uid}/>
+                              <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.productname} orderid={ordid} status={val?.status} uid={val?.uid}/>
                               
                               <hr className="w-[90vw] border-t-2 border-gray mx-auto"></hr>
                               </>
@@ -129,7 +129,7 @@ import { useNavigate } from "react-router-dom"
                           console.log(val?.status,"i am diplayg hamaya")
                           return (
                             <>
-                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.name} orderid={ordid} status={val?.status} uid={val?.uid}/>
+                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.productname} orderid={ordid} status={val?.status} uid={val?.uid}/>
                             <hr className="w-[90vw] border-t-2 border-gray mx-auto"></hr>
                             </>
                           )
@@ -175,10 +175,10 @@ import { useNavigate } from "react-router-dom"
                       {
                         orderdata[0]?.map((val,index)=>
                         {
-                          console.log(val?.status,"i am diplayg hamaya")
+                          console.log(val,"i am diplayg hamaya")
                           return (
                             <>
-                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.name} orderid={ordid} status={val?.status} uid={val?.uid}/>
+                            <OrderData price={val?.price} imageurl={val?.imageUrl} quantity={val?.quantity} productname={val?.productname} orderid={ordid} status={val?.status} uid={val?.uid}/>
                             <hr className="w-[90vw] border-t-2 border-gray mx-auto"></hr>
                             </>
                           )
