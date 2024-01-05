@@ -574,7 +574,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 const client = new Client({
   user: 'postgres',
-  host: '15.206.170.21',
+  host: 'localhost',
   database: 'shopping',
   password: '1234',
   port: 5432, 
@@ -769,7 +769,7 @@ app.post("/insertusers",(req,res)=>{
 
 
 app.get('/getproducts',(req,res) => {
-    const getqury=`SELECT * FROM products`
+    const getqury=`SELECT * FROM products`  
       
   client.query(getqury).then((data) => {
 

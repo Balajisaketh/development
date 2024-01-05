@@ -10,6 +10,7 @@ console.log(wsaize,"i m deteted")
     if(wsaize.width<=375 && wsaize.width<768)
 {
     return (
+      // b
    <>
     <div className="grid grid-flow-col col-span-12   my-auto p-1 mx-1 shadow-md rounded-md h-auto">
   <div className="grid col-span-1 ">
