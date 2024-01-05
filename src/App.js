@@ -13,7 +13,9 @@ import Proddescription from './components/proddescription';
 import Stoves from './Stoves';
 import Washingmachinepowders from './Washingpowders'
 import Orders from './Orders';
-import Geysers from  './Geysers';
+import Geysers from  './Geysers'
+
+
 function App() {
   return (
     <div className="App">
