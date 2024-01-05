@@ -37,7 +37,7 @@
 //     console.log("hi")
 //     console.log("i m db",email,passw);
   
-//        axios.post("http://localhost:3001/login",{email : email, password:passw}).then((response:any)=>
+//        axios.post("https://srivasishtaenterprises.com/login",{email : email, password:passw}).then((response:any)=>
 //        {
 //         console.log(response.data,"i am response");
 //            if(response.status=='success')
@@ -72,7 +72,7 @@
 //     "email": email,
 //     "password": passw
 //    }
-//      axios.post("http://localhost:3001/login",body).then((response)=>
+//      axios.post("https://srivasishtaenterprises.com/login",body).then((response)=>
 //      {
 //       console.log(response,"i am response");
 //          if(response.status='success')
@@ -129,7 +129,7 @@
 //         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
 //           <img
 //             className="mx-auto h-10 w-auto"
-//             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+//             src="httpss://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
 //             alt="Your Company"
 //           />
 //           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
