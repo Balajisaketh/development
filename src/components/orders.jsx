@@ -7,7 +7,6 @@ function OrderData({price,imageurl,quantity,productname,orderid,status,uid}){
   const [returnstatus,setreturnstatus]=useState("empty")
     console.log("i am entered orders comp",price,imageurl,quantity,productname,orderid,status,uid)
     const returnprod=()=>{
-      
       setreturnstatus("")
           const body={
             price:price,
@@ -242,7 +241,7 @@ function OrderData({price,imageurl,quantity,productname,orderid,status,uid}){
              <p className="text-md  text-left  mt-4 text-green-400 font-bold ">order placed</p>
            </div>
            </div>
-           <div className="col-span-2">
+           <div className="col-span-2" >
               <button className="bg-red-900 text-white p-3 rounded-md my-[20vh]" onClick={()=>returnprod()}>
                  Return
               </button>
