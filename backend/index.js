@@ -677,13 +677,14 @@ app.post('/register',(req,res)=>{
     })
     // WIth
   })    
-  app.post('/api/login', (req, res) => {
+  app.post('/api/login', (req, res) => { 
     const { username, password } = req.body;
     console.log("body",req.body)
     const query = {
       text:  `SELECT * FROM users	 
      WHERE email =$1`,
-      values : [username] }
+      values : [username] 
+    }
 
       client.query(query).then((data)=>{ 
         const userData = data.rows;
@@ -714,7 +715,6 @@ app.post('/register',(req,res)=>{
      res.send({status: "notfound",message:"failed"})
      console.log({status: "notfound",message:error.message})
     }) 
-   
   
   })
 app.post('/addproduct', (req,res) => {
@@ -971,7 +971,8 @@ app.post('/updateprice',(req,res) => {
   console.log(uuid,"i m uid")
   const querydata = {text :`SELECT * FROM products WHERE uid = $1`,values:[uuid]}
   client.query(querydata).then((data) => {
-    console.log('entered',data.rows[0])
+    console.log('enteredherer',data.rows[0])
+    // console.log("errr")
     let price=req.body.price
     const pricequery = {
       text:`UPDATE products SET 
