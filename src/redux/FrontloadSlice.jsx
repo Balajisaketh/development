@@ -8,6 +8,7 @@ const initialState = {
   toploadata:[],
   stoves:[],
   washingpowders:[]
+  
 }
 
 const FrontLoadSlice = createSlice({

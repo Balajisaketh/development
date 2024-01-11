@@ -13,7 +13,7 @@ import { alertreducer } from '../redux/Alldata';
 const ProductCard = ({imageUrl, description,price,productname,uid})  => {
     console.log(productname,imageUrl,description,price,uid,"i m product card"); 
     const windowSize = useWindowSize();
-    // kke
+    // npm cache clean --force
     const dispatch=useDispatch()
     const router=useNavigate()
     const dispatching=()=>{
