@@ -135,7 +135,7 @@ console.log("i am enterd in to phone")
 
 
   console.log("i am body data",config,body);
-      axios.post("https://srivasishtaenterprises.com/addorders",body).then((res)=>{
+      axios.post("https://vasistastore.com/addorders",body).then((res)=>{
         console.log("i am resp dara",res.data.status)
         if(res.status==true){
                       console.log("order placed succesfully")

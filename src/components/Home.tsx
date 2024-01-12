@@ -37,7 +37,7 @@
 //     console.log("hi")
 //     console.log("i m db",email,passw);
   
-//        axios.post("https://srivasishtaenterprises.com/login",{email : email, password:passw}).then((response:any)=>
+//        axios.post("https://vasistastore.com/login",{email : email, password:passw}).then((response:any)=>
 //        {
 //         console.log(response.data,"i am response");
 //            if(response.status=='success')
@@ -72,7 +72,7 @@
 //     "email": email,
 //     "password": passw
 //    }
-//      axios.post("https://srivasishtaenterprises.com/login",body).then((response)=>
+//      axios.post("https://vasistastore.com/login",body).then((response)=>
 //      {
 //       console.log(response,"i am response");
 //          if(response.status='success')

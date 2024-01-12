@@ -54,7 +54,7 @@ formData.append("avatar", avatar);
         "Content-Type": "multipart/form-data",
       },
      }
-       axios.post("https://srivasishtaenterprises.com/register", 
+       axios.post("https://vasistastore.com/register", 
        
       formData,config).then((response)=>
        {

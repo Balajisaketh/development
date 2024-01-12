@@ -90,7 +90,7 @@ useEffect(()=>{
            }
            console.log("product category",body)
            // Fetch data from the API if not available in localStorage
-           axios.post("https://srivasishtaenterprises.com/getbycategory",body).then((res)=>{
+           axios.post("https://vasistastore.com/getbycategory",body).then((res)=>{
             console.log(res.data,'i m resdata from loads')
             if(res.data.length>0){           
                 console.log("resdata",res.data.length);
@@ -132,7 +132,7 @@ useEffect(()=>{
   const body={
     "category":productcategory
   }
-  axios.post('https://srivasishtaenterprises.com/api/getbrand',body).then((res)=>{
+  axios.post('https://vasistastore.com/api/getbrand',body).then((res)=>{
     setdata(res.data.reverse())
     console.log(res.data,"i m brand data")
   }).catch((err)=>{
@@ -145,7 +145,7 @@ const apicallbrand=(brandata)=>{
     "category":productcategory,
     "brand":brandata.toLowerCase()
   }
-  axios.post('https://srivasishtaenterprises.com/api/getbybrand',body).then((res)=>{
+  axios.post('https://vasistastore.com/api/getbybrand',body).then((res)=>{
     console.log(res.data,"i m get by brand");
     setvalue(res.data);
   }).catch((err)=>{

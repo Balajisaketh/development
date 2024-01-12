@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 function Mdata() {
     const [data,setdata]=useState([])
     useEffect(()=>{
-     axios.get("https://srivasishtaenterprises.com/getproducts").then((res)=>{
+     axios.get("https://vasistastore.com/getproducts").then((res)=>{
    setdata(res.data.rows);
    console.log(res.data,"i m ");
 
