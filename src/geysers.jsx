@@ -76,7 +76,7 @@ useEffect(()=>{
            }
            console.log("product category",body)
            // Fetch data from the API if not available in localStorage
-           axios.post("https://srivasishtaenterprises.com/getbycategory",body).then((res)=>{
+           axios.post("https://vasistastore.com/getbycategory",body).then((res)=>{
             console.log(res.data,'i m resdata from loads')
             if(res.data.length>0){           
                 console.log("resdata",res.data.length);
