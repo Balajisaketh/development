@@ -16,6 +16,7 @@ function Layout() {
   const[toggle,settoggle]=useState(true);
   const dispatch=useDispatch();
   const [prods,setprods]=useState([])
+  // hi
   const checkside=useSelector((state)=>state.prods.checksidebar);
   console.log("i sm checkside", checkside)
 
