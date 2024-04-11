@@ -7,7 +7,6 @@ import frontloadreducer from './FrontloadSlice'
 import { createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import {
-
   FLUSH,
   REHYDRATE,
   PAUSE,
