@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom"
     const navigate=useNavigate()
     useEffect(()=>{
        serachbyid(ordid) 
-      //  hi
+      //  hieee
     },[ordid])
   const serachbyid=(ordid)=>{
       console.log("i am entering search",ordid)
