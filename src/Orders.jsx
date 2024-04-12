@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom"
     const [orderdata,setorderdata]=useState([])
     const navigate=useNavigate()
     useEffect(()=>{
-       serachbyid(ordid)
+       serachbyid(ordid) 
+      //  hi
     },[ordid])
   const serachbyid=(ordid)=>{
       console.log("i am entering search",ordid)
